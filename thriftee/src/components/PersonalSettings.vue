@@ -1,6 +1,9 @@
 <template>
-    <!-- <div id = "container"> -->
-
+    <div id = "profilecreate">
+   <div id = "profileheader">
+    <h1> Create Your Profile</h1>
+   </div>
+   <div id ="container">
     <div id = "leftcontainer">
        <div id = "profilephotoset">
         <img src="default.png" alt="Profile Photo">
@@ -33,10 +36,21 @@
           </div>
        </form>
     </div>
+</div>
+</div>
    
 </template>
 
 <style scoped>
+#profileheader h1 {
+    font-family: georgia,serif;
+    color: rgb(80, 68, 68);
+    font-size: 3.5vw;
+    font-weight:bold;
+}
+#container{
+    display: flex;
+}
 
 label[for="uploadbutton"] {
     background-color: #60cbb8; /* Green */
@@ -79,12 +93,12 @@ input::file-selector-button:hover {
 
 
 #leftcontainer{
-    margin-top: 15vh;
+    margin-top: 5vh;
     margin-right: 13vw;
 }
 
 #rightcontainer{
-    margin-top: 20vh;
+    margin-top: 10vh;
     
 }
 
