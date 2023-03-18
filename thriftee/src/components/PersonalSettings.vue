@@ -8,10 +8,10 @@
        <div id = "profilephotoset">
         <img src="default.png" alt="Profile Photo">
         <div id = "buttonsupdate">
-            <input type="file" id="uploadbutton" hidden/>
             <label for="uploadbutton">Upload</label>
-            <button id = "deletebutton" type="button" >Delete </button> 
-          </div>
+            <input type="file" id="uploadbutton" hidden/>
+            <button id = "deletebutton" type="button" v-on:click="deleteProfileImage">Delete </button> 
+        </div>
         </div>
     </div>
 
@@ -30,8 +30,8 @@
           <input type = "file" id = "qrcode" accept="image/png, image/jpeg" > <br><br>
 
           <div id = "buttonsupdate">
-            <button id = "cancelbutton" type="button" v-on:click="savetofs" >Cancel</button> 
-            <button id = "savebutton" type="button" v-on:click="savetofs" >Save</button> 
+            <button id = "cancelbutton" type="button">Cancel</button> 
+            <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
           </div>
           </div>
        </form>
@@ -40,6 +40,51 @@
 </div>
    
 </template>
+
+<script>
+    import firebaseApp from '../firebase.js';
+    import { getFirestore } from "firebase/firestore";
+    import { doc, setDoc, updateDoc } from "firebase/firestore";
+    const db = getFirestore(firebaseApp);
+    
+    export default {
+        methods: {
+          async saveProfile() {
+            let name = document.getElementById("name").value 
+            let meetUp = document.getElementById("meetup").value
+            let qrcode = document.getElementById("qrcode").value
+            let image = document.getElementById("uploadbutton").value
+
+            try {
+              const docRef = await setDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
+                Name: name,
+                Meet_Up: meetUp,
+                QRCode: qrcode, 
+                Profile_Image: image
+              })
+              alert("Profile saved!")
+            } catch(error) {
+              alert("Error saving profile: ", error)
+            }
+          }, 
+
+          async deleteProfileImage() {
+            try {
+              const docRef = await updateDoc(doc(db, "Profiles", "uniqueUserID"), {
+                Profile_Image: "default.png"
+              })
+              alert("Profile Image Successfully Deleted")
+            } catch (error) {
+              console.log(error)
+              alert("Error deleting profile image: ", error)
+            }
+          }
+
+        }
+    }
+    
+</script>
+
 
 <style scoped>
 #profileheader h1 {
@@ -216,9 +261,3 @@ img {
 }
 
 </style>
-
-<script>
-    export default {
-        name: "PersonalSettings"
-    }
-</script>
