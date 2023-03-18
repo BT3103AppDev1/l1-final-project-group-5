@@ -1,7 +1,7 @@
 <template>
     <div id = "profilecreate">
    <div id = "profileheader">
-    <h1> Create Your Profile</h1>
+    <h1> Create Profile</h1>
    </div>
    <div id ="container">
     <div id = "leftcontainer">
@@ -43,7 +43,7 @@
 
 <style scoped>
 #profileheader h1 {
-    font-family: georgia,serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: rgb(80, 68, 68);
     font-size: 3.5vw;
     font-weight:bold;
