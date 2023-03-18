@@ -1,5 +1,5 @@
 <template>
-    <PersonalSettings />
+    <PersonalProfileView />
 </template>
 
 <style>
@@ -20,11 +20,13 @@
 
 <script>
 import PersonalSettings from './components/PersonalSettings.vue'
+import PersonalProfileView from './components/PersonalProfileView.vue'
 
 export default {
   name: 'App',
   components:{
-    PersonalSettings
+    PersonalSettings,
+    PersonalProfileView
   }
 }
 </script>
