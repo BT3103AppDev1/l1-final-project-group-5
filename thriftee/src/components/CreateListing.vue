@@ -114,6 +114,7 @@
 }
 #container{
     display: flex;
+    width: 100vw;
 }
 
 label[for="uploadbutton"] {
@@ -157,12 +158,15 @@ input::file-selector-button:hover {
 
 
 #leftcontainer{
-    margin-top: 25vh;
-    margin-right: 13vw;
+    margin-top: 13vh;
+    /* margin-right: 15vw; */
+    width: 50%;
 }
 
 #rightcontainer{
     margin-top: 2vh;
+    /* margin-left: 5vw; */
+    width: 40%;
 }
 
 #deletebutton {
@@ -232,6 +236,7 @@ h2 {
 .formli{
     display: inline-block;
     text-align: center;
+    width: 100%;
 }
 
 form {
@@ -301,4 +306,7 @@ img {
     margin-left: 8px;
     font-size: 15px;
 }
+
+
+
 </style>

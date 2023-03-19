@@ -115,6 +115,7 @@
 }
 #container{
     display: flex;
+    width: 100vw;
 }
 
 label[for="uploadbutton"] {
@@ -157,14 +158,16 @@ input::file-selector-button:hover {
 }
 
 
+
+
 #leftcontainer{
-    margin-top: 5vh;
-    margin-right: 13vw;
+  margin-top: 5vh;
+    width: 50%;
 }
 
 #rightcontainer{
-    margin-top: 10vh;
-    
+  margin-top: 10vh;
+    width: 40%;
 }
 
 #deletebutton {
