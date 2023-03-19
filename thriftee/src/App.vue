@@ -1,5 +1,6 @@
 <template>
-    <PersonalProfileView />
+    <!-- <PersonalProfileView /> -->
+    <PersonalSettings />
 </template>
 
 <style>

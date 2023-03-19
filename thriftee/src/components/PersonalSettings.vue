@@ -6,7 +6,7 @@
    <div id ="container">
     <div id = "leftcontainer">
        <div id = "profilephotoset">
-        <img src="default.png" alt="Profile Photo">
+        <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "buttonsupdate">
             <label for="uploadbutton">Upload</label>
             <input type="file" id="uploadbutton" hidden/>
