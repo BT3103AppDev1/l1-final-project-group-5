@@ -1,6 +1,10 @@
 <template>
-    <!-- <PersonalProfileView /> -->
-    <PersonalSettings />
+    <div>
+      <!-- <PersonalProfileView /> -->
+      <PersonalSettings />
+      <CreateListing />
+    </div>
+    
 </template>
 
 <style>
@@ -22,12 +26,14 @@
 <script>
 import PersonalSettings from './components/PersonalSettings.vue'
 import PersonalProfileView from './components/PersonalProfileView.vue'
+import CreateListing from './components/CreateListing.vue'
 
 export default {
   name: 'App',
   components:{
     PersonalSettings,
-    PersonalProfileView
+    PersonalProfileView,
+    CreateListing
   }
 }
 </script>
