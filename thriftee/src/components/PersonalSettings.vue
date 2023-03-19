@@ -9,7 +9,7 @@
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "buttonsupdate">
             <label for="uploadbutton">Upload</label>
-            <input type="file" id="uploadbutton" hidden/>
+            <input type="file" id="uploadbutton" v-on:change="displayProfileImage" hidden/>
             <button id = "deletebutton" type="button" v-on:click="deleteProfileImage">Delete </button> 
         </div>
         </div>
@@ -48,7 +48,26 @@
     const db = getFirestore(firebaseApp);
     
     export default {
+
         methods: {
+
+          async displayProfileImage() {
+            var fReader = new FileReader();
+
+            try {
+              var image = document.getElementById("uploadbutton");
+              fReader.readAsDataURL(image.files[0]);
+              fReader.onloadend = function(event) {
+                var img = document.getElementById("profilephoto");
+                img.src = event.target.result;
+              }
+              alert("profile image displayed")
+            } catch(error) {
+              alert("No profile image found ", error)
+              document.getElementById("profilephoto").src="default.png"
+            }
+          }, 
+
           async saveProfile() {
             let name = document.getElementById("name").value 
             let meetUp = document.getElementById("meetup").value
@@ -70,12 +89,13 @@
 
           async deleteProfileImage() {
             try {
-              const docRef = await updateDoc(doc(db, "Profiles", "uniqueUserID"), {
+              const docRef = await updateDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
                 Profile_Image: "default.png"
               })
+              document.getElementById("uploadbutton").value = ""
+              document.getElementById("profilephoto").src = "default.png"
               alert("Profile Image Successfully Deleted")
             } catch (error) {
-              console.log(error)
               alert("Error deleting profile image: ", error)
             }
           }
