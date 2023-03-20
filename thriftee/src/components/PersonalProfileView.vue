@@ -35,7 +35,13 @@
 </template>
 
 <script>
-    
+    import firebaseApp from '../firebase.js';
+    import { getFirestore } from "firebase/firestore";
+    import { collection, getDocs } from "firebase/firestore";
+    const db = getFirestore(firebaseApp);
+    const docRef = await getDocs(collection(db, "Profiles"))
+    // var thisdoc = docRef.data()
+    // console.log(thisdoc.Name)
 </script>
 
 
@@ -117,7 +123,7 @@ button{
 }
 
 img {
-    width: 240px;
+    width: auto;
     height: auto;
     margin-left: 2vw;
 }
