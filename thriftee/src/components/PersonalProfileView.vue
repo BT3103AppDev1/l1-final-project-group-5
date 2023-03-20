@@ -10,7 +10,13 @@
         </div>
         
         <div id = "buttonsofprofile">
-            <div><button id = "editbutton" type="button" >Edit Profile</button> </div>
+            <div>
+            <router-link to="/editprofile"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "editbutton" type="button" >Edit Profile</button> 
+            </router-link>  
+            </div>
             <div><button id = "signoutbutton" type="button" >Sign Out </button> </div>
         </div>
     </div>

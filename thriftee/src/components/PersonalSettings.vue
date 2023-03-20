@@ -1,7 +1,7 @@
 <template>
     <div id = "profilecreate">
    <div id = "profileheader">
-    <h1> Create Profile</h1>
+    <h1> Edit Profile</h1>
    </div>
    <div id ="container">
     <div id = "leftcontainer">

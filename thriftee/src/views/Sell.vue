@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>Sell Page</h1>
         <CreateListing />
     </div>
 </template>

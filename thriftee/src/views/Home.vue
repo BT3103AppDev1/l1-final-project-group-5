@@ -1,7 +1,7 @@
 <template>
     <div>
-      <!-- <PersonalProfileView /> -->
-      <PersonalSettings />
+      <PersonalProfileView />
+      <!-- <PersonalSettings /> -->
     </div>
     
 </template>
