@@ -93,7 +93,10 @@
         },
 
         methods: {
-            
+            async updateListingImage() {
+                console.log("updating listing image")
+                
+            }
           
 
         }

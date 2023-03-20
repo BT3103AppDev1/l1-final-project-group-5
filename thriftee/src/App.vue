@@ -1,11 +1,19 @@
 <template>
-    <div>
-      <!-- <PersonalProfileView /> -->
-      <PersonalSettings />
-      <CreateListing />
+  <div>
+    <div id="nav">
+      <router-link to="/"> Home </router-link> |
+      <router-link to="sell"> Sell </router-link>
     </div>
-    
+    <router-view />
+  </div>
+  
 </template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
 
 <style>
 #app {
@@ -13,27 +21,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #140713;
-  font-size: 18px;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  
+  color: #2c3e50;
+  margin-top: 30px;
+}
+#nav{
+  padding : 30px
+}
+#nav a {
+  font-weight : bold;
+  color: #2c3e50
+}
+#nav a.router-link-exact-active{
+  color: #42b983
 }
 </style>
-
-<script>
-import PersonalSettings from './components/PersonalSettings.vue'
-import PersonalProfileView from './components/PersonalProfileView.vue'
-import CreateListing from './components/CreateListing.vue'
-
-export default {
-  name: 'App',
-  components:{
-    PersonalSettings,
-    PersonalProfileView,
-    CreateListing
-  }
-}
-</script>
