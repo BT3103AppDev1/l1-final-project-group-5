@@ -85,6 +85,7 @@
             } catch(error) {
               alert("Error saving profile: ", error)
             }
+            window.location.reload()
           }, 
 
           deleteProfileImage() {
@@ -163,7 +164,7 @@ input::file-selector-button:hover {
 }
 
 #rightcontainer{
-  margin-top: 10vh;
+  margin-top: 9vh;
     width: 40%;
 }
 

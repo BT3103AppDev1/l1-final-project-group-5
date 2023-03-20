@@ -71,6 +71,7 @@
         }
         
     }
+
 </script>
 
 
@@ -152,7 +153,7 @@ button{
 }
 
 img {
-    width: 240px;
+    width: auto;
     height: auto;
     margin-left: 2vw;
 }
