@@ -61,7 +61,7 @@
                 var img = document.getElementById("profilephoto");
                 img.src = event.target.result;
               }
-              alert("profile image displayed")
+              alert("Profile image displayed")
             } catch(error) {
               alert("No profile image found ", error)
               document.getElementById("profilephoto").src="default.png"
@@ -75,7 +75,7 @@
             let image = document.getElementById("uploadbutton").value
 
             try {
-              const docRef = await setDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
+              const docRef = await setDoc(doc(db, "Profiles", Math.random().toString()), { // need to change to unique userID
                 Name: name,
                 Meet_Up: meetUp,
                 QRCode: qrcode, 
@@ -87,17 +87,14 @@
             }
           }, 
 
-          async deleteProfileImage() {
-            try {
-              const docRef = await updateDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
-                Profile_Image: "default.png"
-              })
-              document.getElementById("uploadbutton").value = ""
-              document.getElementById("profilephoto").src = "default.png"
-              alert("Profile Image Successfully Deleted")
-            } catch (error) {
-              alert("Error deleting profile image: ", error)
-            }
+          deleteProfileImage() {
+              if (document.getElementById("uploadbutton").value == "") {
+                  alert("Upload Image!")
+              } else {
+                  document.getElementById("uploadbutton").value = ""
+                  document.getElementById("profilephoto").src = "default.png"
+                  alert("Profile Image Successfully Deleted")
+              }
           }
 
         }
