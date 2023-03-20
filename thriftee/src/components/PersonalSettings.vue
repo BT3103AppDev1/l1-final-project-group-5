@@ -20,9 +20,6 @@
 
           <div class = "formli">
 
-          <label for="username">Username </label>
-          <input type = "text" id = "username" required = "" placeholder = "johndoe123"> <br><br>
-
           <label for="name">Name </label>
           <input type = "text" id = "name" required = "" placeholder = "John Doe"> <br><br>
 
@@ -72,7 +69,6 @@
           }, 
 
           async saveProfile() {
-            let username = document.getElementById("username").value
             let name = document.getElementById("name").value 
             let meetUp = document.getElementById("meetup").value
             let qrcode = document.getElementById("qrcode").value
@@ -83,8 +79,7 @@
                 Name: name,
                 Meet_Up: meetUp,
                 QRCode: qrcode, 
-                Profile_Image: image,
-                UserName: username
+                Profile_Image: image
               })
               alert("Profile saved!")
             } catch(error) {
@@ -169,7 +164,7 @@ input::file-selector-button:hover {
 }
 
 #rightcontainer{
-  margin-top: 5vh;
+  margin-top: 9vh;
     width: 40%;
 }
 
