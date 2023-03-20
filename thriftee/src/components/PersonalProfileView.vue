@@ -2,11 +2,11 @@
 
 <div id = "container">
     <div id = "profiledetails">
-        <img src="default.png" alt="Profile Photo">
+        <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
-            <h1 id = "profilename"> John Doe </h1>
+            <h1 id = "profilename"> {{ getName }} </h1>
             <input data-role="rating"><!-- star ratings placeholder -->
-            <h2 id = "meetuplocation"> Meet up location: </h2>
+            <h2 id = "meetuplocation"> Meet up location: {{ getLocation }} </h2>
         </div>
         
         <div id = "buttonsofprofile">
@@ -35,7 +35,42 @@
 </template>
 
 <script>
+    import firebaseApp from '../firebase.js';
+    import { getFirestore } from "firebase/firestore";
+    import { doc, getDoc } from "firebase/firestore";
+    const db = getFirestore(firebaseApp);
     
+    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
+    let userData = user.data()
+
+    // console.log(userData.Profile_Image)
+    // let image = userData.Profile_Image
+    // var fReader = new FileReader();
+    // console.log(image.target)
+    // fReader.readAsDataURL(image.target[0]);
+    // fReader.onloadend = function(event) {
+    //     var img = document.getElementById("profilephoto");
+    //     img.src = event.target.result;
+    // }
+
+    export default {
+
+        methods: {
+            
+        }, 
+
+        computed: {
+            getName() {
+                return userData.Name
+            }, 
+
+            getLocation() {
+                return userData.Meet_Up
+            }
+
+        }
+        
+    }
 </script>
 
 

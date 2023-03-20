@@ -5,12 +5,13 @@
 </template>
 
 <script>
-import PersonalSettings from '../components/PersonalSettings.vue'
-export default {
-    name: "EditProfile",
+    import PersonalSettings from '../components/PersonalSettings.vue'
+    
+    export default {
+        name: "EditProfile",
 
-    components: {
-        PersonalSettings
+        components: {
+            PersonalSettings
+        }
     }
-}
 </script>
