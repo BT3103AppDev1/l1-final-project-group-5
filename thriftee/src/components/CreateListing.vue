@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </form>
-                <h1>{{condition}} {{price}} {{category}} {{size}} {{colour}}</h1>
+                <h1>${{price}} | {{condition}} | {{category}} | {{size}} </h1>
             </div>
         </div>
     </div>
