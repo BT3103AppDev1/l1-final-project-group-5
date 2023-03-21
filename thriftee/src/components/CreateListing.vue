@@ -10,15 +10,7 @@
                     <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        <input type="file" id="uploadbutton" v-on:change="displayListingImage" hidden/>
-=======
                         <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-                        <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
                     </div>
                 </div>
@@ -30,15 +22,7 @@
                     <div class = "formli">
 
                         <label for="listingtitle">Listing Title </label>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        <input type = "text" id = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
-=======
                         <input type = "text" id = "listingtitle" v-model = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-                        <input type = "text" id = "listingtitle" v-model = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         
                         <label for="listingprice">Price </label>
                         <div>
@@ -48,15 +32,7 @@
 
                         <label for="condition">Condition</label>
                         <select id="condition" v-model="condition" name="condition" required>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <option value="" selected disabled>Select condition of item</option>
-=======
                             <option value="" selected hidden disabled>Select condition of item</option>
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-                            <option value="" selected hidden disabled>Select condition of item</option>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>Brand New</option>
                             <option>Like New</option>
                             <option>Lightly Used</option>
@@ -66,32 +42,13 @@
 
                         <label for="category">Category</label>
                         <select id="category" v-model="category" name="category" required>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <option value="" selected disabled>Select category of item</option>
-=======
                             <option value="" selected disabled hidden>Select category of item</option>
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-                            <option value="" selected disabled hidden>Select category of item</option>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>Top</option>
                             <option>Bottom</option>
                             <option>Outerwear</option>
                             <option>Shoe</option>
                         </select><br><br>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        <label for="colour">Colour of item</label>
-                        <input type = "text" id = "colour" placeholder = "Enter item colour" required> <br><br>
-                        
-                        <label for="size">Size</label>
-                        <select id="size" v-model="size" name="size" required>
-                            <option value="" selected disabled>Select size of item</option>
-=======
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         <label for="colour">Colour of Item</label><br>
                         <input type = "color" id="colour" v-model="colour" list="presets" required> <br><br>
                         <datalist id="presets">
@@ -107,10 +64,6 @@
                         <label for="size">Size</label>
                         <select id="size" v-model="size" name="size" required>
                             <option id="test" value="" selected hidden disabled>Select size of item</option>
-<<<<<<< HEAD
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>XXS</option>
                             <option>XS</option>
                             <option>S</option>
@@ -122,25 +75,11 @@
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button">Cancel</button> 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
-                        </div>
-                    </div>
-                </form>
-=======
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
                         </div>
                     </div>
                 </form>
-<<<<<<< HEAD
-                <h1>{{condition}} {{price}} {{category}} {{size}} {{colour}}</h1>
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
                 <h1>${{price}} | {{condition}} | {{category}} | {{size}} </h1>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
             </div>
         </div>
     </div>
@@ -152,21 +91,7 @@
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, updateDoc } from "firebase/firestore";
     const db = getFirestore(firebaseApp);
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-    export default {
-        data() {
-            return {
-                condition: "",
-                price: "",
-                category: "",
-=======
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
-
     let userID = Math.random().toString(); //placeholder for userid
-
     export default {
         data() {
             return {
@@ -175,27 +100,13 @@
                 condition: "",
                 category: "",
                 colour: "",
-<<<<<<< HEAD
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                 size: ""
             }
         },
-
         methods: {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            
-          
-
-=======
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
             updateListingImage: async function() {
                 console.log("updating listing image")
                 var fReader = new FileReader();
-
                 try {
                     var image = document.getElementById("uploadbutton");
                     fReader.readAsDataURL(image.files[0]);
@@ -211,10 +122,8 @@
                     document.getElementById("listingphoto").src="defaultListing.png"
                 }
             },
-
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
-
                 try {
                 const docRef = await setDoc(doc(db, "Listings", userID), { // need to change to unique userID
                     Title: this.listingtitle,
@@ -230,7 +139,6 @@
                 alert("Error creating listing: ", error)
                 }
             }, 
-
             deleteListingImage: function() {
                 if (document.getElementById("uploadbutton").value == "") {
                     alert("Upload Image!")
@@ -242,10 +150,6 @@
               
             }
           
-<<<<<<< HEAD
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
         }
     }
     
@@ -263,7 +167,6 @@
     display: flex;
     width: 100vw;
 }
-
 label[for="uploadbutton"] {
     background-color: #60cbb8; /* Green */
   border: 2px solid #60cbb8; /* Green */
@@ -277,15 +180,11 @@ label[for="uploadbutton"] {
   font-size: 16px;
   transition-duration: 0.4s;
 }
-
 label[for="uploadbutton"]:hover {
   background-color: 359138; /* Green */
   color: white;
   border: 2px solid #60cbb8; /* Green */
 }
-
-
-
 input::file-selector-button {
     font-weight: bold;
     color: black;
@@ -297,25 +196,20 @@ input::file-selector-button {
     margin-left: 30%;
     margin-bottom: 1vh;
 }
-
 input::file-selector-button:hover {
     color: white;
     background-color: black; /* Green */
 }
-
-
 #leftcontainer{
     margin-top: 13vh;
     /* margin-right: 15vw; */
     width: 50%;
 }
-
 #rightcontainer{
     margin-top: 2vh;
     /* margin-left: 5vw; */
     width: 40%;
 }
-
 #deletebutton {
   background-color: #ed4141; /* Green */
   border: 2px solid #ed4141; /* Green */
@@ -330,14 +224,10 @@ input::file-selector-button:hover {
   font-size: 16px;
   transition-duration: 0.4s;
 }
-
 #deletebutton:hover {
   color: white;
   border: 2px solid #ed4141; /* Green */
 }
-
-
-
 #savebutton {
   background-color: #60cbb8; /* Green */
   border: 2px solid #60cbb8; /* Green */
@@ -351,13 +241,11 @@ input::file-selector-button:hover {
   font-size: 16px;
   transition-duration: 0.4s;
 }
-
 #savebutton:hover {
   background-color: 359138; /* Green */
   color: white;
   border: 2px solid #60cbb8; /* Green */
 }
-
 #cancelbutton {
   background-color: white; 
   border: 2px solid #c64f31; /* Green */
@@ -370,37 +258,24 @@ input::file-selector-button:hover {
   font-size: 16px;
   transition-duration: 0.4s;
 }
-
 #cancelbutton:hover {
   background-color: #c64f31; /* Green */
   color: white;
 }
-
 h2 {
     background-color: rbg(129,184,99);
 }
-
 .formli{
     display: inline-block;
     text-align: center;
     width: 100%;
 }
-
 form {
     text-align: center;
     align-items: center;
     margin: auto;
 }
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-input[type=text], input[type=number] {
-=======
 input[type=text], input[type=number], input[type=color] {
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-input[type=text], input[type=number], input[type=color] {
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
   width: 100%;
   padding: 12px 20px;
   margin: 1px 0;
@@ -411,12 +286,10 @@ input[type=text], input[type=number], input[type=color] {
   border-radius: 10px;
   font-size: 16px;
 }
-
 input[type=file]{
   width: 100%;
   margin-top: 3vh;
 }
-
 select {
     width: 100%;
     padding: 12px 20px;
@@ -426,44 +299,28 @@ select {
     border-radius: 10px;
     box-sizing: border-box;
     height: 40px;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    font-size: 13px;
-=======
     font-size: 12px;
     text-align: center;
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
-    font-size: 12px;
-    text-align: center;
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 }
-
 ::placeholder {
    text-align: center; 
    font-size: 17px;
 }
-
 input:hover, select:hover {
     /* box-shadow: 3px 3px purple; */
     border-radius: 5px;
-
 }
-
 .save {
     text-align: center;
 }
-
 img {
     width: 450px;
     height: auto;
 }
-
 #listingphoto {
     width: 350px;
     padding-bottom: 10px;
 }
-
 #dollarsign {
     display: flex;
     position: absolute;
@@ -471,13 +328,4 @@ img {
     margin-left: 8px;
     font-size: 15px;
 }
-
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
-=======
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 </style>
