@@ -1,7 +1,4 @@
 <template>
-<<<<<<< HEAD
-   
-=======
    <div id = "container"> 
     <div id = "leftcontainer">
         <img src="loginpicture.jpeg" alt="login picture">
@@ -31,7 +28,6 @@
        </form>
     </div>
    </div>
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 </template>
 
 <script>
@@ -41,8 +37,6 @@
 
 <style scoped>
 
-<<<<<<< HEAD
-=======
 #myform {
     margin-top: 5vh;
 }
@@ -125,6 +119,5 @@ input, select {
 }
 
 
->>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 
 </style>
