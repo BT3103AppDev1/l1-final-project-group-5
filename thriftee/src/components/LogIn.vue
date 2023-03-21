@@ -103,7 +103,6 @@ input, select {
   color: rgb(255, 255, 255);
   font-weight: bold;
   padding: 10px 32px;
-  
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -114,9 +113,9 @@ input, select {
 }
 
 #loginbutton:hover {
-  background-color: 359138; /* Green */
+  background-color: #14a88d; /* Green */
   color: white;
-  border: 2px solid #60cbb8; /* Green */
+  border: 2px solid #14a88d; /* Green */
 }
 
 
