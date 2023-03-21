@@ -10,7 +10,11 @@
                     <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
+<<<<<<< HEAD
                         <input type="file" id="uploadbutton" v-on:change="displayListingImage" hidden/>
+=======
+                        <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                         <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
                     </div>
                 </div>
@@ -22,7 +26,11 @@
                     <div class = "formli">
 
                         <label for="listingtitle">Listing Title </label>
+<<<<<<< HEAD
                         <input type = "text" id = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
+=======
+                        <input type = "text" id = "listingtitle" v-model = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                         
                         <label for="listingprice">Price </label>
                         <div>
@@ -32,7 +40,11 @@
 
                         <label for="condition">Condition</label>
                         <select id="condition" v-model="condition" name="condition" required>
+<<<<<<< HEAD
                             <option value="" selected disabled>Select condition of item</option>
+=======
+                            <option value="" selected hidden disabled>Select condition of item</option>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                             <option>Brand New</option>
                             <option>Like New</option>
                             <option>Lightly Used</option>
@@ -42,19 +54,41 @@
 
                         <label for="category">Category</label>
                         <select id="category" v-model="category" name="category" required>
+<<<<<<< HEAD
                             <option value="" selected disabled>Select category of item</option>
+=======
+                            <option value="" selected disabled hidden>Select category of item</option>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                             <option>Top</option>
                             <option>Bottom</option>
                             <option>Outerwear</option>
                             <option>Shoe</option>
                         </select><br><br>
 
+<<<<<<< HEAD
                         <label for="colour">Colour of item</label>
                         <input type = "text" id = "colour" placeholder = "Enter item colour" required> <br><br>
                         
                         <label for="size">Size</label>
                         <select id="size" v-model="size" name="size" required>
                             <option value="" selected disabled>Select size of item</option>
+=======
+                        <label for="colour">Colour of Item</label><br>
+                        <input type = "color" id="colour" v-model="colour" list="presets" required> <br><br>
+                        <datalist id="presets">
+                            <option value="#000000">Black</option>
+                            <option value="#FF0000">Red</option>
+                            <option value="#808080">Gray</option>
+                            <option value="#FFFF00">Yellow</option>
+                            <option value="#00FF00">Green</option>
+                            <option value="#000080">Blue</option>
+                            <option value="#800080">Purple</option>
+                        </datalist>
+                    
+                        <label for="size">Size</label>
+                        <select id="size" v-model="size" name="size" required>
+                            <option id="test" value="" selected hidden disabled>Select size of item</option>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                             <option>XXS</option>
                             <option>XS</option>
                             <option>S</option>
@@ -66,10 +100,18 @@
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button">Cancel</button> 
+<<<<<<< HEAD
                             <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
                         </div>
                     </div>
                 </form>
+=======
+                            <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
+                        </div>
+                    </div>
+                </form>
+                <h1>{{condition}} {{price}} {{category}} {{size}} {{colour}}</h1>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
             </div>
         </div>
     </div>
@@ -81,6 +123,7 @@
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, updateDoc } from "firebase/firestore";
     const db = getFirestore(firebaseApp);
+<<<<<<< HEAD
     
     export default {
         data() {
@@ -88,14 +131,80 @@
                 condition: "",
                 price: "",
                 category: "",
+=======
+
+    let userID = Math.random().toString(); //placeholder for userid
+
+    export default {
+        data() {
+            return {
+                listingtitle: "",
+                price: "",
+                condition: "",
+                category: "",
+                colour: "",
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                 size: ""
             }
         },
 
         methods: {
+<<<<<<< HEAD
             
           
 
+=======
+            updateListingImage: async function() {
+                console.log("updating listing image")
+                var fReader = new FileReader();
+
+                try {
+                    var image = document.getElementById("uploadbutton");
+                    fReader.readAsDataURL(image.files[0]);
+                    console.log(image.files[0])
+                    fReader.onloadend = function(event) {
+                        var img = document.getElementById("listingphoto");
+                        img.src = event.target.result;
+                    }
+                    console.log(image.value)
+                    alert("Listing image displayed")
+                } catch(error) {
+                    alert("No listing image found ", error)
+                    document.getElementById("listingphoto").src="defaultListing.png"
+                }
+            },
+
+            saveListing: async function() {
+                let image = document.getElementById("uploadbutton").value
+
+                try {
+                const docRef = await setDoc(doc(db, "Listings", userID), { // need to change to unique userID
+                    Title: this.listingtitle,
+                    Price: this.price,
+                    Condition: this.condition,
+                    Category: this.category,
+                    Colour: this.colour,
+                    Size: this.size,
+                    Listing_Image: image
+                })
+                alert("Listing creating!")
+                } catch(error) {
+                alert("Error creating listing: ", error)
+                }
+            }, 
+
+            deleteListingImage: function() {
+                if (document.getElementById("uploadbutton").value == "") {
+                    alert("Upload Image!")
+                } else {
+                    document.getElementById("uploadbutton").value = ""
+                    document.getElementById("listingphoto").src = "defaultListing.png"
+                    alert("Listing Image Successfully Deleted")
+                }
+              
+            }
+          
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
         }
     }
     
@@ -242,7 +351,11 @@ form {
     margin: auto;
 }
 
+<<<<<<< HEAD
 input[type=text], input[type=number] {
+=======
+input[type=text], input[type=number], input[type=color] {
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
   width: 100%;
   padding: 12px 20px;
   margin: 1px 0;
@@ -268,7 +381,12 @@ select {
     border-radius: 10px;
     box-sizing: border-box;
     height: 40px;
+<<<<<<< HEAD
     font-size: 13px;
+=======
+    font-size: 12px;
+    text-align: center;
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
 }
 
 ::placeholder {
@@ -305,5 +423,8 @@ img {
 }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
 </style>

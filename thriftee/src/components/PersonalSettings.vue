@@ -1,7 +1,11 @@
 <template>
     <div id = "profilecreate">
    <div id = "profileheader">
+<<<<<<< HEAD
     <h1> Create Profile</h1>
+=======
+    <h1> Edit Profile</h1>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
    </div>
    <div id ="container">
     <div id = "leftcontainer">
@@ -61,7 +65,11 @@
                 var img = document.getElementById("profilephoto");
                 img.src = event.target.result;
               }
+<<<<<<< HEAD
               alert("profile image displayed")
+=======
+              alert("Profile image displayed")
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
             } catch(error) {
               alert("No profile image found ", error)
               document.getElementById("profilephoto").src="default.png"
@@ -75,7 +83,11 @@
             let image = document.getElementById("uploadbutton").value
 
             try {
+<<<<<<< HEAD
               const docRef = await setDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
+=======
+              const docRef = await setDoc(doc(db, "Profiles", Math.random().toString()), { // need to change to unique userID
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
                 Name: name,
                 Meet_Up: meetUp,
                 QRCode: qrcode, 
@@ -87,6 +99,7 @@
             }
           }, 
 
+<<<<<<< HEAD
           async deleteProfileImage() {
             try {
               const docRef = await updateDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
@@ -98,6 +111,16 @@
             } catch (error) {
               alert("Error deleting profile image: ", error)
             }
+=======
+          deleteProfileImage() {
+              if (document.getElementById("uploadbutton").value == "") {
+                  alert("Upload Image!")
+              } else {
+                  document.getElementById("uploadbutton").value = ""
+                  document.getElementById("profilephoto").src = "default.png"
+                  alert("Profile Image Successfully Deleted")
+              }
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
           }
 
         }
