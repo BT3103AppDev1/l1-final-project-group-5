@@ -14,8 +14,21 @@
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "firebase": "^9.18.0",
+<<<<<<< HEAD
+<<<<<<< HEAD
+    "gitart-scroll-carousel": "^1.2.4",
+    "swiper": "^9.1.1",
+    "vue": "^3.2.47",
+    "vue-rate-it": "^2.1.0",
+    "vue3-carousel": "^0.2.13"
+=======
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

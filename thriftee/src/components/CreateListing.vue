@@ -10,7 +10,15 @@
                     <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                        <input type="file" id="uploadbutton" v-on:change="displayListingImage" hidden/>
+=======
                         <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+                        <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
                     </div>
                 </div>
@@ -22,7 +30,15 @@
                     <div class = "formli">
 
                         <label for="listingtitle">Listing Title </label>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                        <input type = "text" id = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
+=======
                         <input type = "text" id = "listingtitle" v-model = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+                        <input type = "text" id = "listingtitle" v-model = "listingtitle" placeholder = "Enter Listing Title" required> <br><br>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         
                         <label for="listingprice">Price </label>
                         <div>
@@ -32,7 +48,15 @@
 
                         <label for="condition">Condition</label>
                         <select id="condition" v-model="condition" name="condition" required>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            <option value="" selected disabled>Select condition of item</option>
+=======
                             <option value="" selected hidden disabled>Select condition of item</option>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+                            <option value="" selected hidden disabled>Select condition of item</option>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>Brand New</option>
                             <option>Like New</option>
                             <option>Lightly Used</option>
@@ -42,13 +66,32 @@
 
                         <label for="category">Category</label>
                         <select id="category" v-model="category" name="category" required>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            <option value="" selected disabled>Select category of item</option>
+=======
                             <option value="" selected disabled hidden>Select category of item</option>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+                            <option value="" selected disabled hidden>Select category of item</option>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>Top</option>
                             <option>Bottom</option>
                             <option>Outerwear</option>
                             <option>Shoe</option>
                         </select><br><br>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+                        <label for="colour">Colour of item</label>
+                        <input type = "text" id = "colour" placeholder = "Enter item colour" required> <br><br>
+                        
+                        <label for="size">Size</label>
+                        <select id="size" v-model="size" name="size" required>
+                            <option value="" selected disabled>Select size of item</option>
+=======
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                         <label for="colour">Colour of Item</label><br>
                         <input type = "color" id="colour" v-model="colour" list="presets" required> <br><br>
                         <datalist id="presets">
@@ -64,6 +107,10 @@
                         <label for="size">Size</label>
                         <select id="size" v-model="size" name="size" required>
                             <option id="test" value="" selected hidden disabled>Select size of item</option>
+<<<<<<< HEAD
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <option>XXS</option>
                             <option>XS</option>
                             <option>S</option>
@@ -75,11 +122,25 @@
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button">Cancel</button> 
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
+                        </div>
+                    </div>
+                </form>
+=======
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                             <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
                         </div>
                     </div>
                 </form>
+<<<<<<< HEAD
+                <h1>{{condition}} {{price}} {{category}} {{size}} {{colour}}</h1>
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
                 <h1>${{price}} | {{condition}} | {{category}} | {{size}} </h1>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
             </div>
         </div>
     </div>
@@ -91,6 +152,18 @@
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, updateDoc } from "firebase/firestore";
     const db = getFirestore(firebaseApp);
+<<<<<<< HEAD
+<<<<<<< HEAD
+    
+    export default {
+        data() {
+            return {
+                condition: "",
+                price: "",
+                category: "",
+=======
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 
     let userID = Math.random().toString(); //placeholder for userid
 
@@ -102,11 +175,23 @@
                 condition: "",
                 category: "",
                 colour: "",
+<<<<<<< HEAD
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                 size: ""
             }
         },
 
         methods: {
+<<<<<<< HEAD
+<<<<<<< HEAD
+            
+          
+
+=======
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
             updateListingImage: async function() {
                 console.log("updating listing image")
                 var fReader = new FileReader();
@@ -157,6 +242,10 @@
               
             }
           
+<<<<<<< HEAD
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
         }
     }
     
@@ -303,7 +392,15 @@ form {
     margin: auto;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+input[type=text], input[type=number] {
+=======
 input[type=text], input[type=number], input[type=color] {
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+input[type=text], input[type=number], input[type=color] {
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
   width: 100%;
   padding: 12px 20px;
   margin: 1px 0;
@@ -329,8 +426,17 @@ select {
     border-radius: 10px;
     box-sizing: border-box;
     height: 40px;
+<<<<<<< HEAD
+<<<<<<< HEAD
+    font-size: 13px;
+=======
     font-size: 12px;
     text-align: center;
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+    font-size: 12px;
+    text-align: center;
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 }
 
 ::placeholder {
@@ -367,4 +473,11 @@ img {
 }
 
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 </style>
