@@ -8,8 +8,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "firebase": "^9.18.0",
-    "vue": "^3.2.47"
+    "gitart-scroll-carousel": "^1.2.4",
+    "swiper": "^9.1.1",
+    "vue": "^3.2.47",
+    "vue-rate-it": "^2.1.0",
+    "vue3-carousel": "^0.2.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
