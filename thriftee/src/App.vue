@@ -1,22 +1,29 @@
 <template>
   <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PersonalProfileView />
     <PersonalSettings />
     <CreateListing /><br>
     <Review /><br> 
     <ProfileReview />
 =======
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
     <div id="nav">
       <router-link to="/"> Home </router-link> |
       <router-link to="sell"> Sell </router-link>
     </div>
     <router-view />
+<<<<<<< HEAD
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
   </div>
   
 </template>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <style>
 #app {
@@ -67,6 +74,23 @@ export default {
   color: #2c3e50;
   margin-top: 30px;
 }
+=======
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 30px;
+}
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
 #nav{
   padding : 30px
 }
@@ -77,5 +101,9 @@ export default {
 #nav a.router-link-exact-active{
   color: #42b983
 }
+<<<<<<< HEAD
 </style>
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+</style>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525

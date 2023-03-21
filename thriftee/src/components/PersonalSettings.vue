@@ -2,10 +2,14 @@
     <div id = "profilecreate">
    <div id = "profileheader">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <h1> Create Profile</h1>
 =======
     <h1> Edit Profile</h1>
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+    <h1> Edit Profile</h1>
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
    </div>
    <div id ="container">
     <div id = "leftcontainer">
@@ -48,7 +52,11 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
+<<<<<<< HEAD
     import { doc, setDoc, updateDoc } from "firebase/firestore";
+=======
+    import { doc, setDoc } from "firebase/firestore";
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
     const db = getFirestore(firebaseApp);
     
     export default {
@@ -66,10 +74,14 @@
                 img.src = event.target.result;
               }
 <<<<<<< HEAD
+<<<<<<< HEAD
               alert("profile image displayed")
 =======
               alert("Profile image displayed")
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+              alert("Profile image displayed")
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
             } catch(error) {
               alert("No profile image found ", error)
               document.getElementById("profilephoto").src="default.png"
@@ -84,10 +96,14 @@
 
             try {
 <<<<<<< HEAD
+<<<<<<< HEAD
               const docRef = await setDoc(doc(db, "Profiles", "uniqueUserID"), { // need to change to unique userID
 =======
               const docRef = await setDoc(doc(db, "Profiles", Math.random().toString()), { // need to change to unique userID
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+              const docRef = await setDoc(doc(db, "Profiles", Math.random().toString()), { // need to change to unique userID
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
                 Name: name,
                 Meet_Up: meetUp,
                 QRCode: qrcode, 
@@ -97,6 +113,7 @@
             } catch(error) {
               alert("Error saving profile: ", error)
             }
+<<<<<<< HEAD
           }, 
 
 <<<<<<< HEAD
@@ -112,6 +129,11 @@
               alert("Error deleting profile image: ", error)
             }
 =======
+=======
+            window.location.reload()
+          }, 
+
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
           deleteProfileImage() {
               if (document.getElementById("uploadbutton").value == "") {
                   alert("Upload Image!")
@@ -120,7 +142,10 @@
                   document.getElementById("profilephoto").src = "default.png"
                   alert("Profile Image Successfully Deleted")
               }
+<<<<<<< HEAD
 >>>>>>> 3af4896b52e4a009579b67111ecf599bb7bb71cb
+=======
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
           }
 
         }
@@ -189,7 +214,11 @@ input::file-selector-button:hover {
 }
 
 #rightcontainer{
+<<<<<<< HEAD
   margin-top: 10vh;
+=======
+  margin-top: 9vh;
+>>>>>>> 0867eb11b1c51087b0437c750714254ec4e94525
     width: 40%;
 }
 
