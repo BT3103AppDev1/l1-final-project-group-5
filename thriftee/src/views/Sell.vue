@@ -2,9 +2,10 @@
     <div>
         <!-- <CreateListing /> -->
         
-        <LogIn />
+        <!-- <LogIn /> -->
         <!-- <Review/>
         <ProfileReview/> -->
+        <ProfileReview />
     </div>
 </template>
 
