@@ -5,8 +5,14 @@
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ getName }} </h1>
-            <input data-role="rating"><!-- star ratings placeholder -->
-            <h2 id = "meetuplocation"> Meet up location: {{ getLocation }} </h2>
+                
+                <div class="rate">
+                    <p class="mt-2">Rating: {{ value }}/5</p>
+                </div>
+            
+                <div class="Location">
+                    <p class="mt-3">Meet up Location: {{ location }}</p>
+                </div>
         </div>
         
         <div id = "buttonsofprofile">
@@ -54,7 +60,13 @@
     // }
 
     export default {
-
+        data() {
+            return {
+                value: 4,
+                location: userData.Meet_Up,
+                name:userData.Name
+            }
+    },
         methods: {
             
         }, 
