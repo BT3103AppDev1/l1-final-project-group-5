@@ -1,11 +1,10 @@
 <template>
 
     <div id = "container">
-        <h1>Profile Review Page</h1>
         <div id = "profiledetails">
-            <img src="default.png" alt="Profile Photo">
-            <div id = "contentofprofile">
-                <h1 id = "profilename"> John Doe </h1>
+        <img id = "profilephoto" src="default.png" alt="Profile Photo">
+        <div id = "contentofprofile">
+            <h1 id = "profilename"> {{ getName }} </h1>
                 
                 <div class="rate">
                     <p class="mt-2">Rating: {{ value }}/5</p>
@@ -14,7 +13,7 @@
                 <div class="Location">
                     <p class="mt-3">Meet up Location: {{ location }}</p>
                 </div>
-            </div>
+        </div>
             
         </div>
         
@@ -31,13 +30,35 @@
 </template>
     
 <script>
+import firebaseApp from '../firebase.js';
+    import { getFirestore } from "firebase/firestore";
+    import { doc, getDoc } from "firebase/firestore";
+    const db = getFirestore(firebaseApp);
+    
+    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
+    let userData = user.data()
   export default {
     data() {
       return {
         value: 4,
-        location: "Clementi"
+        location: userData.Meet_Up,
+        name:userData.Name
       }
     },
+    methods: {
+            
+        }, 
+
+    computed: {
+        getName() {
+            return userData.Name
+        }, 
+
+        getLocation() {
+            return userData.Meet_Up
+        }
+
+    }
 }
 </script>
 
@@ -60,10 +81,6 @@
         
     }
     
-    #linebreak{
-        margin-top: 5vh;
-    }
-    
     hr {
         height: 1px;
         width: 30vw;
@@ -71,15 +88,28 @@
     }
     
     #contentofprofile {
-        display: block;
-        margin-left: 5vw;
-        padding: 10px 40px 28px 5px;
-    }
+    margin-left: 5vw;
+}
 
-    img {
-        width: 240px;
-        height: auto;
-        margin-left: 2vw;
-    }
+#linebreak{
+    margin-top: 5vh;
+}
+
+hr {
+    height: 1px;
+    width: 30vw;
+    background-color: black;
+}
+
+#contentofprofile {
+    margin-left: 5vw;
+}
+
+
+img {
+    width: auto;
+    height: auto;
+    margin-left: 2vw;
+}
     
 </style>
