@@ -1,7 +1,7 @@
 <template>
     <div id = "listingcreate">
         <div id = "listingheader">
-            <h1> Create Listing</h1>
+            <h2> Create Listing</h2>
         </div>
 
         <div id ="container">
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </form>
-                <h1>${{price}} | {{condition}} | {{category}} | {{size}} </h1>
+                
             </div>
         </div>
     </div>
@@ -157,11 +157,11 @@
 
 
 <style scoped>
-#listingheader h1 {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: rgb(80, 68, 68);
-    font-size: 3.5vw;
-    font-weight:bold;
+#listingheader h2 {
+/* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+  color: rgb(134, 130, 130);
+  font-size: 2.5vw;
+  font-weight:bold;
 }
 #container{
     display: flex;

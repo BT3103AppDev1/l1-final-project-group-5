@@ -1,7 +1,7 @@
 <template>
   <div id = "profilecreate">
  <div id = "profileheader">
-  <h1> Edit Profile</h1>
+  <h2> Edit Profile</h2>
  </div>
  <div id ="container">
   <div id = "leftcontainer">
@@ -98,11 +98,11 @@
 
 
 <style scoped>
-#profileheader h1 {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: rgb(80, 68, 68);
-  font-size: 3.5vw;
-  font-weight:bold;
+#profileheader h2 {
+  /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
+  color: rgb(134, 130, 130);
+  font-size: 2.8vw;
+  
 }
 #container{
   display: flex;
@@ -142,11 +142,10 @@ input::file-selector-button:hover {
   background-color: black; /* Green */
 }
 #leftcontainer{
-margin-top: 5vh;
   width: 50%;
 }
 #rightcontainer{
-margin-top: 9vh;
+margin-top: 8vh;
   width: 40%;
 }
 #deletebutton {

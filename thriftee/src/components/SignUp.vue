@@ -1,7 +1,7 @@
 <template>
     <div id = "container"> 
      <div id = "leftcontainer">
-         <img src="signup.jpeg" alt="login picture">
+         <img src="signup.jpeg" alt="signup picture">
      </div>
  
      <div id = "rightcontainer">
@@ -48,13 +48,6 @@
     color: grey;
  }
 
- input:focus {
-       color: black;
-       outline: none;
-       border-bottom: 1.5px solid rgb(108, 105, 105);
-    }
-
-
 
  #loginbutton:hover {
     background: transparent;
@@ -62,8 +55,15 @@
     margin-left: 0.3vw;
     font-size: 0.99em;
     color: black;
-    border-bottom: 0.8px solid #575353;
+    border-bottom: 1px solid #252323;
  }
+
+input:focus {
+       color: black;
+       outline: none;
+       border-bottom: 1.5px solid rgb(108, 105, 105);
+    }
+
 
  #gotologin {
     display: flex;
