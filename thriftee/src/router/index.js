@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Sell from "@/views/Sell.vue";
 import EditProfile from "@/views/EditProfile.vue";
+import ProfileReviews from "@/views/ProfileReviewDisplay.vue";
 const routes = [
   {
     path: "/",
@@ -17,6 +18,11 @@ const routes = [
     path: "/editprofile",
     name: "EditProfile",
     component: EditProfile,
+  },
+  {
+    path: "/profilereviews",
+    name: "ProfileReviews",
+    component: ProfileReviews,
   },
 ];
 const router = createRouter({
