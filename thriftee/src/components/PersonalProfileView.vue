@@ -69,7 +69,7 @@
 
     let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
     let userData = user.data()
-    console.log(getAuth().currentUser.displayName)
+    
     export default {
         data() {
             return {
