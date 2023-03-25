@@ -1,13 +1,13 @@
 <template>
   <div id = "container">
-    <div id="nav">
-      <router-link to="/" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
+    <div id="nav" v-if="user">
+      <router-link to="home" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
    
       <router-link to="sell" class="routerlink"> Sell </router-link>
-
+      <hr>
      
     </div>
-    <hr>
+    
     <router-view />
     
   </div>
@@ -15,6 +15,25 @@
 
   
 </template>
+
+<script>
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+export default {
+  data() {
+    return {
+      user: false
+    }
+  },
+
+  created() {
+    const auth = getAuth()
+    onAuthStateChanged(auth, (user) => {
+        this.user = !!user;
+    })
+  }
+}
+</script>
 
 <style scoped>
 
