@@ -4,6 +4,7 @@
       <router-link to="/"> Home </router-link> |
       <router-link to="sell"> Sell </router-link>
     </div>
+    <hr>
     <router-view />
   </div>
   

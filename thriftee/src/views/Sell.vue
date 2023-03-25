@@ -1,11 +1,10 @@
 <template>
     <div>
-        <!-- <CreateListing /> -->
+        <CreateListing />
         
         <!-- <LogIn /> -->
-        <!-- <Review/>
-        <ProfileReview/> -->
-        <ProfileReview />
+        <!-- <Review/> -->
+        <!-- <ProfileReview/> -->
     </div>
 </template>
 
