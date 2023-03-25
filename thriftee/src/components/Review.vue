@@ -209,4 +209,9 @@ input[type=file]{
   margin-top: 3vh;
 }
 
+#ReviewInput {
+    width: 50%;
+    height: 300px;
+}
+
 </style>

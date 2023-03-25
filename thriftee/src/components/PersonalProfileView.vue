@@ -4,7 +4,7 @@
     <div id = "profiledetails">
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
-            <h1 id = "profilename"> {{ getName }} </h1>
+            <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
                     <p class="mt-2">Rating: {{ value }}/5</p>
@@ -23,7 +23,7 @@
                 <button @click="navigate" role="link" id = "editbutton" type="button" >Edit Profile</button> 
             </router-link>  
             </div>
-            <div><button id = "signoutbutton" type="button" >Sign Out </button> </div>
+            <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
         </div>
     </div>
     
@@ -62,21 +62,34 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
+    import { getAuth, signOut } from "firebase/auth";
+
     const db = getFirestore(firebaseApp);
-    
+    const auth = getAuth();
+
     let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
     let userData = user.data()
-
+    console.log(getAuth().currentUser.displayName)
     export default {
         data() {
             return {
                 value: 4,
                 location: userData.Meet_Up,
-                name:userData.Name
+                name: ""
             }
-    },
+        },
+        mounted() {
+            this.name = auth.currentUser.displayName
+        },
         methods: {
-            
+            signout() {
+                signOut(auth).then(() => {
+                    alert('Successfully signed out!')
+                    this.$router.push('/')
+                }).catch((error) => {
+                    alert(error.message)
+                })
+            }
         }, 
 
         computed: {
