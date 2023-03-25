@@ -52,19 +52,19 @@
 }
 
 #leftcontainer{
-    margin-top: 5vh;
+    margin-top: 13vh;
     /* margin-right: 15vw; */
     flex: 0.6;
    
 }
 
 #rightcontainer{
-    margin-top: 5vh;
+    margin-top: 10vh;
     flex: 0.3;
 }
 
 img {
-    width: 65%;
+    width: 70%;
     height: auto;
 }
 
@@ -118,6 +118,9 @@ input, select {
   border: 2px solid #14a88d; /* Green */
 }
 
-
+input:focus {
+    color: rgb(9, 8, 8);
+    outline: 3px rgba(43, 41, 41, 0.933);  
+}
 
 </style>
