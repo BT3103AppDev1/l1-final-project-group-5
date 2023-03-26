@@ -13,25 +13,25 @@
                 <h2>Star Rating</h2>
                 <div class="center">
                     <fieldset class="rating">
-                        <input type="radio" id="star5" name="rating" value="5" v-model="ratingValue">
+                        <input type="radio" id="star5" name="rating" value=5 v-model="ratingValue">
                         <label for="star5" class="full" title="Awesome"></label>
-                        <input type="radio" id="star4.5" name="rating" value="4.5" v-model="ratingValue">
+                        <input type="radio" id="star4.5" name="rating" value=4.5 v-model="ratingValue">
                         <label for="star4.5" class="half"></label>
-                        <input type="radio" id="star4" name="rating" value="4" v-model="ratingValue">
+                        <input type="radio" id="star4" name="rating" value=4 v-model="ratingValue">
                         <label for="star4" class="full"></label>
-                        <input type="radio" id="star3.5" name="rating" value="3.5" v-model="ratingValue">
+                        <input type="radio" id="star3.5" name="rating" value=3.5 v-model="ratingValue">
                         <label for="star3.5" class="half"></label>
-                        <input type="radio" id="star3" name="rating" value="3" v-model="ratingValue">
+                        <input type="radio" id="star3" name="rating" value=3 v-model="ratingValue">
                         <label for="star3" class="full"></label>
-                        <input type="radio" id="star2.5" name="rating" value="2.5" v-model="ratingValue">
+                        <input type="radio" id="star2.5" name="rating" value=2.5 v-model="ratingValue">
                         <label for="star2.5" class="half"></label>
-                        <input type="radio" id="star2" name="rating" value="2" v-model="ratingValue">
+                        <input type="radio" id="star2" name="rating" value=2 v-model="ratingValue">
                         <label for="star2" class="full"></label>
-                        <input type="radio" id="star1.5" name="rating" value="1.5" v-model="ratingValue">
+                        <input type="radio" id="star1.5" name="rating" value=1.5 v-model="ratingValue">
                         <label for="star1.5" class="half"></label>
-                        <input type="radio" id="star1" name="rating" value="1" v-model="ratingValue">
+                        <input type="radio" id="star1" name="rating" value=1 v-model="ratingValue">
                         <label for="star1" class="full"></label>
-                        <input type="radio" id="star0.5" name="rating" value="0.5" v-model="ratingValue">
+                        <input type="radio" id="star0.5" name="rating" value=0.5 v-model="ratingValue">
                         <label for="star0.5" class="half"></label>
                         
                         <div id ="ratingText">Rating: {{ ratingValue }} out of 5</div>
@@ -42,21 +42,61 @@
         </div><br>
 
         <div id = "LeaveReviewLable">
-            <input type = "text" id = "ReviewInput" placeholder = "Leave a Review" ><br><br>
+            <input type = "text" id = "ReviewInput" placeholder = "Leave a Review" v-model= "description"><br><br>
         </div>
 
         <div id = "reviewButtons">
-            <button id = "cancelbutton" type="button" v-on:click="backToHome">Cancel</button> 
-            <button id = "submitbutton" type="button" v-on:click="saveProfile">Submit</button> 
+            <button id = "cancelbutton" type="button" @click="backToHome">Cancel</button> 
+            <button id = "submitbutton" type="button" @click="saveReview">Submit</button> 
         </div>
     </div>
 </template>
 
 <script>
+    import firebaseApp from '../firebase.js';
+    import { collection, addDoc, getFirestore } from "firebase/firestore";
+    import { doc, getDoc } from "firebase/firestore";
+    import {getAuth} from "firebase/auth";
+    
+    const db = getFirestore(firebaseApp);
+    const auth = getAuth();
+
+    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
+    let userData = user.data()
+    
+    // listingID, buyerID, sellerID, rating, description
+    
     export default {
+        
         data() {
             return {
-                ratingValue: 0
+                ratingValue: 0,
+                description:""
+            }
+        },
+        methods:{
+            async saveReview(){
+                var ref = collection(db, "Reviews");
+                // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
+                // let userData = user.data()
+                const docRef = await addDoc(
+                    ref, {
+                        ListingID: 69,
+                        BuyerID: userData.Name, 
+                        SellerID:"Lebron", //to replace with seller name
+                        Rating: parseFloat(this.ratingValue),
+                        Description:this.description
+                    }
+                )
+                .then(()=>{
+                    alert("data added successfully")
+                })
+                .catch((error)=>{
+                    alert("Unsuccessful operation, error:" + error)
+                });
+            },
+            backToHome() {
+                this.$router.push({name: 'Home'})
             }
         }
     }
