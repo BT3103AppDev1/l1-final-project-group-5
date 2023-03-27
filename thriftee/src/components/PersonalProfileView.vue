@@ -4,9 +4,15 @@
     <div id = "profiledetails">
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
-            <h1 id = "profilename"> {{ getName }} </h1>
-            <input data-role="rating"><!-- star ratings placeholder -->
-            <h2 id = "meetuplocation"> Meet up location: {{ getLocation }} </h2>
+            <h1 id = "profilename"> {{ name }} </h1>
+                
+                <div class="rate">
+                    <p class="mt-2">Rating: {{ value }}/5</p>
+                </div>
+            
+                <div class="Location">
+                    <p class="mt-3">Meet up Location: {{ location }}</p>
+                </div>
         </div>
         
         <div id = "buttonsofprofile">
@@ -17,7 +23,7 @@
                 <button @click="navigate" role="link" id = "editbutton" type="button" >Edit Profile</button> 
             </router-link>  
             </div>
-            <div><button id = "signoutbutton" type="button" >Sign Out </button> </div>
+            <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
         </div>
     </div>
     
@@ -25,9 +31,27 @@
         <hr>
     </div>
 
-<div id = "container2">
-    <h1>LISTINGS placeholder </h1>
-</div>
+    <div id = "container2">
+        <div>
+            <router-link to="/"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "listingsbutton" type="button"> <em>Listings</em></button> 
+            </router-link>  
+        </div>
+
+        <div>
+            <router-link to="/profilereviews"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "reviewsbutton" type="button"> <em>Reviews</em></button> 
+            </router-link>  
+        </div>
+    </div>
+
+    <div id = "container3">
+        <h1>listings</h1>
+    </div>
 </div>
 
 
@@ -38,25 +62,34 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
+    import { getAuth, signOut } from "firebase/auth";
+
     const db = getFirestore(firebaseApp);
-    
+    const auth = getAuth();
+
     let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
     let userData = user.data()
-
-    // console.log(userData.Profile_Image)
-    // let image = userData.Profile_Image
-    // var fReader = new FileReader();
-    // console.log(image.target)
-    // fReader.readAsDataURL(image.target[0]);
-    // fReader.onloadend = function(event) {
-    //     var img = document.getElementById("profilephoto");
-    //     img.src = event.target.result;
-    // }
-
+    
     export default {
-
+        data() {
+            return {
+                value: 4,
+                location: userData.Meet_Up,
+                name: ""
+            }
+        },
+        mounted() {
+            this.name = auth.currentUser.displayName
+        },
         methods: {
-            
+            signout() {
+                signOut(auth).then(() => {
+                    alert('Successfully signed out!')
+                    this.$router.push('/')
+                }).catch((error) => {
+                    alert(error.message)
+                })
+            }
         }, 
 
         computed: {
@@ -76,13 +109,56 @@
 
 
 <style scoped>
+
+#container2 {
+    display: flex;
+    justify-content: center;
+}
+
+#listingsbutton {
+    background: transparent;
+    border: none;
+    margin-left: 0.3vw;
+    font-size: 1.8em;
+    color: rgb(8, 8, 8);
+    margin-right: 5vw;
+ }
+
+
+ #listingsbutton:hover {
+    background: transparent;
+    border: none;
+    margin-left: 0.3vw;
+    font-size: 1.6em;
+    color: rgb(117, 113, 113);
+    border-bottom: 2px solid rgb(160, 154, 154);
+ }
+
+ #reviewsbutton {
+    background: transparent;
+    border: none;
+    margin-left: 0.3vw;
+    font-size: 1.8em;
+    color: rgb(8, 8, 8);
+ }
+
+
+ #reviewsbutton:hover {
+    background: transparent;
+    border: none;
+    margin-left: 0.3vw;
+    font-size: 1.6em;
+    color: rgb(117, 113, 113);
+    border-bottom: 2px solid rgb(160, 154, 154);
+ }
+
 #profiledetails {
     margin-top: 5vh;
     display: flex;
     background-color: rgb(246, 241, 241);
     height: 30vh;
     border-radius: 25px;
-    border: 2px solid rgb(155, 150, 150);
+    border: 1px solid rgb(195, 187, 187);
     
 }
 
@@ -115,7 +191,7 @@ button{
   background-color: #d8c6df; /* Green */
   border: 2px solid #d8c6df; /* Green */
   border-radius: 5px;
-  border: 1px solid black;
+  border: 0.5px solid black;
   color: rgb(0, 0, 0);
   padding: 10px 32px;
   text-align: center;
@@ -127,16 +203,16 @@ button{
 }
 
 #editbutton:hover {
-  background-color: 359138; /* Green */
+  /* background-color: 359138; Green */
   color: white;
-  border: 1px solid #a660cb; /* Green */
+  border: 0.5px solid #5a525d; /* Green */
 }
 
 #signoutbutton {
   background-color: #9c9ca8; /* Green */
   border: 2px solid #9c9ca8; /* Green */
   border-radius: 5px;
-  border: 1px solid black;
+  border: 0.5px solid black;
   color: rgb(0, 0, 0);
   padding: 10px 32px;
   text-align: center;
@@ -149,7 +225,7 @@ button{
 #signoutbutton:hover {
   background-color: 359138; /* Green */
   color: white;
-  border: 1px solid #3c08b4; /* Green */
+  border: 0.5px solid #434246; /* Green */
 }
 
 img {
