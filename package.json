@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "gitart-scroll-carousel": "^1.2.4",
-    "swiper": "^9.1.1",
-    "vue-rate-it": "^2.1.0",
-    "vue-star-rating": "^1.7.0"
-  }
-}
