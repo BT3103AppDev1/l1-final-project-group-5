@@ -5,7 +5,11 @@
     </div>
 
     <div id = "rightcontainer">
+        
         <div id = "contentofwords">
+            <div id="backnav">
+                <button id="back" class="previous round" @click="goToLogIn">&#8249;</button>
+            </div>
             <h1> Reset Password </h1> 
         </div>
 
@@ -48,6 +52,10 @@ export default {
                 .catch(error => {
                     alert(error.message);
                 });
+        },
+
+        goToLogIn() {
+            this.$router.push({name: 'LogInDisplay'});
         }
     }
 }   
@@ -69,6 +77,8 @@ export default {
     text-align: left;
     line-height: 25px;
     margin-bottom: 10vh;
+    display: flex;
+    align-items: center;
 }
 
 #leftcontainer{
@@ -141,6 +151,28 @@ input, select {
 input:focus {
     color: rgb(9, 8, 8);
     outline: 3px rgba(43, 41, 41, 0.933);  
+}
+
+#back {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  margin-right: 2vh;
+  border: none;
+}
+
+#back:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.round {
+  border-radius: 50%;
 }
 
 </style>
