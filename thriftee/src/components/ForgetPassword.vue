@@ -6,108 +6,55 @@
 
     <div id = "rightcontainer">
         <div id = "contentofwords">
-            <h1> Log In </h1> 
-            <span style="color: grey"> Welcome Back.</span> <br>
-            <span style="color: grey"> Please Enter Your Details</span>
+            <h1> Reset Password </h1> 
         </div>
 
-        <form id="myform" @submit.prevent="login"> 
+        <form id="myform" @submit.prevent="resetPassword"> 
 
           <div class = "formli">
 
           <label for="email">Email </label>
           <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" required> <br><br>
 
-          <label for="password">Password</label>
-          <input type = "password" id = "password" v-model="password" placeholder = "Enter Password" required> 
-
-          <button id="forgetpw" @click="goToForgetPassword" type="button">I forgot my password</button><br><br>
           <div id = "buttonsupdate">
-            <button id = "loginbutton" type="submit">Login</button> 
+            <button id = "forgetpwbutton" type="submit">Send Password Reset Link</button> 
           </div>
           </div>
        </form><br>
-       <div id = "gotosignup">
-            <span style="color: grey"> Don't have an account?</span> <br>
-            <button id = "signupbutton" type="button" v-on:click="goToSignUp">Sign Up</button> 
-        </div>
     </div>
    </div>
 </template>
 
 <script>
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail  } from "firebase/auth";
 
 export default {
-    name:"LogIn",
+    name:"ForgetPassword",
 
     data() {
         return {
             email: "",
-            password: ""
         }
     },
 
     methods: {
-        login() {
+        resetPassword() {
             const auth = getAuth();
-            signInWithEmailAndPassword(auth, this.email, this.password)
+            sendPasswordResetEmail(auth, this.email)
                 .then(() => {
-                    alert('Successfully logged in');
-                    this.$router.push({name: 'ProfileListings'});
+                    alert('Check your email for the reset link');
+                    this.$router.push({name: 'LogInDisplay'});
                 })
                 .catch(error => {
                     alert(error.message);
                 });
-        },
-
-        goToSignUp() {
-            this.$router.push({name: 'SignUpDisplay'})
-        },
-
-        goToForgetPassword() {
-            this.$router.push({name: 'ForgetPasswordDisplay'})
         }
-
     }
 }   
 </script>
 
 
 <style scoped>
-#forgetpw {
-    background: transparent;
-    border: none;
-    margin-left: auto;
-    font-size: 0.80em;
-    font-style: italic;
-    color: grey;
-    display: flex;
-}
-#forgetpw:hover {
-    color: black;
-    border-bottom: 1px solid #252323;
-}
-#signupbutton {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 0.90em;
-    color: #60cbb8;
-}
-
-#signupbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 0.99em;
-    color: black;
-    border-bottom: 1px solid #252323;
-}
-
-#gotosignup {
-    display: flex;
-}
 
 #myform {
     margin-top: 5vh;
@@ -121,6 +68,7 @@ export default {
 #contentofwords {
     text-align: left;
     line-height: 25px;
+    margin-bottom: 10vh;
 }
 
 #leftcontainer{
@@ -131,7 +79,7 @@ export default {
 }
 
 #rightcontainer{
-    margin-top: 10vh;
+    margin-top: 20vh;
     flex: 0.3;
 }
 
@@ -168,7 +116,7 @@ input, select {
    font-size: 17px;
 }
 
-#loginbutton {
+#forgetpwbutton {
   background-color: #60cbb8; /* Green */
   border: 2px solid #60cbb8; /* Green */
   border-radius: 5px;
@@ -184,7 +132,7 @@ input, select {
   
 }
 
-#loginbutton:hover {
+#forgetpwbutton:hover {
   background-color: #14a88d; /* Green */
   color: white;
   border: 2px solid #14a88d; /* Green */

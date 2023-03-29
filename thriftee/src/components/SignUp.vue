@@ -78,7 +78,7 @@
     background: transparent;
     border: none;
     margin-left: 0.3vw;
-    font-size: 0.99em;
+    font-size: 0.90em;
     color: grey;
 }
 

@@ -5,6 +5,7 @@ import ProfileListingDisplay from "@/views/ProfileListingDisplay.vue";
 import ProfileReviewDisplay from "@/views/ProfileReviewDisplay.vue";
 import LogInDisplay from "@/views/LogInDisplay.vue";
 import SignUpDisplay from "@/views/SignUpDisplay.vue";
+import ForgetPasswordDisplay from "@/views/ForgetPasswordDisplay.vue";
 import AllListings from "@/views/AllListings.vue";
 
 const routes = [
@@ -17,6 +18,11 @@ const routes = [
     path: "/signup",
     name: "SignUpDisplay",
     component: SignUpDisplay,
+  },
+  {
+    path: "/forgetpassword",
+    name: "ForgetPasswordDisplay",
+    component: ForgetPasswordDisplay,
   },
   {
     path: "/profilelistings",
