@@ -5,6 +5,7 @@ import ProfileListingDisplay from "@/views/ProfileListingDisplay.vue";
 import ProfileReviewDisplay from "@/views/ProfileReviewDisplay.vue";
 import LogInDisplay from "@/views/LogInDisplay.vue";
 import SignUpDisplay from "@/views/SignUpDisplay.vue";
+import AllListings from "@/views/AllListings.vue";
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: "/profilereviews",
     name: "ProfileReviews",
     component: ProfileReviewDisplay,
+  },
+  {
+    path: "/explore",
+    name: "Explore",
+    component: AllListings,
   },
 ];
 const router = createRouter({
