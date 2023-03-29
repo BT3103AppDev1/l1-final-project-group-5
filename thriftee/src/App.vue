@@ -89,7 +89,7 @@ a { text-decoration: none; }
 
 hr {
     height: 1px;
-    width: 300px;
+    width: 500px;
     margin: auto;
     margin-top: 20px;
     background-color: black;

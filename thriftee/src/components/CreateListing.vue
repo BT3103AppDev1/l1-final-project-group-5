@@ -90,9 +90,10 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, updateDoc } from "firebase/firestore";
+    import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
-    let userID = Math.random().toString(); //placeholder for userid
+    const auth = getAuth();
     
     export default {
         data() {
@@ -102,9 +103,19 @@
                 condition: "",
                 category: "",
                 colour: "",
-                size: ""
+                size: "",
+                uid: ""
             }
         },
+        
+        mounted() {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    this.uid = user.uid;
+                } 
+            })
+        },
+
         methods: {
             updateListingImage: async function() {
                 console.log("updating listing image")
@@ -127,7 +138,7 @@
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 try {
-                const docRef = await setDoc(doc(db, "Listings", userID), { // need to change to unique userID
+                const docRef = await setDoc(doc(db, "Listings", this.uid), { 
                     Title: this.listingtitle,
                     Price: this.price,
                     Condition: this.condition,
