@@ -90,8 +90,10 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, updateDoc } from "firebase/firestore";
+
     const db = getFirestore(firebaseApp);
     let userID = Math.random().toString(); //placeholder for userid
+    
     export default {
         data() {
             return {

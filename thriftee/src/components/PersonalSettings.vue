@@ -21,13 +21,13 @@
         <div class = "formli">
 
         <label for="name">Name </label>
-        <input type = "text" id = "name" required = "" placeholder = "John Doe"> <br><br>
+        <input type = "text" id = "name" required = "" placeholder = "John Doe" v-model="name"> <br><br>
 
         <label for="meetup">Meet Up Area</label>
-        <input type = "text" id = "meetup" required = "" placeholder = "Clementi"> <br><br>
+        <input type = "text" id = "meetup" required = "" placeholder = "Clementi" v-model="meetup"> <br><br>
 
         <label for="qrcode">PayLah! / PayNow QR Code</label>
-        <input type = "file" id = "qrcode" accept="image/png, image/jpeg" > <br><br>
+        <input type = "file" id = "qrcode" accept="image/png, image/jpeg"> <br><br>
 
         <div id = "buttonsupdate">
           <button id = "cancelbutton" type="button">Cancel</button> 
@@ -45,9 +45,28 @@
   import firebaseApp from '../firebase.js';
   import { getFirestore } from "firebase/firestore";
   import { doc, setDoc } from "firebase/firestore";
+  import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
   const db = getFirestore(firebaseApp);
-  
+  const auth = getAuth();
+
   export default {
+      name: "PersonalSettings",
+      data() {
+        return {
+          name: "",
+          meetup: "",
+          uid: ""
+        }
+      },
+      mounted() {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.name = user.displayName;
+                this.uid = user.uid;
+            }
+        })
+      },
       methods: {
         async displayProfileImage() {
           var fReader = new FileReader();
@@ -65,22 +84,21 @@
           }
         }, 
         async saveProfile() {
-          let name = document.getElementById("name").value 
-          let meetUp = document.getElementById("meetup").value
           let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
           try {
-            const docRef = await setDoc(doc(db, "Profiles", Math.random().toString()), { // need to change to unique userID
-              Name: name,
-              Meet_Up: meetUp,
+            const docRef = await setDoc(doc(db, "Profiles", this.uid), { // need to change to unique userID
+              Name: this.name,
+              Meet_Up: this.meetup,
               QRCode: qrcode, 
               Profile_Image: image
             })
             alert("Profile saved!")
+            this.$router.push({name: "ProfileListings"})
           } catch(error) {
             alert("Error saving profile: ", error)
+            console.log(error)
           }
-          window.location.reload()
         }, 
         deleteProfileImage() {
             if (document.getElementById("uploadbutton").value == "") {

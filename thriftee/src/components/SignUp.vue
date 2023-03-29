@@ -34,7 +34,7 @@
 </template>
  
 <script>
-    import { getAuth, createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged} from "firebase/auth";
 
     export default {
         name:"SignUp",
@@ -46,7 +46,6 @@
                 name: ""
             }
         },
-
         methods: {
             register() {
                 const auth = getAuth();
