@@ -30,27 +30,44 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
-    import { getAuth, signOut } from "firebase/auth";
+    import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
-
-    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-    let userData = user.data()
+    
+    // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
+    // let userData = user.data()
     
     export default {
         name: "ProfileCard",
         data() {
             return {
                 value: 4,
-                location: userData.Meet_Up,
-                name: ""
+                location: "",
+                name: "",
+                uid: ""
             }
         },
+        // created() {
+        //     onAuthStateChanged(auth, (user) => {
+        //         this.name = user.displayName;
+        //         this.uid = user.uid;
+        //     })
+        // },
         mounted() {
-            this.name = auth.currentUser.displayName
+            onAuthStateChanged(auth, (user) => {
+                this.name = user.displayName;
+                this.uid = user.uid;
+            })
+            this.getMeetUp()
         },
         methods: {
+            async getMeetUp() {
+                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                let userProfileData = userProfile.data();
+                this.location = userProfileData.Meet_Up;
+            },
+
             signout() {
                 signOut(auth).then(() => {
                     alert('Successfully signed out!')
@@ -61,16 +78,16 @@
             }
         }, 
 
-        computed: {
-            getName() {
-                return userData.Name
-            }, 
+        // computed: {
+        //     getName() {
+        //         return userData.Name
+        //     }, 
 
-            getLocation() {
-                return userData.Meet_Up
-            }
+        //     getLocation() {
+        //         return userData.Meet_Up
+        //     }
 
-        }
+        // }
         
     }
 

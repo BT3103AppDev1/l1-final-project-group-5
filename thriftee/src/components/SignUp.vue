@@ -56,7 +56,7 @@
                             displayName: this.name
                         })
                         alert('Successfully registered!')
-                        this.$router.push({name: 'ProfileListings'})
+                        this.$router.push({name: 'EditProfile'})
                     })
                     .catch(error => {
                         alert(error.message);
