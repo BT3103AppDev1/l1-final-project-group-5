@@ -1,6 +1,4 @@
 <template>
-
-<div id = "container">
     <div id = "profiledetails">
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
@@ -26,36 +24,6 @@
             <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
         </div>
     </div>
-    
-    <div id="linebreak">
-        <hr>
-    </div>
-
-    <div id = "container2">
-        <div>
-            <router-link to="/"
-                custom
-                v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "listingsbutton" type="button"> <em>Listings</em></button> 
-            </router-link>  
-        </div>
-
-        <div>
-            <router-link to="/profilereviews"
-                custom
-                v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "reviewsbutton" type="button"> <em>Reviews</em></button> 
-            </router-link>  
-        </div>
-    </div>
-
-    <div id = "container3">
-        <h1>listings</h1>
-    </div>
-</div>
-
-
-   
 </template>
 
 <script>
@@ -71,6 +39,7 @@
     let userData = user.data()
     
     export default {
+        name: "ProfileCard",
         data() {
             return {
                 value: 4,
@@ -107,51 +76,7 @@
 
 </script>
 
-
 <style scoped>
-
-#container2 {
-    display: flex;
-    justify-content: center;
-}
-
-#listingsbutton {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.8em;
-    color: rgb(8, 8, 8);
-    margin-right: 5vw;
- }
-
-
- #listingsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
-    color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
- }
-
- #reviewsbutton {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.8em;
-    color: rgb(8, 8, 8);
- }
-
-
- #reviewsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
-    color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
- }
-
 #profiledetails {
     margin-top: 5vh;
     display: flex;
@@ -160,16 +85,6 @@
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
     
-}
-
-#linebreak{
-    margin-top: 5vh;
-}
-
-hr {
-    height: 1px;
-    width: 30vw;
-    background-color: black;
 }
 
 #contentofprofile {

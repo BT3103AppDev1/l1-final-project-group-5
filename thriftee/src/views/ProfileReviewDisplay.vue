@@ -1,16 +1,18 @@
 <template>
     <div>
-        <ProfileReview />
+        <ProfileCard />
+        <PersonalProfileReviews />
     </div>
 </template>
 
 <script>
-    import ProfileReview from '../components/ProfileReview.vue'
-    
+    import ProfileCard from '../components/ProfileCard.vue'
+    import PersonalProfileReviews from '../components/PersonalProfileReviews.vue'
     export default {
-        name: "ProfileReviews",
+        name: "ProfileReviewDisplay",
         components: {
-            ProfileReview
+            PersonalProfileReviews,
+            ProfileCard
         }
     }
 </script>

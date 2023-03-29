@@ -1,9 +1,9 @@
 <template>
   <div id = "container">
     <div id="nav" v-if="user">
-      <router-link to="home" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
+      <router-link to="profilelistings" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
    
-      <router-link to="sell" class="routerlink"> Sell </router-link>
+      <router-link to="sell" class="routerlink"> Sell </router-link> 
       <hr>
      
     </div>
@@ -36,6 +36,19 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #140713;
+  font-size: 18px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  
+}
 
 .logo {
   display: block;
@@ -75,7 +88,9 @@ a { text-decoration: none; }
 
 hr {
     height: 1px;
-    width: 10vw;
+    width: 300px;
+    margin: auto;
+    margin-top: 20px;
     background-color: black;
 }
 

@@ -57,7 +57,7 @@
                             displayName: this.name
                         })
                         alert('Successfully registered!')
-                        this.$router.push({name: 'Home'})
+                        this.$router.push({name: 'ProfileListings'})
                     })
                     .catch(error => {
                         alert(error.message);

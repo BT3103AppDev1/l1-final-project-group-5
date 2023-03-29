@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
 import Sell from "@/views/Sell.vue";
 import EditProfile from "@/views/EditProfile.vue";
-import ProfileReviews from "@/views/ProfileReviewDisplay.vue";
+import ProfileListingDisplay from "@/views/ProfileListingDisplay.vue";
+import ProfileReviewDisplay from "@/views/ProfileReviewDisplay.vue";
 import LogInDisplay from "@/views/LogInDisplay.vue";
 import SignUpDisplay from "@/views/SignUpDisplay.vue";
+
 const routes = [
   {
     path: "/",
@@ -17,9 +18,9 @@ const routes = [
     component: SignUpDisplay,
   },
   {
-    path: "/home",
-    name: "Home",
-    component: Home,
+    path: "/profilelistings",
+    name: "ProfileListings",
+    component: ProfileListingDisplay,
   },
   {
     path: "/sell",
@@ -34,7 +35,7 @@ const routes = [
   {
     path: "/profilereviews",
     name: "ProfileReviews",
-    component: ProfileReviews,
+    component: ProfileReviewDisplay,
   },
 ];
 const router = createRouter({

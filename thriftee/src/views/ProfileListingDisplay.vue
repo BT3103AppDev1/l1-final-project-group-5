@@ -1,6 +1,7 @@
 <template>
   <div>
-    <PersonalProfileView />
+    <ProfileCard />
+    <PersonalProfileListings />
   </div>
   
 </template>
@@ -22,11 +23,14 @@
 </style>
 
 <script>
-import PersonalProfileView from '../components/PersonalProfileView.vue'
+import PersonalProfileListings from '../components/PersonalProfileListings.vue'
+import ProfileCard from '../components/ProfileCard.vue'
+
 export default {
-  name: 'App',
+  name: 'ProfileListingDisplay',
   components:{
-    PersonalProfileView
+    PersonalProfileListings,
+    ProfileCard
   }
 }
 </script>
