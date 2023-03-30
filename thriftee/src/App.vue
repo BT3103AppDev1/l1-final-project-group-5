@@ -96,6 +96,6 @@ hr {
 }
 
 #nav a.router-link-exact-active{
-  color: #eedde8
+  color: #d3b1c7
 }
 </style>

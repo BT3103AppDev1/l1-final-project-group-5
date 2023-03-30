@@ -152,11 +152,14 @@ export default {
 @import url("https://www.w3schools.com/w3css/4/w3.css");
 
 .mainContainer {
-  background-color: #f8b878;
+  background-color: transparent;
   width: 100vw;
 }
 .topContainer {
   height: 10vh;
+  background-color: #5c5b59;
+  font-weight: bold;
+  color:white;
 }
 .pageTitle {
   margin-right: 90%;
@@ -175,6 +178,7 @@ export default {
   /* background-color: aqua; */
   width: 75vw;
   display: table-cell;
+  border-left: 2px solid black;
 }
 .displayContainer {
   display: grid;
@@ -182,7 +186,7 @@ export default {
   row-gap: 10px;
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  background-color: #d8c29d;
+  background-color: #7e7d7d20;
 }
 .product-item {
   outline-style: solid;

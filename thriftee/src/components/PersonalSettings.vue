@@ -30,7 +30,12 @@
         <input type = "file" id = "qrcode" accept="image/png, image/jpeg"> <br><br>
 
         <div id = "buttonsupdate">
-          <button id = "cancelbutton" type="button">Cancel</button> 
+          
+            <router-link to="/profilelistings"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "cancelbutton" type="button"> <em>Cancel</em></button> 
+            </router-link>  
           <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
         </div>
         </div>
@@ -273,5 +278,6 @@ input:hover {
 img {
   width: 450px;
   height: auto;
+  border: 50%;
 }
 </style>

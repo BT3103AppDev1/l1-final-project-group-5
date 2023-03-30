@@ -108,7 +108,12 @@
     height: 30vh;
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
-    
+    font-size: 1.4em;
+}
+
+#profiledetails h1{
+    font-size: 1.8em;
+    /* font-weight: bold; */
 }
 
 #contentofprofile {
@@ -171,6 +176,7 @@ img {
     width: auto;
     height: auto;
     margin-left: 2vw;
+    border: 50%;
 }
 
 </style>
