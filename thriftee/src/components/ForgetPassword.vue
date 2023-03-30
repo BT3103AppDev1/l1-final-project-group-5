@@ -17,12 +17,12 @@
 
           <div class = "formli">
 
-          <label for="email">Email </label>
-          <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" required> <br><br>
+            <label for="email">Email </label>
+            <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" required> <br><br>
 
-          <div id = "buttonsupdate">
-            <button id = "forgetpwbutton" type="submit">Send Password Reset Link</button> 
-          </div>
+            <div id = "buttonsupdate">
+                <button id = "forgetpwbutton" type="submit">Send Password Reset Link</button> 
+            </div>
           </div>
        </form><br>
     </div>
