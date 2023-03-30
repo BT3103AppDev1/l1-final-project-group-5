@@ -44,8 +44,8 @@
 <script>
   import firebaseApp from '../firebase.js';
   import { getFirestore } from "firebase/firestore";
-  import { doc, setDoc } from "firebase/firestore";
-  import { getAuth, onAuthStateChanged } from 'firebase/auth';
+  import { doc, setDoc, getDoc } from "firebase/firestore";
+  import { getAuth, onAuthStateChanged,updateProfile } from 'firebase/auth';
 
   const db = getFirestore(firebaseApp);
   const auth = getAuth();
@@ -56,7 +56,8 @@
         return {
           name: "",
           meetup: "",
-          uid: ""
+          uid: "",
+          curruser: ""
         }
       },
       mounted() {
@@ -64,8 +65,11 @@
             if (user) {
                 this.name = user.displayName;
                 this.uid = user.uid;
+                this.curruser = user;
+                this.getMeetUp();
             }
         })
+       
       },
       methods: {
         async displayProfileImage() {
@@ -83,6 +87,7 @@
             document.getElementById("profilephoto").src="default.png"
           }
         }, 
+
         async saveProfile() {
           let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
@@ -93,6 +98,9 @@
               QRCode: qrcode, 
               Profile_Image: image
             })
+            updateProfile(this.curruser, {
+              displayName: this.name
+            })
             alert("Profile saved!")
             this.$router.push({name: "ProfileListings"})
           } catch(error) {
@@ -100,6 +108,12 @@
             console.log(error)
           }
         }, 
+        async getMeetUp() {
+                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+                let userProfileData = userProfile.data();
+                
+                this.meetup = userProfileData.Meet_Up;
+        },
         deleteProfileImage() {
             if (document.getElementById("uploadbutton").value == "") {
                 alert("Upload Image!")

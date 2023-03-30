@@ -5,7 +5,7 @@
       <router-link to="profilelistings" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
    
       <router-link to="sell" class="routerlink"> Sell </router-link> 
-      <hr>
+     
      
     </div>
     
@@ -96,6 +96,6 @@ hr {
 }
 
 #nav a.router-link-exact-active{
-  color: #42b983
+  color: #eedde8
 }
 </style>

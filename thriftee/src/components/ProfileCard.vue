@@ -60,12 +60,19 @@
                 this.uid = user.uid;
             })
             this.getMeetUp()
+            this.getName()
         },
         methods: {
             async getMeetUp() {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
                 let userProfileData = userProfile.data();
                 this.location = userProfileData.Meet_Up;
+            },
+
+            async getName() {
+                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                let userProfileData = userProfile.data();
+                this.name = userProfileData.Name;
             },
 
             signout() {
