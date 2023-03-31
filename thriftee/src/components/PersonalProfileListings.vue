@@ -34,25 +34,25 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
-    import { getAuth, signOut } from "firebase/auth";
+    import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
 
-    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-    let userData = user.data()
     
     export default {
         name: "PersonalProfileListings",
         data() {
             return {
                 value: 4,
-                location: userData.Meet_Up,
                 name: ""
             }
         },
         mounted() {
-            this.name = auth.currentUser.displayName
+            onAuthStateChanged(auth, (user) => {
+                this.name = user.displayName
+            })
+            
         },
         methods: {
             signout() {

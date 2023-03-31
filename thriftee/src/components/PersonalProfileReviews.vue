@@ -34,34 +34,38 @@
 import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
+    import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
+    const auth = getAuth();
     
-    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-    let userData = user.data()
-
-  export default {
-    name: "PersonalProfileReviews",
-    data() {
-      return {
-        value: 4,
-        location: userData.Meet_Up,
-        name:userData.Name
-      }
-    },
-    methods: {
-            
-        }, 
-
-    computed: {
-        getName() {
-            return userData.Name
-        }, 
-
-        getLocation() {
-            return userData.Meet_Up
+    export default {
+        name: "PersonalProfileReviews",
+        data() {
+        return {
+            value: 4,
+            name: ""
         }
+        },
 
-    }
+        mounted() {
+            onAuthStateChanged(auth, (user) => {
+                this.name = user.displayName;
+            })
+        },
+        methods: {
+                
+            }, 
+
+        computed: {
+            getName() {
+                return userData.Name
+            }, 
+
+            getLocation() {
+                return userData.Meet_Up
+            }
+
+        }
 }
 </script>
 
