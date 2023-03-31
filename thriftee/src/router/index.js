@@ -3,6 +3,7 @@ import Sell from "@/views/Sell.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import ProfileListingDisplay from "@/views/ProfileListingDisplay.vue";
 import ProfileReviewDisplay from "@/views/ProfileReviewDisplay.vue";
+import ProfileDealsDisplay from "@/views/ProfileDealsDisplay.vue";
 import LogInDisplay from "@/views/LogInDisplay.vue";
 import SignUpDisplay from "@/views/SignUpDisplay.vue";
 import ForgetPasswordDisplay from "@/views/ForgetPasswordDisplay.vue";
@@ -43,6 +44,11 @@ const routes = [
     path: "/profilereviews",
     name: "ProfileReviews",
     component: ProfileReviewDisplay,
+  },
+  {
+    path: "/deals",
+    name: "Deals",
+    component: ProfileDealsDisplay,
   },
   {
     path: "/explore",

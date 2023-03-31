@@ -132,8 +132,7 @@ button{
 }
 
 #editbutton {
-  background-color: #d8c6df; /* Green */
-  border: 2px solid #d8c6df; /* Green */
+  background-color: #c6d7df; /* Green */
   border-radius: 5px;
   border: 0.5px solid black;
   color: rgb(0, 0, 0);

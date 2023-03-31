@@ -89,7 +89,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, setDoc, updateDoc } from "firebase/firestore";
+    import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -104,7 +104,8 @@
                 category: "",
                 colour: "",
                 size: "",
-                uid: ""
+                uid: "",
+                telegram: ""
             }
         },
         
@@ -138,6 +139,9 @@
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 try {
+                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                let userProfileData = userProfile.data()
+                this.telegram = userProfileData.Telegram
                 const docRef = await setDoc(doc(db, "Listings", this.uid), { 
                     Title: this.listingtitle,
                     Price: this.price,
@@ -145,9 +149,11 @@
                     Category: this.category,
                     Colour: this.colour,
                     Size: this.size,
-                    Listing_Image: image
+                    Listing_Image: image,
+                    Telegram: this.telegram
                 })
                 alert("Listing creating!")
+                this.$router.push({name: "ProfileListings"})
                 } catch(error) {
                 alert("Error creating listing: ", error)
                 }

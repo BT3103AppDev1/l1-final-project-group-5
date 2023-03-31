@@ -21,6 +21,14 @@
                 <button @click="navigate" role="link" id = "reviewsbutton" type="button"> <em>Reviews</em></button> 
             </router-link>  
         </div>
+
+        <div>
+            <router-link to="/deals"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "dealsbutton" type="button"> <em>Deals</em></button> 
+            </router-link>  
+        </div>
     </div>
 
     <div id = "container3">
@@ -120,6 +128,24 @@
     background: transparent;
     border: none;
     margin-left: 0.3vw;
+    font-size: 1.6em;
+    color: rgb(117, 113, 113);
+    border-bottom: 2px solid rgb(160, 154, 154);
+ }
+
+ #dealsbutton {
+    background: transparent;
+    border: none;
+    margin-left: 5vw;
+    font-size: 1.8em;
+    color: rgb(8, 8, 8);
+ }
+
+
+ #dealsbutton:hover {
+    background: transparent;
+    border: none;
+    margin-left: 5vw;
     font-size: 1.6em;
     color: rgb(117, 113, 113);
     border-bottom: 2px solid rgb(160, 154, 154);
