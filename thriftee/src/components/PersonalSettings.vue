@@ -23,6 +23,9 @@
         <label for="name">Name </label>
         <input type = "text" id = "name" required = "" placeholder = "John Doe" v-model="name"> <br><br>
 
+        <label for="telegram">Telegram Handle</label>
+        <input type = "text" id = "telegram" required = "" placeholder = "johntelegram" v-model="telegram"> <br><br>
+
         <label for="meetup">Meet Up Area</label>
         <input type = "text" id = "meetup" required = "" placeholder = "Clementi" v-model="meetup"> <br><br>
 
@@ -62,7 +65,8 @@
           name: "",
           meetup: "",
           uid: "",
-          curruser: ""
+          curruser: "",
+          telegram: ""
         }
       },
       mounted() {
@@ -72,6 +76,7 @@
                 this.uid = user.uid;
                 this.curruser = user;
                 this.getMeetUp();
+                this.getTelegram();
             }
         })
        
@@ -101,7 +106,8 @@
               Name: this.name,
               Meet_Up: this.meetup,
               QRCode: qrcode, 
-              Profile_Image: image
+              Profile_Image: image,
+              Telegram: this.telegram
             })
             updateProfile(this.curruser, {
               displayName: this.name
@@ -118,6 +124,11 @@
                 let userProfileData = userProfile.data();
                 
                 this.meetup = userProfileData.Meet_Up;
+        },
+        async getTelegram() {
+                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+                let userProfileData = userProfile.data();
+                this.telegram = userProfileData.Telegram;
         },
         deleteProfileImage() {
             if (document.getElementById("uploadbutton").value == "") {
