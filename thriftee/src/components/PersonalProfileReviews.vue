@@ -96,12 +96,9 @@ import firebaseApp from '../firebase.js';
 
 
  #listingsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
  #reviewsbutton {
@@ -114,12 +111,9 @@ import firebaseApp from '../firebase.js';
 
 
  #reviewsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
  #dealsbutton {
@@ -132,12 +126,9 @@ import firebaseApp from '../firebase.js';
 
 
  #dealsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 5vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
 

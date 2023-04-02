@@ -30,9 +30,9 @@
      </div>
     </div>
   
- </template>
+</template>
  
- <script>
+<script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
@@ -41,7 +41,7 @@
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
 
-    
+
     export default {
         name: "CustomersListingTemplate",
         data() {
@@ -53,7 +53,7 @@
                 telegram: "https://t.me/",
             }
         },
-       
+        
         mounted() {
             onAuthStateChanged(auth, (user) => {
                 this.name = user.displayName;
@@ -62,6 +62,7 @@
             
             this.getTelegram()
         },
+        
         methods: {
             async getTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid)) // shld get telegram from unique listing
@@ -74,14 +75,12 @@
         }
     }
 
-            
+        
 
- </script>
+</script>
  
  
- <style scoped>
-
- 
+<style scoped>
 
 #backbutton {
     background: transparent;
@@ -89,17 +88,16 @@
     font-size: 1.9em;
     font-weight: bolder;
     color: black;
- }
+}
 
 
- #backbutton:hover {
+#backbutton:hover {
     background: transparent;
     border: none;
     font-size: 1.9em;
     color: grey;
     border-bottom: 0.8px solid #252323;
-    
- }
+}
 
 #container{
     display:flex;
@@ -134,44 +132,44 @@
 }
 
 #chatbutton {
-background-color: #2ccbe7; 
-border: 2px solid #2ccbe7; 
-border-radius: 5px;
-color: white;
-padding: 10px 32px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-font-style: italic;
-transition-duration: 0.2s;
+    background-color: #2ccbe7; 
+    border: 2px solid #2ccbe7; 
+    border-radius: 5px;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    transition-duration: 0.2s;
 }
 
 #chatbutton:hover {
-background-color: #41b0c4; 
-color: rgb(21, 20, 20);
-border: 2px solid #41b0c4; 
+    background-color: #41b0c4; 
+    color: rgb(21, 20, 20);
+    border: 2px solid #41b0c4; 
 }
 
 #makeofferbutton {
-background-color: #b74232; 
-border: 2px solid #b74232; 
-border-radius: 5px;
-color: rgb(249, 249, 249);
-padding: 10px 32px;
-margin-left: 35px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-font-style: italic;
-transition-duration: 0.2s;
+    background-color: #b74232; 
+    border: 2px solid #b74232; 
+    border-radius: 5px;
+    color: rgb(249, 249, 249);
+    padding: 10px 32px;
+    margin-left: 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    transition-duration: 0.2s;
 }
 
 #makeofferbutton:hover {
-background-color: #8a2e22; 
-color: rgb(8, 7, 7);
-border: 2px solid #8a2e22; 
+    background-color: #8a2e22; 
+    color: rgb(8, 7, 7);
+    border: 2px solid #8a2e22; 
 }
 
 img {
@@ -179,5 +177,5 @@ img {
     height: auto;
 }
 
- 
- </style>
+
+</style>

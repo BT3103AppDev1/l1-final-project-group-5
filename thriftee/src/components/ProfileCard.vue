@@ -48,12 +48,7 @@
                 uid: ""
             }
         },
-        // created() {
-        //     onAuthStateChanged(auth, (user) => {
-        //         this.name = user.displayName;
-        //         this.uid = user.uid;
-        //     })
-        // },
+        
         mounted() {
             onAuthStateChanged(auth, (user) => {
                 this.name = user.displayName;
