@@ -11,7 +11,7 @@
                 <h4><em>Bottom</em></h4> 
             </div>
             <h1> Levi's Jeans</h1>
-            <h3><em>$30.00</em></h3>
+            <h3><em>${{price}}</em></h3>
             <p> Category: Bottoms</p>
             <p> Colour: Blue</p>
             <p> Condition: Like new</p>
@@ -50,6 +50,7 @@
                 location: "",
                 name: "",
                 uid: "",
+                price: 30.00, 
                 telegram: "https://t.me/",
             }
         },

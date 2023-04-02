@@ -59,10 +59,11 @@
                             <option value="#00FF00">Green</option>
                             <option value="#000080">Blue</option>
                             <option value="#800080">Purple</option>
+                            <option value="#FFFFFF">White</option>
                         </datalist>
                     
                         <label for="size">Size</label>
-                        <select id="size" v-model="size" name="size" required>
+                        <select id="size" v-model="size" name="size" v-if="category !== 'Shoe'" required>
                             <option id="test" value="" selected hidden disabled>Select size of item</option>
                             <option>XXS</option>
                             <option>XS</option>
@@ -71,7 +72,12 @@
                             <option>L</option>
                             <option>XL</option>
                             <option>XXL</option>
-                        </select><br><br>
+                        </select>
+                        <select id="size" v-model="size" name="size" v-else required>
+                            <option id="test" value="" selected hidden disabled>Select size of item</option>
+                            <option v-for="i in 9" :key="32 + (i * 2)">EU {{ 32 + (i * 2) }}</option>
+                        </select>
+                        <br><br>
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button">Cancel</button> 
@@ -79,7 +85,6 @@
                         </div>
                     </div>
                 </form>
-                
             </div>
         </div>
     </div>
@@ -89,7 +94,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+    import { doc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -102,7 +107,7 @@
                 price: "",
                 condition: "",
                 category: "",
-                colour: "",
+                colour: "#ffffff",
                 size: "",
                 uid: "",
                 telegram: ""
@@ -142,7 +147,8 @@
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
                 let userProfileData = userProfile.data()
                 this.telegram = userProfileData.Telegram
-                const docRef = await setDoc(doc(db, "Listings", this.uid), { 
+                const docRef = await addDoc(collection(db, "Listings"), { 
+                    SellerID: this.uid,
                     Title: this.listingtitle,
                     Price: this.price,
                     Condition: this.condition,
