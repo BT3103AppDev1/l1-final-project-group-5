@@ -17,6 +17,8 @@
 <script>
 
 export default {
+    name: "OfferPopup",
+    
     props: {
         isOpen: {
             type: Boolean,
@@ -86,10 +88,19 @@ export default {
 
 #cancelButton{
     margin-right: 20px;
+    border-radius: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 #cancelButton:hover{
     background-color: rgb(147, 149, 149);
+}
+
+#offerButton{
+    background-color: #3AA39F;
+    color: white;
+    border-radius: 8px;
 }
 
 #offerButton:hover{

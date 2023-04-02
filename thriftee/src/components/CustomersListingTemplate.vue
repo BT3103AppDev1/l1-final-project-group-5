@@ -10,7 +10,7 @@
            <div id="top">
                 <h4><em>Bottom</em></h4> 
             </div>
-            <h1> Levi's Jeans</h1>
+            <h1> {{listing_name}}</h1>
             <h3><em>${{listing_price}}</em></h3>
             <p> Category: Bottoms</p>
             <p> Colour: Blue</p>
@@ -59,6 +59,7 @@
                 buyer_uid: "",
                 listing_uid: "tpwwZUVVF9fhlc0Iw2Xt", //placeholder for listing uid
                 listing_price: 30.00, 
+                listing_name: "Levi's Jeans",
                 telegram: "https://t.me/",
                 isPopupOpen: false,
                 offerAmount: 0,
@@ -101,6 +102,7 @@
                         SellerID: this.seller_uid,
                         BuyerID: this.buyer_uid,
                         ListingID: this.listing_uid,
+                        ListingName: this.listing_name,
                         OfferAmount: this.offerAmount
                     })
                     alert("Offer sent!")
