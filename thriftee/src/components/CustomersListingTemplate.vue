@@ -21,7 +21,8 @@
             <div id = "buttonsupdate">
                 
                 <button @click="goToTelegram" id = "chatbutton" type="button"> Chat</button> 
-                <button id = "makeofferbutton" type="button">Make Offer</button> 
+                <button id = "makeofferbutton" type="button" @click="openOfferPopup">Make Offer</button> 
+                <offer-popup :isOpen="isPopupOpen" :defaultAmount="price" @send-offer="submitOffer" @close="closeOfferPopup"/>
             </div>
         </div>
 
@@ -37,6 +38,7 @@
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+    import OfferPopup from './OfferPopup.vue';
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -44,6 +46,11 @@
 
     export default {
         name: "CustomersListingTemplate",
+
+        components: {
+            OfferPopup
+        },
+
         data() {
             return {
                 value: 4,
@@ -52,6 +59,8 @@
                 uid: "",
                 price: 30.00, 
                 telegram: "https://t.me/",
+                isPopupOpen: false,
+                offerAmount: 0
             }
         },
         
@@ -60,8 +69,6 @@
                 this.name = user.displayName;
                 this.uid = user.uid;
             })
-            
-            // this.getTelegram()
         },
         
         methods: {
@@ -70,6 +77,19 @@
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
                 window.open(this.telegram, '_blank')
+            },
+
+            openOfferPopup() {
+                this.isPopupOpen = true
+            },
+
+            closeOfferPopup() {
+                this.isPopupOpen = false
+            },
+
+            submitOffer(offerAmount) {
+                this.offerAmount = offerAmount;
+                console.log(offerAmount)
             }
         }
     }
