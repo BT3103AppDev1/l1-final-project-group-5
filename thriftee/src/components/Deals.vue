@@ -1,9 +1,9 @@
 <template>
 
-    <div id = "container">
-        <div id="linebreak">
-            <hr>
-        </div>
+<div id = "container">
+    <div id="linebreak">
+        <hr>
+    </div>
     
     <div id = "container2">
         <div>
@@ -34,60 +34,57 @@
    
     <div id = "container3">
         <div id="buyingdeals">
-          <h1> Buying</h1>
+            <h1> Buying</h1>
 
-          <div class="items" v-for="product in products" :key="product.title">
-            <div class="buyingitems">
-              <div id="buylistingtitle">
-                <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
-              </div>
-              <div id="buystatusbutton">
-                <button id = "buyingstatusbutton" type="button"> Pending</button> 
-                <!-- change above to {{ status }} later instead of pending-->
-                <!-- NOTE: changes from Pending to Review -->
-                <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-             </div>
+            <div class="items" v-for="product in buying_list" :key="product.title">
+                <div class="buyingitems">
+                    <div id="buylistingtitle">
+                        <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
+                    </div>
+                    <div id="buystatusbutton">
+                        <button id = "buyingstatusbutton" type="button"> Pending</button> 
+                        <!-- change above to {{ status }} later instead of pending-->
+                        <!-- NOTE: changes from Pending to Review -->
+                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                    </div>
+                </div>
             </div>
-        </div>
-
-         
-
-         
-
-          
+            <h2 v-if="buying_list.length === 0">No buying deals</h2>
         </div>
        
         <div id="sellingdeals">
             <h1> Selling</h1>
 
-        <div class="items" v-for="product in products" :key="product.title">
-            <div class="sellingitems">
-              <div id="selllistingtitle">
-                <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
-              </div>
-              <div id="sellstatusbutton">
-                <button id = "sellingstatusbutton" type="button"> Accept </button> 
-                <button type="button"> Reject </button> 
-                <!-- change above to {{ status }} later instead of Accept-->
-                <!-- NOTE: changes from Accept to Review -->
-                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-             </div>
+            <div class="items" v-for="product in selling_list" :key="product.title">
+                <div class="sellingitems">
+                    <div id="selllistingtitle">
+                        <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
+                    </div>
+                    <div id="sellstatusbutton">
+                        <button id = "sellingstatusbutton" type="button"> Accept </button> 
+                        <button type="button"> Reject </button> 
+                        <!-- change above to {{ status }} later instead of Accept-->
+                        <!-- NOTE: changes from Accept to Review -->
+                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                    </div>
+                </div>
             </div>
-        </div>
+            <h2 v-if="selling_list.length === 0">No selling deals</h2>
         </div>
     </div>
-    </div>
+</div>
 
 </template>
     
 <script>
 import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import { collection, query, where, getDocs } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
-    
+    const user = auth.currentUser;
+
     export default {
         name: "Deals",
 
@@ -107,28 +104,49 @@ import firebaseApp from '../firebase.js';
                     { title: "Accessory", condition: "Like New", price: "$5" },
                     { title: "Shorts", condition: "Brand New", price: "$10" }
                 ], 
+                buying_list: [], // test
+                selling_list: [],
+                user_uid: ""
             };
         },
 
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName;
+                this.user_uid = user.uid;
+                this.getBuyingList()
+                this.getSellingList()
             })
         },
+
         methods: {
-                
-            }, 
+            getBuyingList: async function() {
+                const buyingQuery = query(collection(db, "Offers"), where("BuyerID", "==", auth.currentUser.uid))
+                const querySnapshot = await getDocs(buyingQuery);
+                querySnapshot.forEach((doc) => {
+                    let dataRef = doc.data()
+                    this.buying_list.push({ 
+                        title: dataRef.ListingName, 
+                        uid: dataRef.ListingID, 
+                        offerPrice: dataRef.OfferAmount,
+                        sellerID: dataRef.SellerID
+                    })
+                })
+            },
 
-        computed: {
-            getName() {
-                return userData.Name
-            }, 
-
-            getLocation() {
-                return userData.Meet_Up
-            }
-
-        }
+            getSellingList: async function() {
+                const sellingQuery = query(collection(db, "Offers"), where("SellerID", "==", auth.currentUser.uid))
+                const querySnapshot = await getDocs(sellingQuery);
+                querySnapshot.forEach((doc) => {
+                    let dataRef = doc.data()
+                    this.selling_list.push({ 
+                        title: dataRef.ListingName, 
+                        uid: dataRef.ListingID, 
+                        offerPrice: dataRef.OfferAmount,
+                        buyerID: dataRef.BuyerID
+                    })
+                })
+            },
+        }, 
 }
 </script>
 
@@ -245,6 +263,8 @@ import firebaseApp from '../firebase.js';
     font-size: 1.5em;
     background-color: rgb(116, 115, 115);
     margin-bottom: 5vh;
+    padding-left: 10vh;
+    padding-right: 10vh;
 }
 
 #sellingdeals h1 {
@@ -256,6 +276,8 @@ import firebaseApp from '../firebase.js';
     font-size: 1.5em;
     background-color: rgb(116, 115, 115);
     margin-bottom: 5vh;
+    padding-left: 10vh;
+    padding-right: 10vh;
 }
 
 #container2 {
