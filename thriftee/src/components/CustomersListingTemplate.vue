@@ -11,7 +11,7 @@
                 <h4><em>Bottom</em></h4> 
             </div>
             <h1> Levi's Jeans</h1>
-            <h3><em>$30.00</em></h3>
+            <h3><em>${{listing_price}}</em></h3>
             <p> Category: Bottoms</p>
             <p> Colour: Blue</p>
             <p> Condition: Like new</p>
@@ -20,8 +20,9 @@
 
             <div id = "buttonsupdate">
                 
-                <button @click="goToExternalSite" id = "chatbutton" type="button"> Chat</button> 
-                <button id = "makeofferbutton" type="button">Make Offer</button> 
+                <button @click="goToTelegram" id = "chatbutton" type="button"> Chat</button> 
+                <button id = "makeofferbutton" type="button" @click="openOfferPopup">Make Offer</button> 
+                <offer-popup :isOpen="isPopupOpen" :defaultAmount="listing_price" @send-offer="submitOffer" @close="closeOfferPopup"/>
             </div>
         </div>
 
@@ -35,8 +36,9 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
-    import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+    import { doc, getDoc, collection, addDoc } from "firebase/firestore";
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
+    import OfferPopup from './OfferPopup.vue';
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -44,33 +46,68 @@
 
     export default {
         name: "CustomersListingTemplate",
+
+        components: {
+            OfferPopup
+        },
+
         data() {
             return {
-                value: 4,
+                value: 4, //what is this for?
                 location: "",
-                name: "",
-                uid: "",
+                buyer_name: "",
+                buyer_uid: "",
+                listing_uid: "tpwwZUVVF9fhlc0Iw2Xt", //placeholder for listing uid
+                listing_price: 30.00, 
                 telegram: "https://t.me/",
+                isPopupOpen: false,
+                offerAmount: 0,
+                seller_uid: "HjYabxFKuuWkCETolbrUS8IcgKt2" //placeholder for seller uid
             }
         },
         
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName;
-                this.uid = user.uid;
+                this.buyer_name = user.displayName;
+                this.buyer_uid = user.uid;
             })
-            
-            this.getTelegram()
         },
         
         methods: {
-            async getTelegram() {
+            async goToTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
-            },
-            async goToExternalSite() {
                 window.open(this.telegram, '_blank')
+            },
+
+            openOfferPopup() {
+                this.isPopupOpen = true
+            },
+
+            closeOfferPopup() {
+                this.isPopupOpen = false
+            },
+
+            submitOffer(offerAmount) {
+                this.offerAmount = offerAmount;
+                console.log(offerAmount)
+                this.updateOfferDB()
+            },
+
+            async updateOfferDB() {
+                try {
+                    await addDoc(collection(db, "Offers"), { 
+                        SellerID: this.seller_uid,
+                        BuyerID: this.buyer_uid,
+                        ListingID: this.listing_uid,
+                        OfferAmount: this.offerAmount
+                    })
+                    alert("Offer sent!")
+                } catch(error) {
+                    alert("Error saving offer: ", error)
+                    console.log(error)
+                }
             }
         }
     }

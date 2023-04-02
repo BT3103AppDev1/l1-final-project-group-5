@@ -27,7 +27,7 @@
         <input type = "text" id = "telegram" required = "" placeholder = "johntelegram" v-model="telegram"> <br><br>
 
         <label for="meetup">Meet Up Area</label>
-        <input type = "text" id = "meetup" required = "" placeholder = "Clementi" v-model="meetup"> <br><br>
+        <input type = "text" id = "meetup" placeholder = "Clementi" v-model="meetup" required> <br><br>
 
         <label for="qrcode">PayLah! / PayNow QR Code</label>
         <input type = "file" id = "qrcode" accept="image/png, image/jpeg"> <br><br>
