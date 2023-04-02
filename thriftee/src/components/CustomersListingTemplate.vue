@@ -20,7 +20,7 @@
 
             <div id = "buttonsupdate">
                 
-                <button @click="goToExternalSite" id = "chatbutton" type="button"> Chat</button> 
+                <button @click="goToTelegram" id = "chatbutton" type="button"> Chat</button> 
                 <button id = "makeofferbutton" type="button">Make Offer</button> 
             </div>
         </div>
@@ -60,16 +60,14 @@
                 this.uid = user.uid;
             })
             
-            this.getTelegram()
+            // this.getTelegram()
         },
         
         methods: {
-            async getTelegram() {
+            async goToTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
-            },
-            async goToExternalSite() {
                 window.open(this.telegram, '_blank')
             }
         }
