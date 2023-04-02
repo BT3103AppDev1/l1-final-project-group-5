@@ -69,7 +69,7 @@
           telegram: ""
         }
       },
-      mounted() {
+      created() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.name = user.displayName;
@@ -79,7 +79,6 @@
                 this.getTelegram();
             }
         })
-       
       },
       methods: {
         async displayProfileImage() {

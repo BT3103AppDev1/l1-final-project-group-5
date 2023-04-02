@@ -67,6 +67,7 @@
               </div>
               <div id="sellstatusbutton">
                 <button id = "sellingstatusbutton" type="button"> Accept </button> 
+                <button type="button"> Reject </button> 
                 <!-- change above to {{ status }} later instead of Accept-->
                 <!-- NOTE: changes from Accept to Review -->
                  <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
@@ -89,24 +90,25 @@ import firebaseApp from '../firebase.js';
     
     export default {
         name: "Deals",
+
         data() {
-        return {
-      products: [
-        { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-        { title: "Jeans", condition: "Like New", price: "$15" },
-        { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-        { title: "Leather Shoes", condition: "Like New", price: "$12" },
-        { title: "Accessory", condition: "Like New", price: "$5" },
-        { title: "Shorts", condition: "Brand New", price: "$10" },
-        { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-        { title: "Jeans", condition: "Like New", price: "$15" },
-        { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-        { title: "Leather Shoes", condition: "Like New", price: "$12" },
-        { title: "Accessory", condition: "Like New", price: "$5" },
-        { title: "Shorts", condition: "Brand New", price: "$10" }
-      ], 
-    };
-  },
+            return {
+                products: [
+                    { title: "Flannel Shirt", condition: "Like New", price: "$18" },
+                    { title: "Jeans", condition: "Like New", price: "$15" },
+                    { title: "Baseball Cap", condition: "Brand New", price: "$8" },
+                    { title: "Leather Shoes", condition: "Like New", price: "$12" },
+                    { title: "Accessory", condition: "Like New", price: "$5" },
+                    { title: "Shorts", condition: "Brand New", price: "$10" },
+                    { title: "Flannel Shirt", condition: "Like New", price: "$18" },
+                    { title: "Jeans", condition: "Like New", price: "$15" },
+                    { title: "Baseball Cap", condition: "Brand New", price: "$8" },
+                    { title: "Leather Shoes", condition: "Like New", price: "$12" },
+                    { title: "Accessory", condition: "Like New", price: "$5" },
+                    { title: "Shorts", condition: "Brand New", price: "$10" }
+                ], 
+            };
+        },
 
         mounted() {
             onAuthStateChanged(auth, (user) => {
@@ -272,12 +274,9 @@ import firebaseApp from '../firebase.js';
 
 
  #listingsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
  #reviewsbutton {
@@ -290,12 +289,9 @@ import firebaseApp from '../firebase.js';
 
 
  #reviewsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 0.3vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
  #dealsbutton {
@@ -308,12 +304,9 @@ import firebaseApp from '../firebase.js';
 
 
  #dealsbutton:hover {
-    background: transparent;
-    border: none;
-    margin-left: 5vw;
-    font-size: 1.6em;
+    font-size: 1.8em;
     color: rgb(117, 113, 113);
-    border-bottom: 2px solid rgb(160, 154, 154);
+    text-decoration: underline;
  }
 
  #listingbutton {

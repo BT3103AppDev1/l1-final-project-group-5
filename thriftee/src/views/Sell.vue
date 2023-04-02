@@ -1,6 +1,7 @@
 <template>
     <div>
         <CreateListing />
+        <CustomersListingTemplate />
     </div>
 </template>
 

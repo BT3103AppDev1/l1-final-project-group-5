@@ -29,14 +29,14 @@
      </div>
     </div>
   
- </template>
+</template>
  
- <script>
-    
- </script>
+<script>
+
+</script>
  
  
- <style scoped>
+<style scoped>
 
  
 
@@ -46,17 +46,17 @@
     font-size: 1.9em;
     font-weight: bolder;
     color: black;
- }
+}
 
 
- #backbutton:hover {
+#backbutton:hover {
     background: transparent;
     border: none;
     font-size: 1.9em;
     color: grey;
     border-bottom: 0.8px solid #252323;
-    
- }
+
+}
 
 #container{
     display:flex;
@@ -91,44 +91,44 @@
 }
 
 #editbutton {
-background-color: #5abcaa; /* Green */
-border: 2px solid #5abcaa; /* Green */
-border-radius: 5px;
-color: rgb(249, 249, 249);
-padding: 10px 32px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-font-style: italic;
-transition-duration: 0.2s;
+    background-color: #5abcaa; /* Green */
+    border: 2px solid #5abcaa; /* Green */
+    border-radius: 5px;
+    color: rgb(249, 249, 249);
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    transition-duration: 0.2s;
 }
 
 #editbutton:hover {
-background-color: #198b77; /* Green */
-color: rgb(21, 20, 20);
-border: 2px solid #198b77; /* Green */
+    background-color: #198b77; /* Green */
+    color: rgb(21, 20, 20);
+    border: 2px solid #198b77; /* Green */
 }
 
 #deletebutton {
-background-color: #c33623; /* Green */
-border: 2px solid #c33623; /* Green */
-border-radius: 5px;
-color: rgb(249, 249, 249);
-padding: 10px 32px;
-margin-left: 35px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-font-style: italic;
-transition-duration: 0.2s;
+    background-color: #c33623; /* Green */
+    border: 2px solid #c33623; /* Green */
+    border-radius: 5px;
+    color: rgb(249, 249, 249);
+    padding: 10px 32px;
+    margin-left: 35px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    transition-duration: 0.2s;
 }
 
 #deletebutton:hover {
-background-color: #a93627; /* Green */
-color: rgb(8, 7, 7);
-border: 2px solid #a93627; /* Green */
+    background-color: #a93627; /* Green */
+    color: rgb(8, 7, 7);
+    border: 2px solid #a93627; /* Green */
 }
 
 img {
@@ -137,4 +137,4 @@ img {
 }
 
  
- </style>
+</style>
