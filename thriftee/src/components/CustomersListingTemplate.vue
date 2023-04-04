@@ -103,7 +103,8 @@
                         BuyerID: this.buyer_uid,
                         ListingID: this.listing_uid,
                         ListingName: this.listing_name,
-                        OfferAmount: this.offerAmount
+                        OfferAmount: this.offerAmount,
+                        Status: "Pending"
                     })
                     alert("Offer sent!")
                 } catch(error) {
