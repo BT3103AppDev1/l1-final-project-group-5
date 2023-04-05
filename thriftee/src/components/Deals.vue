@@ -36,16 +36,17 @@
         <div id="buyingdeals">
             <h1> Buying</h1>
 
-            <div class="items" v-for="product in buying_list" :key="product.title">
+            <div class="items" v-for="product in buying_list" :key="product.uid">
                 <div class="buyingitems">
                     <div id="buylistingtitle">
                         <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
                     </div>
                     <div id="buystatusbutton">
-                        <button id = "buyingstatusbutton" type="button"> Pending</button> 
+                        <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
                         <!-- change above to {{ status }} later instead of pending-->
                         <!-- NOTE: changes from Pending to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                        <button id="reviewstatusbutton" v-else-if="product.status === 'Accepted'">Review</button>
                     </div>
                 </div>
             </div>
@@ -55,17 +56,20 @@
         <div id="sellingdeals">
             <h1> Selling</h1>
 
-            <div class="items" v-for="product in selling_list" :key="product.title">
+            <div class="items" v-for="product in selling_list" :key="product.uid">
                 <div class="sellingitems">
                     <div id="selllistingtitle">
                         <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
                     </div>
-                    <div id="sellstatusbutton">
-                        <button id = "sellingstatusbutton" type="button"> Accept </button> 
-                        <button type="button"> Reject </button> 
+                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
+                        <button id = "rejectbutton" type="button"> Reject </button> 
                         <!-- change above to {{ status }} later instead of Accept-->
                         <!-- NOTE: changes from Accept to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                    </div>
+                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                        <button>✓</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +83,7 @@
 <script>
 import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, query, where, getDocs } from "firebase/firestore";
+    import { collection, query, where, getDocs, updateDoc, doc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -115,6 +119,7 @@ import firebaseApp from '../firebase.js';
                 this.user_uid = user.uid;
                 this.getBuyingList()
                 this.getSellingList()
+                
             })
         },
 
@@ -128,7 +133,8 @@ import firebaseApp from '../firebase.js';
                         title: dataRef.ListingName, 
                         uid: dataRef.ListingID, 
                         offerPrice: dataRef.OfferAmount,
-                        sellerID: dataRef.SellerID
+                        sellerID: dataRef.SellerID,
+                        status: dataRef.Status
                     })
                 })
             },
@@ -142,10 +148,23 @@ import firebaseApp from '../firebase.js';
                         title: dataRef.ListingName, 
                         uid: dataRef.ListingID, 
                         offerPrice: dataRef.OfferAmount,
-                        buyerID: dataRef.BuyerID
+                        buyerID: dataRef.BuyerID,
+                        status: dataRef.Status
                     })
                 })
             },
+
+            async acceptDeal(listing_uid, buyer_uid) {
+                const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+                const querySnapshot = await getDocs(query_accept);
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+
+                await updateDoc(docRef, {
+                    Status: "Accepted"
+                })
+                location.reload()
+                alert("Offer Accepted!")
+            }
         }, 
 }
 </script>
@@ -179,6 +198,7 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     margin-top: 3vh;
     margin-bottom: 3vh;
+
 }
 
 #buylistingtitle {
@@ -221,7 +241,23 @@ import firebaseApp from '../firebase.js';
   
 }
 
-#sellingstatusbutton {
+#acceptbutton {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(165, 197, 175, 0.752);
+    border-radius: 5px;
+    border: 0.8px solid black;
+    width: 100%;
+    color: black;
+
+}
+
+#acceptbutton:hover {
+    background-color: rgba(43, 121, 67, 0.752);
+    color: white;
+}
+
+#rejectbutton {
     display: flex;
     justify-content: center;
     background-color: rgba(223, 120, 146, 0.752);
@@ -232,8 +268,8 @@ import firebaseApp from '../firebase.js';
 
 }
 
-#sellingstatusbutton:hover {
-    background-color: rgba(230, 174, 188, 0.858);
+#rejectbutton:hover {
+    background-color: rgba(148, 20, 52, 0.752);
     color: white;
 }
 
