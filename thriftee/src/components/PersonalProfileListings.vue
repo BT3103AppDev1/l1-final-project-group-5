@@ -107,6 +107,10 @@
 
 <style scoped>
 
+#container3 {
+    width: 60vw;
+}
+
 #container2 {
     display: flex;
     justify-content: center;
