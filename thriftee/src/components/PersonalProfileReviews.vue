@@ -30,23 +30,26 @@
             </router-link>  
         </div>
     </div>
-
+    <div id="entirereview">
+      <div class="carousel-controls">
+    <img src ="src\assets\previous.png" class="btn" id="previousbutton"  @click="previous">
+  </div>
     <div class='carousel-view'>
       <transition-group class='carousel' tag="div">
+       
         <div v-for="slide in slides" class='slide' :key="slide.id">
         <h2 class = buyer> {{ slide.buyer }}</h2>
         <h3 class = description > "{{ slide.title }}" </h3>
-        
+       
         </div>
         
         
       </transition-group>
-      <div class='carousel-controls'>
-        <img src ="src\assets\previous.png" class="btn" id=btn style="width:60px; margin-right:10px" @click="previous">
-        <img src ="src\assets\next.png" class="btn" id=btn style="width:60px; margin-left:10px" @click="next">
-        
-        
-      </div>
+      
+    </div>
+    <div class="carousel-controls">
+      <img src ="src\assets\next.png" class="btn" id="nextbutton"  @click="next">
+    </div>
     </div>
     </div>
 
@@ -106,6 +109,8 @@ import firebaseApp from '../firebase.js';
 
     
 <style scoped>
+
+
 .carousel-view {
     display: flex;
     flex-direction: column;
@@ -152,11 +157,7 @@ import firebaseApp from '../firebase.js';
     opacity: 0;
   }
 
-  #btn {
-    margin:20px;
-    padding: 25px;
-    
-  }
+  
 #container2 {
     display: flex;
     justify-content: center;
@@ -219,5 +220,24 @@ hr {
 #linebreak {
     margin: auto;
 }
+
+
+#nextbutton {
+  width: 15%;
+  margin-top: 10vw;
+  margin-left: 5vw;
+}
+
+#previousbutton {
+  width: 15%;
+  margin-top: 10vw;
+  margin-right: 5vw;
+}
+
+#entirereview {
+  display: flex;
+  width:60vw;
+}
+
 
 </style>
