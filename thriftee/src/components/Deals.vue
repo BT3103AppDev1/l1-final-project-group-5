@@ -61,12 +61,15 @@
                     <div id="selllistingtitle">
                         <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
                     </div>
-                    <div id="sellstatusbutton">
-                        <button id = "sellingstatusbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
-                        <button type="button"> Reject </button> 
+                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
+                        <button id = "rejectbutton" type="button"> Reject </button> 
                         <!-- change above to {{ status }} later instead of Accept-->
                         <!-- NOTE: changes from Accept to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                    </div>
+                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                        <button>✓</button>
                     </div>
                 </div>
             </div>
@@ -159,6 +162,7 @@ import firebaseApp from '../firebase.js';
                 await updateDoc(docRef, {
                     Status: "Accepted"
                 })
+                location.reload()
                 alert("Offer Accepted!")
             }
         }, 
@@ -194,6 +198,7 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     margin-top: 3vh;
     margin-bottom: 3vh;
+
 }
 
 #buylistingtitle {
@@ -236,7 +241,23 @@ import firebaseApp from '../firebase.js';
   
 }
 
-#sellingstatusbutton {
+#acceptbutton {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(165, 197, 175, 0.752);
+    border-radius: 5px;
+    border: 0.8px solid black;
+    width: 100%;
+    color: black;
+
+}
+
+#acceptbutton:hover {
+    background-color: rgba(43, 121, 67, 0.752);
+    color: white;
+}
+
+#rejectbutton {
     display: flex;
     justify-content: center;
     background-color: rgba(223, 120, 146, 0.752);
@@ -247,8 +268,8 @@ import firebaseApp from '../firebase.js';
 
 }
 
-#sellingstatusbutton:hover {
-    background-color: rgba(230, 174, 188, 0.858);
+#rejectbutton:hover {
+    background-color: rgba(148, 20, 52, 0.752);
     color: white;
 }
 
