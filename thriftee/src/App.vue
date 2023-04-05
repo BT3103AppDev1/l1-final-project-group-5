@@ -23,9 +23,9 @@ export default {
     const auth = getAuth()
     onAuthStateChanged(auth, (user) => {
         this.user = user;
-        if (user) {
-          this.$router.push({name: "ProfileListings"})
-        }
+        // if (user) {
+        //   this.$router.push({name: "ProfileListings"})
+        // }
     })
   }
 }

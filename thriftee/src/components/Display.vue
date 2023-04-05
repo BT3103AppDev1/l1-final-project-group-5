@@ -26,9 +26,9 @@
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Condition</strong></div>
-              <button class="filterRowRight w3-button">+</button>
+              <button class="filterRowRight w3-button" id="conditionButton" v-on:click="openClose">+</button> 
             </div>
-            <form>
+            <form id="conditionForm">
               <input type="checkbox" id="Brand New" value="Brand New" />
               <label for="Brand New" class="checkboxOption"> Brand New</label
               ><br />
@@ -161,6 +161,22 @@ export default {
       });
       console.log(this.listings);
     },
+    openClose() {
+      var x = document.getElementById("conditionForm")
+      console.log(x.style.display)
+      if (x.style.display == "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+      const btn = document.getElementById("conditionButton");
+      console.log(btn.innerText)
+      if (btn.innerText == "+") {
+        btn.innerText = "-"
+      } else {
+        btn.innerText = "+"
+      }
+    },
   },
   created() {
     this.readData();
@@ -271,4 +287,9 @@ export default {
   background-color: white;
   position: absolute;
 }
+
+#conditionForm{
+  display: none
+}
+
 </style>
