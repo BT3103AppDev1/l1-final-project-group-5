@@ -31,28 +31,24 @@
         </div>
     </div>
     <div id="entirereview">
-      <div class="carousel-controls">
-    <img src ="src\assets\previous.png" class="btn" id="previousbutton"  @click="previous">
-  </div>
+    <div class='carousel-controls'>
     <div class='carousel-view'>
+      
+        
       <transition-group class='carousel' tag="div">
-       
+        <img src ="src\assets\previous.png" class="btn" id=btn @click="previous">
         <div v-for="slide in slides" class='slide' :key="slide.id">
+          
         <h2 class = buyer> {{ slide.buyer }}</h2>
         <h3 class = description > "{{ slide.title }}" </h3>
-       
         </div>
-        
-        
+        <img src ="src\assets\next.png" class="btn" id=btn  @click="next">
       </transition-group>
-      <div class='carousel-controls'>
-        <img src ="src\assets\previous.png" class="btn" id=btn style="width:60px; margin-right:10px" @click="previous">
-        <img src ="src\assets\next.png" class="btn" id=btn style="width:60px; margin-left:10px" @click="next">
-        
-        
+      
       </div>
     </div>
     </div>
+</div>
 
 </template>
     
@@ -124,6 +120,7 @@ import firebaseApp from '../firebase.js';
     overflow:visible;
     width: 24em;
     min-height: 20em;
+    margin-left: 350px;
   }
   .buyer{
     padding:20px;
@@ -133,15 +130,17 @@ import firebaseApp from '../firebase.js';
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    margin-left: 21px;
   }
 
   
   .slide {
-    flex: 0 0 35em;
+    flex: 0 0 25em;
     height: 20em;
     margin: 1em;
     display: flex;
+    padding-left: 0px;
+    
     /* justify-content: center; */
     /* align-items: center; */
     border: solid;
@@ -159,8 +158,7 @@ import firebaseApp from '../firebase.js';
   }
 
   #btn {
-    margin:20px;
-    padding: 25px;
+    max-width: 20%;
     
   }
 #container2 {
