@@ -65,7 +65,7 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { collection, getDocs } from "firebase/firestore";
-    import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+    import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
