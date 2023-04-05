@@ -32,7 +32,30 @@
     </div>
 
     <div id = "container3">
-        <h1>listings</h1>
+        <div class="rightContainer">
+            <div class="displayContainer">
+                <div
+                    class="product-item"
+                    v-for="listing in listings"
+                    :key="listing.title"
+                >
+                    <div class="product-image-placeholder">
+                        <p>Image Placeholder</p>
+                    </div>
+                    <div class="product-text">
+                        <div id="productCondition">
+                            Condition: {{ listing.Condition }}
+                        </div>
+                        <div id="productTitle">
+                            {{ listing.Title }}
+                        </div>
+                        <div id="productPrice">
+                            ${{ listing.Price }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
    
@@ -41,7 +64,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import { collection, getDocs } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -53,37 +76,29 @@
         data() {
             return {
                 value: 4,
-                name: ""
+                name: "", 
+                listings:[],
             }
         },
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName
+                this.name = user.displayName,
+                this.uid = user.uid
             })
             
-        },
-        methods: {
-            signout() {
-                signOut(auth).then(() => {
-                    alert('Successfully signed out!')
-                    this.$router.push('/')
-                }).catch((error) => {
-                    alert(error.message)
-                })
-            }
         }, 
-
-        computed: {
-            getName() {
-                return userData.Name
-            }, 
-
-            getLocation() {
-                return userData.Meet_Up
-            }
-
-        }
-        
+        methods: {
+            async readData() {
+                const querySnapshot = await getDocs(collection(db, "Listings"));
+                querySnapshot.forEach((doc) => {
+                    if (doc.data().SellerID == this.uid)
+                        this.listings.push(doc.data());
+                });
+            },
+        },
+        created() {
+            this.readData();
+        },
     }
 
 </script>
@@ -136,7 +151,7 @@
  }
 
 
- #dealsbutton:hover {
+#dealsbutton:hover {
     font-size: 1.8em;
     color: rgb(117, 113, 113);
     text-decoration: underline;
@@ -146,6 +161,34 @@ hr {
     height: 1px;
     width: 100%;
     background-color: black;
+}
+.rightContainer {
+  /* background-color: aqua; */
+  width: 75vw;
+  display: table-cell;
+  border-left: 2px solid black;
+}
+.displayContainer {
+  display: grid;
+  padding: 20px;
+  row-gap: 10px;
+  column-gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: #7e7d7d20;
+}
+.product-item {
+  outline-style: solid;
+  width: 17.5vw;
+  height: 35vh;
+  padding: 10px;
+}
+.product-image-placeholder {
+  outline-style: dashed;
+  position: relative;
+  padding: 20%;
+}
+.product-text {
+  padding: 10px;
 }
 
 </style>

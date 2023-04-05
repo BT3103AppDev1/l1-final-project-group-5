@@ -35,9 +35,6 @@
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
     
-    // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-    // let userData = user.data()
-    
     export default {
         name: "ProfileCard",
         data() {
@@ -80,17 +77,6 @@
                 })
             }
         }, 
-
-        // computed: {
-        //     getName() {
-        //         return userData.Name
-        //     }, 
-
-        //     getLocation() {
-        //         return userData.Meet_Up
-        //     }
-
-        // }
         
     }
 
