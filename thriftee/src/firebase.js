@@ -7,7 +7,6 @@ const firebaseConfig = {
     storageBucket: "thriftee-7e793.appspot.com",
     messagingSenderId: "802642503249",
     appId: "1:802642503249:web:8d1b6ca90586fd0537ba70"
-    // Hello world
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

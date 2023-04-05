@@ -3,18 +3,10 @@
     <div id="nav" v-if="user">
       <router-link to="explore" class="routerlink" style="margin-right: 1vw;"> Explore </router-link> |
       <router-link to="profilelistings" class="routerlink" style="margin-right: 1vw;"> Profile </router-link> |
-   
       <router-link to="sell" class="routerlink"> Sell </router-link> 
-     
-     
     </div>
-    
     <router-view />
-    
   </div>
-
-
-  
 </template>
 
 <script>
@@ -30,7 +22,10 @@ export default {
   created() {
     const auth = getAuth()
     onAuthStateChanged(auth, (user) => {
-        this.user = !!user;
+        this.user = user;
+        // if (user) {
+        //   this.$router.push({name: "ProfileListings"})
+        // }
     })
   }
 }
