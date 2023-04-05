@@ -46,7 +46,13 @@
                         <!-- change above to {{ status }} later instead of pending-->
                         <!-- NOTE: changes from Pending to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                        <button id="reviewstatusbutton" v-else-if="product.status === 'Accepted'">Review</button>
+                        <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Pay</button>
+                        <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button>
+                        <div class="qrcode" v-if="showQR">
+                            <img src="qr.png">
+                            <button @click="closeQR">Close Popup</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -70,7 +76,10 @@
                             <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         </div>
                         <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
-                            <button>✓</button>
+                            <button @click="confirmPayment(product.uid, product.buyerID)">✓</button>
+                        </div>
+                        <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                            <button>Paid</button>
                         </div>
                     </div>   
                 </div>
@@ -112,7 +121,8 @@ import firebaseApp from '../firebase.js';
                 ], 
                 buying_list: [], // test
                 selling_list: [],
-                user_uid: ""
+                user_uid: "",
+                showQR: false
             };
         },
 
@@ -166,6 +176,26 @@ import firebaseApp from '../firebase.js';
                 })
                 location.reload()
                 alert("Offer Accepted!")
+            },
+
+            async confirmPayment(listing_uid, buyer_uid) {
+                const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+                const querySnapshot = await getDocs(query_accept);
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+
+                await updateDoc(docRef, {
+                    Status: "Paid"
+                })
+                location.reload()
+                alert("Payment confirmed!")
+            },
+
+            openQR() {
+                this.showQR = true
+            },
+
+            closeQR() {
+                this.showQR = false
             }
         }, 
 }
@@ -173,6 +203,22 @@ import firebaseApp from '../firebase.js';
 
     
 <style scoped>
+#paystatusbutton {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(236, 238, 150);
+    border-radius: 5px;
+    border: 0.8px solid black;
+    width: 100%;
+    color: black;
+
+}
+
+#paystatusbutton:hover {
+    background-color: rgb(221, 224, 11);
+    color: white;
+}
+
 #reviewstatusbutton {
     display: flex;
     justify-content: center;
@@ -394,6 +440,16 @@ hr {
 
 #linebreak {
     margin: auto;
+}
+
+.qrcode {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
 }
 
 </style>
