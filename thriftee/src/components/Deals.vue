@@ -46,7 +46,13 @@
                         <!-- change above to {{ status }} later instead of pending-->
                         <!-- NOTE: changes from Pending to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                        <button id="reviewstatusbutton" v-else-if="product.status === 'Accepted'">Review</button>
+                        <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Pay</button>
+                        <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button>
+                        <div class="qrcode" v-if="showQR">
+                            <img src="qr.png">
+                            <button @click="closeQR">Close Popup</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -61,16 +67,21 @@
                     <div id="selllistingtitle">
                         <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
                     </div>
-                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
-                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
-                        <button id = "rejectbutton" type="button"> Reject </button> 
-                        <!-- change above to {{ status }} later instead of Accept-->
-                        <!-- NOTE: changes from Accept to Review -->
-                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                    </div>
-                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
-                        <button>✓</button>
-                    </div>
+                    <div id="sellbuttons">
+                        <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                            <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
+                            <button id = "rejectbutton" type="button"> Reject </button> 
+                            <!-- change above to {{ status }} later instead of Accept-->
+                            <!-- NOTE: changes from Accept to Review -->
+                            <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                        </div>
+                        <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                            <button @click="confirmPayment(product.uid, product.buyerID)">✓</button>
+                        </div>
+                        <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                            <button>Paid</button>
+                        </div>
+                    </div>   
                 </div>
             </div>
             <h2 v-if="selling_list.length === 0">No selling deals</h2>
@@ -110,7 +121,8 @@ import firebaseApp from '../firebase.js';
                 ], 
                 buying_list: [], // test
                 selling_list: [],
-                user_uid: ""
+                user_uid: "",
+                showQR: false
             };
         },
 
@@ -164,6 +176,26 @@ import firebaseApp from '../firebase.js';
                 })
                 location.reload()
                 alert("Offer Accepted!")
+            },
+
+            async confirmPayment(listing_uid, buyer_uid) {
+                const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+                const querySnapshot = await getDocs(query_accept);
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+
+                await updateDoc(docRef, {
+                    Status: "Paid"
+                })
+                location.reload()
+                alert("Payment confirmed!")
+            },
+
+            openQR() {
+                this.showQR = true
+            },
+
+            closeQR() {
+                this.showQR = false
             }
         }, 
 }
@@ -171,6 +203,22 @@ import firebaseApp from '../firebase.js';
 
     
 <style scoped>
+#paystatusbutton {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(236, 238, 150);
+    border-radius: 5px;
+    border: 0.8px solid black;
+    width: 100%;
+    color: black;
+
+}
+
+#paystatusbutton:hover {
+    background-color: rgb(221, 224, 11);
+    color: white;
+}
+
 #reviewstatusbutton {
     display: flex;
     justify-content: center;
@@ -198,17 +246,15 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     margin-top: 3vh;
     margin-bottom: 3vh;
-
 }
 
 #buylistingtitle {
     width: 100%;
-   
 }
 
 #selllistingtitle {
     width: 100%;
-   
+    text-align: left;
 }
 
 #buystatusbutton {
@@ -238,6 +284,7 @@ import firebaseApp from '../firebase.js';
     display: flex;
     justify-content: center;
     margin-left: 3vw;
+    background-color: green;
   
 }
 
@@ -393,6 +440,16 @@ hr {
 
 #linebreak {
     margin: auto;
+}
+
+.qrcode {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px;
 }
 
 </style>
