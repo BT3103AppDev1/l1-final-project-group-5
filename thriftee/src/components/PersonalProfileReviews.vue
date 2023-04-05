@@ -31,8 +31,22 @@
         </div>
     </div>
 
-    <div id = "container3">
-        <h1>reviews</h1>
+    <div class='carousel-view'>
+      <transition-group class='carousel' tag="div">
+        <div v-for="slide in slides" class='slide' :key="slide.id">
+        <h2 class = buyer> {{ slide.buyer }}</h2>
+        <h3 class = description > "{{ slide.title }}" </h3>
+        
+        </div>
+        
+        
+      </transition-group>
+      <div class='carousel-controls'>
+        <img src ="src\assets\previous.png" class="btn" id=btn style="width:60px; margin-right:10px" @click="previous">
+        <img src ="src\assets\next.png" class="btn" id=btn style="width:60px; margin-left:10px" @click="next">
+        
+        
+      </div>
     </div>
     </div>
 
@@ -40,12 +54,26 @@
     
 <script>
 import firebaseApp from '../firebase.js';
-    import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
+    let user = await getDoc(doc(db, "Profiles", 'ECKfuQXt4BWOmpdyVTyIIwmoPsx2')) // replace with unique user id
+    let userData = user.data()
+    const coll = collection(db, "Reviews");
+    const q = query(coll, where("SellerID","==", "Lebron"));
+    const snapshot = await getDocs(q);
     
+    let slides = [];
+    
+    var i = 0;
+    snapshot.forEach((doc) => {
+        console.log(i++)
+        let review = doc.data();
+        slides.push({
+                     title: review.Description,
+                    buyer: review.BuyerID} );
+      })
     export default {
         name: "PersonalProfileReviews",
         data() {
@@ -53,6 +81,7 @@ import firebaseApp from '../firebase.js';
                 value: 4,
                 name: "", 
                 uid: "", 
+                slides
             }
         },
         mounted() {
@@ -61,12 +90,73 @@ import firebaseApp from '../firebase.js';
                 this.uid = user.uid;
             })
         },
+        methods: {
+        next () {
+        const first = this.slides.shift()
+        this.slides = this.slides.concat(first)
+      },
+      previous () {
+        const last = this.slides.pop()
+        this.slides = [last].concat(this.slides)
+      } 
+    }, 
+
 }
 </script>
 
     
 <style scoped>
+.carousel-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow:visible;
+    width: 24em;
+    min-height: 20em;
+  }
+  .buyer{
+    padding:20px;
+    text-align: left;
+  }
+  .description{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
 
+  
+  .slide {
+    flex: 0 0 35em;
+    height: 20em;
+    margin: 1em;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    border: solid;
+    border-width: 0.1em;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    background-color: antiquewhite;
+  }
+  
+  .slide:first-of-type {
+    opacity: 0;
+  }
+  .slide:last-of-type {
+    opacity: 0;
+  }
+
+  #btn {
+    margin:20px;
+    padding: 25px;
+    
+  }
 #container2 {
     display: flex;
     justify-content: center;
