@@ -61,16 +61,18 @@
                     <div id="selllistingtitle">
                         <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
                     </div>
-                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
-                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
-                        <button id = "rejectbutton" type="button"> Reject </button> 
-                        <!-- change above to {{ status }} later instead of Accept-->
-                        <!-- NOTE: changes from Accept to Review -->
-                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                    </div>
-                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
-                        <button>✓</button>
-                    </div>
+                    <div id="sellbuttons">
+                        <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                            <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
+                            <button id = "rejectbutton" type="button"> Reject </button> 
+                            <!-- change above to {{ status }} later instead of Accept-->
+                            <!-- NOTE: changes from Accept to Review -->
+                            <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                        </div>
+                        <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                            <button>✓</button>
+                        </div>
+                    </div>   
                 </div>
             </div>
             <h2 v-if="selling_list.length === 0">No selling deals</h2>
@@ -198,17 +200,15 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     margin-top: 3vh;
     margin-bottom: 3vh;
-
 }
 
 #buylistingtitle {
     width: 100%;
-   
 }
 
 #selllistingtitle {
     width: 100%;
-   
+    text-align: left;
 }
 
 #buystatusbutton {
@@ -238,6 +238,7 @@ import firebaseApp from '../firebase.js';
     display: flex;
     justify-content: center;
     margin-left: 3vw;
+    background-color: green;
   
 }
 
