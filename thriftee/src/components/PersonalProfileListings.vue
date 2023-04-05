@@ -77,6 +77,7 @@
             return {
                 value: 4,
                 name: "", 
+                uid: "",
                 listings:[],
             }
         },
