@@ -42,8 +42,8 @@
         
       </transition-group>
       <div class='carousel-controls'>
-        <img src ="src\assets\previous.png" class="btn" id=btn style="width:60px; margin-right:10px" @click="previous">
-        <img src ="src\assets\next.png" class="btn" id=btn style="width:60px; margin-left:10px" @click="next">
+        <img src ="src\assets\previous.png" class="btn" id=btn  @click="previous">
+        <img src ="src\assets\next.png" class="btn" id=btn  @click="next">
         
         
       </div>
@@ -152,7 +152,7 @@ import firebaseApp from '../firebase.js';
     opacity: 0;
   }
 
-  #btn {
+  .btn {
     margin:20px;
     padding: 25px;
     
