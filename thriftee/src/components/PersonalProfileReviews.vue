@@ -49,31 +49,18 @@ import firebaseApp from '../firebase.js';
     export default {
         name: "PersonalProfileReviews",
         data() {
-        return {
-            value: 4,
-            name: ""
-        }
+            return {
+                value: 4,
+                name: "", 
+                uid: "", 
+            }
         },
-
         mounted() {
             onAuthStateChanged(auth, (user) => {
                 this.name = user.displayName;
+                this.uid = user.uid;
             })
         },
-        methods: {
-                
-            }, 
-
-        computed: {
-            getName() {
-                return userData.Name
-            }, 
-
-            getLocation() {
-                return userData.Meet_Up
-            }
-
-        }
 }
 </script>
 
