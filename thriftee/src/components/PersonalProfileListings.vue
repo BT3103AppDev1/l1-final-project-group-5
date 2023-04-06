@@ -52,6 +52,8 @@
                         <div id="productPrice">
                             ${{ listing.Price }}
                         </div>
+                        <button id="editbutton" @click="close">Edit</button>
+                        <button id="deletebutton" @click="close">Delete</button>
                     </div>
                 </div>
             </div>
@@ -140,6 +142,40 @@
     color: rgb(8, 8, 8);
  }
 
+ #editbutton {
+    margin-right: 1vw;
+    font-size: 0.85em;
+    margin-top: 1vh;
+    background-color: rgb(188, 191, 192);
+    border: 0.1px solid rgb(144, 142, 142);
+    border-radius: 5px;
+ }
+
+ #editbutton:hover {
+    margin-right: 1vw;
+    font-size: 0.85em;
+    margin-top: 1vh;
+    background-color: rgba(81, 94, 97, 0.688);
+    border: 0.1px solid rgb(105, 104, 104);
+    border-radius: 5px;
+ }
+
+ #deletebutton {
+    font-size: 0.85em;
+    margin-top: 1vh;
+    background-color: rgba(231, 137, 137, 0.76);
+    border: 0.1px solid rgb(144, 142, 142);
+    border-radius: 5px;
+ }
+
+ #deletebutton:hover {
+    font-size: 0.85em;
+    margin-top: 1vh;
+    background-color: rgba(164, 71, 71, 0.903);
+    border: 0.1px solid rgb(105, 104, 104);
+    border-radius: 5px;
+  
+ }
 
  #reviewsbutton:hover {
     font-size: 1.8em;
@@ -180,11 +216,12 @@ hr {
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
   background-color: #7e7d7d20;
+  height: auto;
 }
 .product-item {
   outline-style: solid;
   width: 17.5vw;
-  height: 35vh;
+  height: auto;
   padding: 10px;
 }
 .product-image-placeholder {

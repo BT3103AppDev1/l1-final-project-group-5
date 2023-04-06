@@ -11,7 +11,15 @@
                 <h4><em>Bottom</em></h4> 
             </div>
             <h1> {{listing_name}}</h1>
-            <h3><em>${{listing_price}}</em></h3>
+            <div id="viewprofile">
+                <h3><em>${{listing_price}}</em></h3>
+                <div id = "listedby">
+                    <p>listed by</p>
+                </div>
+               
+                <button id = "signupbutton" type="button" v-on:click="goToSignUp"><u> Kevin</u></button> 
+                <!-- change above to {{ sellername }} -->
+            </div>
             <p> Category: Bottoms</p>
             <p> Colour: Blue</p>
             <p> Condition: Like new</p>
@@ -216,6 +224,30 @@ img {
     width: 70%;
     height: auto;
 }
+
+#viewprofile {
+    display: flex;
+}
+
+#signupbutton {
+    background: transparent;
+    border: none;
+    font-size: 0.90em;
+    color: #626867;
+    margin-bottom: 0.80vh;
+}
+
+#signupbutton:hover {
+    font-size: 0.99em;
+    color: black;
+    
+}
+
+#listedby {
+    margin-left: 5vw;
+    margin-bottom: 1vh;
+}
+
 
 
 </style>

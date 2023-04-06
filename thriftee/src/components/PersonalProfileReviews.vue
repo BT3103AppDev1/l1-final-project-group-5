@@ -39,8 +39,8 @@
         <img src ="src\assets\previous.png" class="btn" id=btn @click="previous">
         <div v-for="slide in slides" class='slide' :key="slide.id">
           
-        <h2 class = buyer> {{ slide.buyer }}</h2>
-        <h3 class = description > "{{ slide.title }}" </h3>
+        <h2 class = buyer> by {{ slide.buyer }},</h2>
+        <h3 class = description ><u>"{{ slide.title }}"</u>  </h3>
         </div>
         <img src ="src\assets\next.png" class="btn" id=btn  @click="next">
       </transition-group>
@@ -118,9 +118,9 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     align-items: center;
     overflow:visible;
-    width: 24em;
-    min-height: 20em;
-    margin-left: 350px;
+    width: 20vw;
+    min-height: 10em;
+    margin-left: 20vw;
   }
   .buyer{
     padding:20px;
@@ -128,26 +128,21 @@ import firebaseApp from '../firebase.js';
   }
   .description{
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-left: 21px;
+    flex: left;
   }
 
   
   .slide {
-    flex: 0 0 25em;
-    height: 20em;
-    margin: 1em;
+    flex: 0 0 23em;
+    height: 15em;
+    margin-top: 3vw;
     display: flex;
-    padding-left: 0px;
-    
-    /* justify-content: center; */
-    /* align-items: center; */
     border: solid;
     border-width: 0.1em;
     border-radius: 10px;
     transition: transform 0.3s ease-in-out;
-    background-color: antiquewhite;
+    background-color: rgb(251, 249, 247);
   }
   
   .slide:first-of-type {
@@ -158,7 +153,7 @@ import firebaseApp from '../firebase.js';
   }
 
   #btn {
-    max-width: 20%;
+    max-width: 10%;
     
   }
 #container2 {
@@ -228,13 +223,13 @@ hr {
 #nextbutton {
   width: 15%;
   margin-top: 10vw;
-  margin-left: 5vw;
+ 
 }
 
 #previousbutton {
   width: 15%;
   margin-top: 10vw;
-  margin-right: 5vw;
+
 }
 
 #entirereview {

@@ -1,13 +1,13 @@
 <template>
     <div class="offer-popup" v-if="isOpen">
         <div id="content">
-            <h2 id="popup_title">Make Offer</h2>
+            <h2 id="popup_title">You are offering</h2>
             <form id="offerform" @submit.prevent="sendOffer">
-                <label for="offerAmount" style="color:white; margin-right:1vh">Offer Amount</label>
+                <label for="offerAmount" style="color:black; margin-right:1vh">$</label>
                 <input type="number" id="offerAmount" v-model="offerAmount" min="0" step="0.01" required>
                 <div id="popup_buttons">
                     <button id="cancelButton" @click="close">Cancel</button>
-                    <button id="offerButton" type="submit">Send Offer</button>
+                    <button id="offerButton" type="submit">Submit </button>
                 </div>
             </form>
         </div>
@@ -62,16 +62,19 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(135, 128, 128, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+
 #content{
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 30px 30px;
+    background-color: rgba(243, 242, 242, 0.954);
+    padding: 30px 50px;
     border-radius: 10px;
+    color: white;
+    border: 3px solid rgb(201, 199, 199);
 }
 
 #popup_buttons{
@@ -83,27 +86,50 @@ export default {
 
 #popup_title{
     text-align: center;
-    color: white;
+    color: rgb(48, 48, 48);
+    font-size: 1.8em;
+    
 }
 
 #cancelButton{
-    margin-right: 20px;
+    margin-right: 1vw;
+    border: none;
     border-radius: 8px;
-    padding-left: 20px;
-    padding-right: 20px;
+    font-size: 0.95em;
+    background-color: rgba(185, 189, 189, 0.872);
+    font-weight: normal;
 }
 
 #cancelButton:hover{
     background-color: rgb(147, 149, 149);
+    color:white;
 }
 
 #offerButton{
-    background-color: #3AA39F;
-    color: white;
+    background-color: #46c3bfd6;
+    color: black;
+    border:none;
     border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: normal;
 }
 
 #offerButton:hover{
-    background-color: rgb(147, 149, 149);
+    background-color: #32a5a1d6;
+    color:white;
+}
+
+input, select {
+box-sizing: border-box;
+height: 40px;
+background: transparent;
+border: none;
+border-bottom: 1px solid #a49e9e;
+text-align: left;
+}
+
+::placeholder {
+font-size: 1em;
+color: rgb(73, 71, 71);
 }
 </style>
