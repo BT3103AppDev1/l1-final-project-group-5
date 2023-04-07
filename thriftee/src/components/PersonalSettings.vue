@@ -33,7 +33,6 @@
         <input type = "file" id = "qrcode" accept="image/png, image/jpeg"> <br><br>
 
         <div id = "buttonsupdate">
-          
             <router-link to="/profilelistings"
                 custom
                 v-slot="{ navigate }" >
@@ -101,7 +100,7 @@
           let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
           try {
-            const docRef = await setDoc(doc(db, "Profiles", this.uid), { // need to change to unique userID
+            const docRef = await setDoc(doc(db, "Profiles", this.uid), { 
               Name: this.name,
               Meet_Up: this.meetup,
               QRCode: qrcode, 
