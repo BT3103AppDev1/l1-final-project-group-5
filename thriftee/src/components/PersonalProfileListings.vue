@@ -52,8 +52,12 @@
                         <div id="productPrice">
                             ${{ listing.Price }}
                         </div>
-                        <button id="editbutton" @click="close">Edit</button>
-                        <button id="deletebutton" @click="close">Delete</button>
+                        <router-link to="/sell"
+                            custom
+                            v-slot="{ navigate }" >
+                            <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>
+                        </router-link>  
+                        <button id="deletebutton" type="button" @click="delete">Delete</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +83,7 @@
             return {
                 value: 4,
                 name: "", 
-                uid: "",
+                uid: "", 
                 listings:[],
             }
         },
@@ -97,6 +101,9 @@
                     if (doc.data().SellerID == this.uid)
                         this.listings.push(doc.data());
                 });
+            },
+            delete() {
+                console.log("hello")
             },
         },
         created() {
