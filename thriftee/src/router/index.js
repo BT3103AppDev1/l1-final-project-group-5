@@ -8,6 +8,7 @@ import LogInDisplay from "@/views/LogInDisplay.vue";
 import SignUpDisplay from "@/views/SignUpDisplay.vue";
 import ForgetPasswordDisplay from "@/views/ForgetPasswordDisplay.vue";
 import AllListings from "@/views/AllListings.vue";
+import ViewListing from "@/views/ViewListing.vue";
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: "/explore",
     name: "Explore",
     component: AllListings,
+  },
+  {
+    path: "/viewListing-:listingid",
+    name: "ViewListing",
+    component: ViewListing,
   },
 ];
 const router = createRouter({

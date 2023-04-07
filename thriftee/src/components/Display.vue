@@ -102,7 +102,7 @@
         <div class="displayContainer">
           <div
             class="product-item"
-            v-for="listing in listings"
+            v-for="listing in listingsData"
             :key="listing.title"
           >
             <div class="product-image-placeholder">
@@ -113,7 +113,7 @@
                 Condition: {{ listing.Condition }}
               </div>
               <div id="productTitle">
-                {{ listing.Title }}
+                <router-link class="link" :to="{ name: 'ViewListing', params:{ listingid: listing.ListingID } }"> {{ listing.Title }} </router-link>
               </div>
               <div id="productPrice">
                 ${{ listing.Price }}
@@ -151,17 +151,20 @@ export default {
         { title: "Accessory", condition: "Like New", price: "$5" },
         { title: "Shorts", condition: "Brand New", price: "$10" }
       ],
-      listings:[],
+      // listings:[],
     };
   },
   methods: {
-    async readData() {
-      const querySnapshot = await getDocs(collection(db, "Listings"));
-      querySnapshot.forEach((doc) => {
-        this.listings.push(doc.data());
-      });
-      console.log(this.listings);
-    },
+    // async readData() {
+    //   const querySnapshot = await getDocs(collection(db, "Listings"));
+    //   querySnapshot.forEach((doc) => {
+    //     const dataRef = doc.data();
+    //     dataRef.ListingID = doc.id;
+    //     this.listings.push(dataRef);
+    //   });
+    //   console.log("original");
+    //   console.log(this.listings);
+    // },
     // openClose() {
     //   var x = document.getElementById("conditionForm")
     //   console.log(x.style.display)
@@ -179,9 +182,14 @@ export default {
     //   }
     // },
   },
-  created() {
-    this.readData();
-  },
+  // created() {
+  //   this.readData()
+  // },
+  computed: {
+    listingsData() {
+      return this.$store.getters.listingsData;
+    }
+  }
 };
 </script>
 
