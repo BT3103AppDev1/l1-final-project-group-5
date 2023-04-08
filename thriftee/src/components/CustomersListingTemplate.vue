@@ -16,9 +16,15 @@
                 <div id = "listedby">
                     <p>listed by</p>
                 </div>
-               
-                <button id = "signupbutton" type="button" v-on:click="goToSignUp"><u> Kevin</u></button> 
-                <!-- change above to {{ sellername }} -->
+                <router-link class="link" :to="{ name: 'CustomerProfileListing', params:{ seller_uid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button"> <u> {{seller_name}}</u></button>  </router-link>
+                <!-- <router-link to="/sellerprofile">
+                    custom
+                    v-slot="{ navigate }" >
+                    <button @click="navigate" role="link" id = "signupbutton" type="button"> <u> {{seller_name}}</u></button> 
+                </router-link>   -->
+           
+              
+              
             </div>
                 <p> Category: {{listing_category}}</p>
                 <p id="colourfield"> Colour: 
@@ -84,7 +90,8 @@
                 isPopupOpen: false,
                 offerAmount: 0,
                 seller_uid: null, //placeholder for seller uid
-                location: null
+                location: null,
+                seller_name: null
             }
         },
         
@@ -108,9 +115,19 @@
                 this.listing_colour = dataSnap.Colour;
                 this.listing_size = dataSnap.Size;
                 this.seller_uid = dataSnap.SellerID;
+                let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid))
+                let userProfileData = userProfile.data();
+                this.seller_name = userProfileData.Name;
             },
+
+            async getName() {
+                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+                let userProfileData = userProfile.data();
+                this.name = userProfileData.Name;
+            },
+
             async goToTelegram() {
-                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid)) // shld get telegram from unique listing
+                let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
                 window.open(this.telegram, '_blank')
@@ -259,15 +276,15 @@ img {
     display: flex;
 }
 
-#signupbutton {
+#sellerpagebutton {
     background: transparent;
     border: none;
     font-size: 0.90em;
     color: #626867;
-    margin-bottom: 0.80vh;
+    margin-top: 2.1vh;
 }
 
-#signupbutton:hover {
+#sellerpagebutton:hover {
     font-size: 0.99em;
     color: black;
     

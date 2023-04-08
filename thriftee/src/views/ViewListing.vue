@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <!-- <div>
         Able to access Data
         {{this.currentListing}}
-    </div>
+    </div> -->
     <customers-listing-template :listingUID="currListingUID" v-if="currListingUID !== ''"/>
 </template>
 
