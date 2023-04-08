@@ -39,7 +39,7 @@
             <div class="items" v-for="product in buying_list" :key="product.uid">
                 <div class="buyingitems">
                     <div id="buylistingtitle">
-                        <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
+                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }"> <em> {{ product.title }} </em> </router-link>
                     </div>
                     <div id="buystatusbutton">
                         <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
@@ -65,7 +65,7 @@
             <div class="items" v-for="product in selling_list" :key="product.uid">
                 <div class="sellingitems">
                     <div id="selllistingtitle">
-                        <button id = "listingbutton" type="button"> <em> {{ product.title }}</em></button> 
+                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }"> <em> {{ product.title }} </em> </router-link>
                     </div>
                     <div id="sellbuttons">
                         <div id="sellstatusbutton" v-if="product.status === 'Pending'">
