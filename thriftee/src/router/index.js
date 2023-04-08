@@ -9,6 +9,7 @@ import SignUpDisplay from "@/views/SignUpDisplay.vue";
 import ForgetPasswordDisplay from "@/views/ForgetPasswordDisplay.vue";
 import AllListings from "@/views/AllListings.vue";
 import ViewListing from "@/views/ViewListing.vue";
+import CustomerProfileView from "@/views/CustomerProfileView.vue";
 
 const routes = [
   {
@@ -45,6 +46,11 @@ const routes = [
     path: "/profilereviews",
     name: "ProfileReviews",
     component: ProfileReviewDisplay,
+  },
+  {
+    path: "/sellerprofile",
+    name: "CustomerProfileListing",
+    component: CustomerProfileView,
   },
   {
     path: "/deals",
