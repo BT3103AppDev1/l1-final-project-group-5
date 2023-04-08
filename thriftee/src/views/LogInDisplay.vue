@@ -11,6 +11,9 @@
         name: "LogInDisplay",
         components: {
             LogIn,
+        },
+        created() {
+            document.title ="Log In"
         }
     }
 </script>

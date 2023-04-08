@@ -1,14 +1,14 @@
 <template>
-    <div id = "container">
+    <div id = "customers-listing-template">
         
        
         <div id = "containerleft">
         <div id = "back">
-            <button id = "backbutton" type="button" >←</button> 
+            <button id = "backbutton" type="button" @click="goBack">←</button> 
         </div>
 
            <div id="top">
-                <h4><em>Bottom</em></h4> 
+                <h4><em>{{listing_category}}</em></h4> 
             </div>
             <h1> {{listing_name}}</h1>
             <div id="viewprofile">
@@ -20,17 +20,18 @@
                 <button id = "signupbutton" type="button" v-on:click="goToSignUp"><u> Kevin</u></button> 
                 <!-- change above to {{ sellername }} -->
             </div>
-            <p> Category: Bottoms</p>
-            <p> Colour: Blue</p>
-            <p> Condition: Like new</p>
-            <p> Size: M</p>
-            <p> Description: Lightly worn, bought around 3 months ago</p>
-
+                <p> Category: {{listing_category}}</p>
+                <p id="colourfield"> Colour: 
+                    <span id ="colourcircle" :style="{'background-color':listing_colour}"></span>
+                </p>
+                <p> Condition: {{listing_condition}}</p>
+                <p> Size: {{listing_size}}</p>
+                <!-- <p> Description: Lightly worn, bought around 3 months ago</p>  -->
             <div id = "buttonsupdate">
                 
                 <button @click="goToTelegram" id = "chatbutton" type="button"> Chat</button> 
                 <button id = "makeofferbutton" type="button" @click="openOfferPopup">Make Offer</button> 
-                <offer-popup :isOpen="isPopupOpen" :defaultAmount="listing_price" @send-offer="submitOffer" @close="closeOfferPopup"/>
+                <offer-popup :isOpen="isPopupOpen" :defaultAmount="listing_price" @send-offer="submitOffer" @close="closeOfferPopup" v-if="listing_price"/>
             </div>
         </div>
 
@@ -59,19 +60,31 @@
             OfferPopup
         },
 
+        props: {
+            listingUID: {
+                type: String,
+                default: ""
+            }
+        },
+
         data() {
             return {
                 value: 4, //what is this for?
-                location: "",
                 buyer_name: "",
                 buyer_uid: "",
-                listing_uid: "tpwwZUVVF9fhlc0Iw2Xt", //placeholder for listing uid
-                listing_price: 30.00, 
-                listing_name: "Levi's Jeans",
+                // listing_uid: "tpwwZUVVF9fhlc0Iw2Xt", //placeholder for listing uid
+                listing_uid: this.listingUID,
+                listing_category: null,
+                listing_price: null, 
+                listing_name: null,
+                listing_condition: null,
+                listing_colour: null,
+                listing_size: null,
                 telegram: "https://t.me/",
                 isPopupOpen: false,
                 offerAmount: 0,
-                seller_uid: "HjYabxFKuuWkCETolbrUS8IcgKt2" //placeholder for seller uid
+                seller_uid: null, //placeholder for seller uid
+                location: null
             }
         },
         
@@ -80,9 +93,22 @@
                 this.buyer_name = user.displayName;
                 this.buyer_uid = user.uid;
             })
+            this.getListingDetails()
         },
         
         methods: {
+            async getListingDetails() {
+                const docRef = doc(db, "Listings", this.listing_uid);
+                const docSnap = await getDoc(docRef);
+                const dataSnap =  docSnap.data();
+                this.listing_category = dataSnap.Category;
+                this.listing_price = dataSnap.Price;
+                this.listing_name = dataSnap.Title;
+                this.listing_condition = dataSnap.Condition;
+                this.listing_colour = dataSnap.Colour;
+                this.listing_size = dataSnap.Size;
+                this.seller_uid = dataSnap.SellerID;
+            },
             async goToTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
@@ -119,6 +145,10 @@
                     alert("Error saving offer: ", error)
                     console.log(error)
                 }
+            },
+
+            goBack() {
+                window.history.back()
             }
         }
     }
@@ -147,7 +177,7 @@
     border-bottom: 0.8px solid #252323;
 }
 
-#container{
+#customers-listing-template{
     display:flex;
     justify-content: center;
     text-align: left;
@@ -248,6 +278,16 @@ img {
     margin-bottom: 1vh;
 }
 
+#colourfield {
+    display:flex; 
+    align-items:center
+}
 
+#colourcircle {
+    display:inline-block; 
+    border-radius: 15px;
+     width:20px; height:20px; 
+    margin-left:5px
+}
 
 </style>
