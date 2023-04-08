@@ -285,9 +285,10 @@ img {
 
 #colourcircle {
     display:inline-block; 
-    border-radius: 15px;
-     width:20px; height:20px; 
-    margin-left:5px
+    border-radius: 50%;
+    width:20px; height:20px; 
+    margin-left:5px;
+    border: 1px solid black
 }
 
 </style>
