@@ -28,44 +28,35 @@
     
     export default {
         name: "OthersProfileCard",
+        props: {
+            sellerUID: {
+                type: String,
+                default: ""
+            }
+        
+        },
         data() {
             return {
                 value: 4,
                 location: "",
                 name: "",
-                uid: ""
+                uid: "",
+                seller_uid: this.sellerUID,
             }
         },
         
         mounted() {
-            onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName;
-                this.uid = user.uid;
-                this.getMeetUp()
-                this.getName()
-            })
+            this.getProfileDetails()
            
         },
         methods: {
-            async getMeetUp() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                this.location = userProfileData.Meet_Up;
-            },
+            async getProfileDetails() {
+                const docRef = doc(db, "Profiles", this.seller_uid)
+                const docSnap = await getDoc(docRef)
+                const dataSnap = docSnap.data()
+                this.location = dataSnap.Meet_Up
+                this.name = dataSnap.Name
 
-            async getName() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                this.name = userProfileData.Name;
-            },
-
-            signout() {
-                signOut(auth).then(() => {
-                    alert('Successfully signed out!')
-                    this.$router.push('/')
-                }).catch((error) => {
-                    alert(error.message)
-                })
             }
         }, 
         
