@@ -16,7 +16,7 @@
                 <div id = "listedby">
                     <p>listed by</p>
                 </div>
-                <router-link class="link" :to="{ name: 'CustomerProfileListing', params:{ seller_uid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button"> <u> {{seller_name}}</u></button>  </router-link>
+                <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button"> <u> {{seller_name}}</u></button>  </router-link>
                 <!-- <router-link to="/sellerprofile">
                     custom
                     v-slot="{ navigate }" >

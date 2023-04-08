@@ -48,8 +48,8 @@ const routes = [
     component: ProfileReviewDisplay,
   },
   {
-    path: "/sellerprofile",
-    name: "CustomerProfileListing",
+    path: "/sellerprofile-:sellerid",
+    name: "CustomerProfileView",
     component: CustomerProfileView,
   },
   {
