@@ -60,9 +60,6 @@
     
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
-
-    let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-    let userData = user.data()
     
     // listingID, buyerID, sellerID, rating, description
     
@@ -74,22 +71,27 @@
                 description:""
             }
         },
+    
         methods:{
             async saveReview(){
+                let user = auth.currentUser; // replace with unique user id
+                // let userData = user.data()
+                let listing = await getDoc(doc(db, "Listings", "eb7UW4wz2V7YjZTaO8c6"))//put listing ID here
+                let listingData = listing.data();
                 var ref = collection(db, "Reviews");
                 // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
                 // let userData = user.data()
                 const docRef = await addDoc(
                     ref, {
-                        ListingID: 69,
-                        BuyerID: userData.Name, 
-                        SellerID:"Lebron", //to replace with seller name
+                        ListingID: "placeholder for listing ID", //input listing ID here
+                        BuyerID: user.uid, 
+                        SellerID:listingData.SellerID, //to replace with seller name
                         Rating: parseFloat(this.ratingValue),
                         Description:this.description
                     }
                 )
                 .then(()=>{
-                    alert("data added successfully")
+                    alert("Review added successfully")
                 })
                 .catch((error)=>{
                     alert("Unsuccessful operation, error:" + error)

@@ -29,7 +29,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import { doc, getDoc, query, collection, where, getDocs } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -39,7 +39,7 @@
         name: "ProfileCard",
         data() {
             return {
-                value: 4,
+                value: 0,
                 location: "",
                 name: "",
                 uid: ""
@@ -52,6 +52,7 @@
                 this.uid = user.uid;
                 this.getMeetUp()
                 this.getName()
+                this.getRating()
             })
            
         },
@@ -60,6 +61,27 @@
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
                 this.location = userProfileData.Meet_Up;
+            },
+            async getRating() {
+                let user = auth.currentUser;
+                let userID = user.uid;
+                let count =0;
+                const firstQuery = query(collection(db, "Reviews"), where("SellerID", "==", userID))
+                const secondQuery = query(collection(db, "Reviews"), where("BuyerID", "==", userID))
+                const querySnapshot = await getDocs(firstQuery);
+                
+                querySnapshot.forEach((doc) => {
+                    let review = doc.data()
+                    this.value += review.Rating
+                    count++
+                })
+                const querySnapshot2 = await getDocs(secondQuery);
+                querySnapshot2.forEach((doc) => {
+                    let review = doc.data()
+                    this.value += review.Rating
+                    count++
+                })
+                this.value = this.value/5
             },
 
             async getName() {
