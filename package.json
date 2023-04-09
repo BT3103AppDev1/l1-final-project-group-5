@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
-    "firebase-admin": "^11.6.0"
-  }
-}
