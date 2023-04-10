@@ -11,6 +11,7 @@ import ForgetPasswordDisplay from "@/views/ForgetPasswordDisplay.vue";
 import AllListings from "@/views/AllListings.vue";
 import ViewListing from "@/views/ViewListing.vue";
 import CustomerProfileView from "@/views/CustomerProfileView.vue";
+import CreateReviewView from "@/views/CreateReviewView.vue";
 
 const auth = getAuth();
 
@@ -71,9 +72,9 @@ const routes = [
     }
   },
   {
-    path: "/sellerprofile-:listingid-:isbuyer",
+    path: "/review-:listingid-:isbuyer",
     name: "CreateReviewView",
-    component: CustomerProfileView,
+    component: CreateReviewView,
     meta: {
       requiresAuth: true
     }
