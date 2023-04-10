@@ -1,8 +1,8 @@
 <template>
     <div>
         <CreateListing />
-        <CustomersListingTemplate />
-        <Review />
+        <!-- <CustomersListingTemplate /> -->
+        <!-- <Review /> -->
     </div>
 </template>
 

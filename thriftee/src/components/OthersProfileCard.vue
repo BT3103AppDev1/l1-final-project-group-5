@@ -16,6 +16,16 @@
                 </div>
         </div>
         
+        <div id = "buttonsofprofile">
+            <div>
+            <router-link to="/editprofile"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "editbutton" type="button" >Edit Profile</button> 
+            </router-link>  
+            </div>
+            <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
+        </div>
         
     </div>
 </template>
@@ -102,45 +112,47 @@ button{
 }
 
 #editbutton {
-  background-color: #c6d7df; /* Green */
+  background-color: #ccccdb; /* Green */
   border-radius: 5px;
-  border: 0.5px solid black;
+  border: 0.5px solid #ccccdb; 
   color: rgb(0, 0, 0);
   padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 0.75em;
   transition-duration: 0.2s;
   margin-top: 10vh;
+  
+
 }
 
 #editbutton:hover {
   /* background-color: 359138; Green */
   color: white;
-  border: 0.5px solid #5a525d; /* Green */
+  /* border: 0.5px solid #5a525d; Green */
 }
 
 #signoutbutton {
-  background-color: #9c9ca8; /* Green */
-  border: 2px solid #9c9ca8; /* Green */
+  background-color: #b7b7c3; /* Green */
+  border: 1px solid #b7b7c3; /* Green */
   border-radius: 5px;
-  border: 0.5px solid black;
+ 
   color: rgb(0, 0, 0);
   padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 0.75em;
   transition-duration: 0.2s;
+  
 }
 
 #signoutbutton:hover {
-  background-color: 359138; /* Green */
+ 
   color: white;
-  border: 0.5px solid #434246; /* Green */
+ 
 }
-
 img {
     width: auto;
     height: auto;

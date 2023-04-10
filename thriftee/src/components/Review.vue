@@ -1,9 +1,9 @@
 
 <template>
     <div id = "container">
-        <div id = "Reviewheader">
+        <!-- <div id = "Reviewheader">
             <h1>Review Page</h1><br><br>
-        </div>
+        </div> -->
         <div id = "LeaveReviewheader">
             <h1>Leave a Review</h1>
         </div><br>
@@ -297,8 +297,12 @@ input[type=file]{
 }
 
 #ReviewInput {
-    width: 50%;
-    height: 300px;
+    width: 40vw;
+    height: 200px;
+}
+
+#LeaveReviewheader {
+    margin-top: 8vh;
 }
 
 </style>

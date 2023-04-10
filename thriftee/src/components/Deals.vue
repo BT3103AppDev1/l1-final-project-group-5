@@ -2,7 +2,7 @@
 
 <div id = "container">
     <div id="linebreak">
-        <hr>
+      
     </div>
     
     <div id = "container2">
@@ -31,24 +31,26 @@
         </div>
     </div>
 
+    
    
     <div id = "container3">
+       
         <div id="buyingdeals">
             <h1> Buying</h1>
 
             <div class="items" v-for="product in buying_list" :key="product.uid">
                 <div class="buyingitems">
                     <div id="buylistingtitle">
-                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }"> <em> {{ product.title }} </em> </router-link>
+                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">   <u> {{ product.title }} </u> </router-link>
                     </div>
                     <div id="buystatusbutton">
                         <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
                         <!-- change above to {{ status }} later instead of pending-->
                         <!-- NOTE: changes from Pending to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                        <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Pay</button>
+                        <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
                         <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> Review</u></button>  </router-link>
+                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
                             <button @click="closeQR">Close Popup</button>
@@ -66,22 +68,23 @@
             <div class="items" v-for="product in selling_list" :key="product.uid">
                 <div class="sellingitems">
                     <div id="selllistingtitle">
-                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }"> <em> {{ product.title }} </em> </router-link>
+                        <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">  <u> {{ product.title }} </u>  </router-link>
                     </div>
                     <div id="sellbuttons">
                         <div id="sellstatusbutton" v-if="product.status === 'Pending'">
-                            <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> Accept </button> 
-                            <button id = "rejectbutton" type="button"> Reject </button> 
+                            <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> ✓ </button> 
+                            <button id = "rejectbutton" type="button"> ✗ </button> 
                             <!-- change above to {{ status }} later instead of Accept-->
                             <!-- NOTE: changes from Accept to Review -->
                             <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         </div>
                         <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
-                            <button @click="confirmPayment(product.uid, product.buyerID)">✓</button>
+                            <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                         <div v-else-if="product.status === 'Paid'" id="paid-deals">
-                            <button>Paid</button>
-                            <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> Review</u></button>  </router-link>
+                            <!-- <button>Paid</button> -->
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                     </div>   
                 </div>
@@ -208,39 +211,40 @@ import firebaseApp from '../firebase.js';
 #paystatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgb(236, 238, 150);
+    background-color: rgba(92, 198, 164, 0.639);
     border-radius: 5px;
-    border: 0.8px solid black;
-    width: 100%;
+    border: 0.8px solid rgba(113, 223, 188, 0.817);
+    font-weight: normal;
     color: black;
 
 }
 
 #paystatusbutton:hover {
-    background-color: rgb(221, 224, 11);
     color: white;
 }
 
 #reviewstatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgb(201, 248, 226);
+    background-color: rgba(169, 236, 211, 0.852);
     border-radius: 5px;
-    border: 0.8px solid black;
-    width: 100%;
+    border: 0.8px solid rgba(171, 233, 210, 0.8);
     color: black;
+    text-decoration: none;
+    font-weight: normal;
 
 }
 
 #reviewstatusbutton:hover {
-    background-color: rgb(179, 225, 203);
+   
     color: white;
+    text-decoration: none;
 }
 .buyingitems {
     display: flex;
     justify-content: center;
-    margin-top: 3vh;
-    margin-bottom: 3vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
 }
 
 .sellingitems {
@@ -269,16 +273,16 @@ import firebaseApp from '../firebase.js';
 #buyingstatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(236, 208, 225, 0.802);
+    background-color: rgba(207, 206, 206, 0.802);
     border-radius: 5px;
-    border: 0.8px solid black;
+    border: 0.8px solid rgba(205, 203, 203, 0.802);
     width: 100%;
     color: black;
-
+    font-weight: normal;
 }
 
 #buyingstatusbutton:hover {
-    background-color: rgb(236, 208, 225);
+  
     color: white;
 }
 
@@ -286,40 +290,42 @@ import firebaseApp from '../firebase.js';
     display: flex;
     justify-content: center;
     margin-left: 3vw;
-    background-color: green;
-  
 }
 
 #acceptbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(165, 197, 175, 0.752);
-    border-radius: 5px;
-    border: 0.8px solid black;
+    color: rgba(51, 126, 75, 0.752);
+    /* border: 0.8px solid black; */
+    border:none;
+    font-size: 1.3em;
     width: 100%;
-    color: black;
+    background-color: transparent;
+    margin-right:1vw;
 
 }
 
 #acceptbutton:hover {
-    background-color: rgba(43, 121, 67, 0.752);
-    color: white;
+    border-bottom: 2px solid rgba(51, 126, 75, 0.752);
+   
 }
 
 #rejectbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(223, 120, 146, 0.752);
-    border-radius: 5px;
-    border: 0.8px solid black;
+   
     width: 100%;
-    color: black;
+    color: rgba(189, 68, 68, 0.752);
+    /* border: 0.8px solid black; */
+    border:none;
+    font-size: 1.3em;
+    width: 100%;
+    background-color: transparent;
 
 }
 
 #rejectbutton:hover {
-    background-color: rgba(148, 20, 52, 0.752);
-    color: white;
+    border-bottom: 2px solid rgba(189, 68, 68, 0.752);
 }
 
 #items {
@@ -330,7 +336,9 @@ import firebaseApp from '../firebase.js';
 #container3 {
     display: flex;
     justify-content: center;
-    margin-top: 5vh;
+    /* margin-top: 5vh; */
+    border-top: 2px solid black;
+    width: 60vw;
 }
 
 #buyingdeals {
@@ -342,24 +350,29 @@ import firebaseApp from '../firebase.js';
 #buyingdeals h1 {
     /* font-weight:bold; */
     font-family: Monaco;
-    color: white;
-    border: 2px solid rgb(114, 113, 113);
+    color: rgb(52, 50, 50);
+    /* border: 2px solid rgb(114, 113, 113); */
     border-radius: 5px;
+    margin-top: 3vh;
     font-size: 1.5em;
-    background-color: rgb(116, 115, 115);
+    background-color: transparent;
     margin-bottom: 5vh;
     padding-left: 10vh;
     padding-right: 10vh;
+    font-weight: bold;
+    border: 2px solid rgb(114, 113, 113);
 }
 
 #sellingdeals h1 {
     /* font-weight:bold; */
+    font-weight: bold;
     font-family: Monaco;
-    color: white;
+    color: rgb(52, 50, 50);
     border: 2px solid rgb(114, 113, 113);
     border-radius: 5px;
+    margin-top: 3vh;
     font-size: 1.5em;
-    background-color: rgb(116, 115, 115);
+    background-color: transparent;
     margin-bottom: 5vh;
     padding-left: 10vh;
     padding-right: 10vh;
@@ -406,7 +419,7 @@ import firebaseApp from '../firebase.js';
     border: none;
     margin-left: 5vw;
     font-size: 1.8em;
-    color: rgb(8, 8, 8);
+    color: rgb(164, 158, 158);
  }
 
 
@@ -453,5 +466,18 @@ hr {
   border: 1px solid black;
   padding: 20px;
 }
+
+a { text-decoration: none; }
+
+#linebreak {
+    margin-top: 3vh;
+}
+
+#tickbutton {
+    /* background-color: transparent; */
+    font-size: 1.1em;
+    /* border: none; */
+}
+
 
 </style>
