@@ -48,6 +48,7 @@
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Pay</button>
                         <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button>
+                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: listing.ListingID, isbuyer:true } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> {{ listing.Title }}</u></button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
                             <button @click="closeQR">Close Popup</button>

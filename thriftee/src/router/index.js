@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import {getAuth} from "firebase/auth"
+import {getAuth, onAuthStateChanged} from "firebase/auth"
 import Sell from "@/views/Sell.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import ProfileListingDisplay from "@/views/ProfileListingDisplay.vue";
@@ -71,6 +71,14 @@ const routes = [
     }
   },
   {
+    path: "/sellerprofile-:listingid-:isbuyer",
+    name: "CreateReviewView",
+    component: CustomerProfileView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/deals",
     name: "Deals",
     component: ProfileDealsDisplay,
@@ -100,17 +108,21 @@ const router = createRouter({
   routes,
 });
 
+
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      next({ name: 'LogInDisplay' });
-    } else {
-      next();
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        next({ name: 'LogInDisplay' });
+      } else {
+        next()
+      }
+    })
   } else {
-    next();
+    next()
   }
+    
 });
 
 export default router;

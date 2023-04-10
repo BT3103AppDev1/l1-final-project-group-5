@@ -56,7 +56,7 @@
     import firebaseApp from '../firebase.js';
     import { collection, addDoc, getFirestore } from "firebase/firestore";
     import { doc, getDoc } from "firebase/firestore";
-    import {getAuth} from "firebase/auth";
+    import {getAuth, onAuthStateChanged} from "firebase/auth";
     
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -64,17 +64,38 @@
     // listingID, buyerID, sellerID, rating, description
     
     export default {
+        props: {
+            listingUID: {
+                type: String,
+                default: ""
+            },
+
+            isBuyer: {
+                type: Boolean,
+                default: null
+            },
+        },
         
         data() {
             return {
                 ratingValue: 0,
-                description:""
+                description:"",
+                listing_uid: this.listingUID,
+                buyer_uid: null,
+                curr_user: null
             }
+        },
+
+        mounted() {
+            onAuthStateChanged(auth, (user) => {
+                this.curr_user = user.uid;
+            })
         },
     
         methods:{
             async saveReview(){
-                let user = auth.currentUser; // replace with unique user id
+                // let user = auth.curre
+                ntUser; // replace with unique user id
                 // let userData = user.data()
                 let listing = await getDoc(doc(db, "Listings", "eb7UW4wz2V7YjZTaO8c6"))//put listing ID here
                 let listingData = listing.data();
@@ -84,7 +105,7 @@
                 const docRef = await addDoc(
                     ref, {
                         ListingID: "placeholder for listing ID", //input listing ID here
-                        BuyerID: user.uid, 
+                        BuyerID: this.curr_user, 
                         SellerID:listingData.SellerID, //to replace with seller name
                         Rating: parseFloat(this.ratingValue),
                         Description:this.description
@@ -98,7 +119,7 @@
                 });
             },
             backToHome() {
-                this.$router.push({name: 'Home'})
+                window.history.back()
             }
         }
     }
