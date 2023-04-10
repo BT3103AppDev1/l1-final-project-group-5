@@ -71,6 +71,14 @@ const routes = [
     }
   },
   {
+    path: "/sellerprofile-:listingid-:isbuyer",
+    name: "CreateReviewView",
+    component: CustomerProfileView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/deals",
     name: "Deals",
     component: ProfileDealsDisplay,

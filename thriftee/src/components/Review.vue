@@ -64,11 +64,25 @@
     // listingID, buyerID, sellerID, rating, description
     
     export default {
+        props: {
+            listingUID: {
+                type: String,
+                default: ""
+            },
+
+            isBuyer: {
+                type: Boolean,
+                default: null
+            },
+        },
         
         data() {
             return {
                 ratingValue: 0,
-                description:""
+                description:"",
+                listing_uid: this.listingUID,
+                buyer_uid: null,
+                seller_uid
             }
         },
     
