@@ -35,13 +35,13 @@
   <div class='carousel-view'>
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
-      <img src ="src\assets\previous.png" class="btn" id=btn @click="previous">
+      <img src ="previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="slide in slides" class='slide' :key="slide.id">
         
       <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
       <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
       </div>
-      <img src ="src\assets\next.png" class="btn" id=btn  @click="next">
+      <img src ="next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
     
     </div>
@@ -52,7 +52,7 @@
 </template>
   
 <script>
-import firebaseApp from '../firebase.js';
+  import firebaseApp from '../firebase.js';
   import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
   const db = getFirestore(firebaseApp);
@@ -76,13 +76,13 @@ import firebaseApp from '../firebase.js';
           })
       },
       methods: {
-        next () {
-        const first = this.slides.shift()
-        this.slides = this.slides.concat(first)
+        nextSlide () {
+          const first = this.slides.shift()
+          this.slides = this.slides.concat(first)
         },
-        previous () {
-          const last = this.slides.pop()
-          this.slides = [last].concat(this.slides)
+        previousSlide () {
+            const last = this.slides.pop()
+            this.slides = [last].concat(this.slides)
         }, 
         
         async updateReviews() {
