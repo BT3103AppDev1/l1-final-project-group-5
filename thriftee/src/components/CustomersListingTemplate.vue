@@ -14,9 +14,10 @@
             <div id="viewprofile">
                 <h3><em>${{listing_price}}</em></h3>
                 <div id = "listedby">
-                    <p>listed by</p>
+                    <!-- <p>listed by</p> -->
+                    <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
                 </div>
-                <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button"> <u> {{seller_name}}</u></button>  </router-link>
+                
                 <!-- <router-link to="/sellerprofile">
                     custom
                     v-slot="{ navigate }" >
@@ -281,7 +282,7 @@ img {
     border: none;
     font-size: 0.90em;
     color: #626867;
-    margin-top: 2.1vh;
+    margin-top: 1.8vh;
 }
 
 #sellerpagebutton:hover {
@@ -291,7 +292,8 @@ img {
 }
 
 #listedby {
-    margin-left: 5vw;
+    display: flex;
+    margin-left: 4vw;
     margin-bottom: 1vh;
 }
 
