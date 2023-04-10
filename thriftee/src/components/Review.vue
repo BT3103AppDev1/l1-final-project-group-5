@@ -55,7 +55,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { collection, addDoc, getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import { query, where, getDocs } from "firebase/firestore";
     import {getAuth, onAuthStateChanged} from "firebase/auth";
     
     const db = getFirestore(firebaseApp);
@@ -82,31 +82,55 @@
                 description:"",
                 listing_uid: this.listingUID,
                 buyer_uid: null,
-                curr_user: null
+                seller_uid: null
             }
         },
 
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.curr_user = user.uid;
+                if (this.isBuyer) {
+                    this.buyer_uid = user.uid
+                } else {
+                    this.seller_uid = user.uid
+                }
+                this.getUserDetails(this.isBuyer, user.uid);
             })
+            
         },
     
         methods:{
+            async getUserDetails(isBuyer, currUID) {
+                if (isBuyer) {
+                    const dataQuery = query(collection(db, "Offers"), where("BuyerID", "==", currUID), where("ListingID", "==", this.listingUID))
+                    const querySnapshot = await getDocs(dataQuery);
+                    querySnapshot.forEach((doc) => {
+                        let dataRef = doc.data()
+                        this.seller_uid = dataRef.SellerID
+                    })
+                } else {
+                    const dataQuery = query(collection(db, "Offers"), where("SellerID", "==", currUID), where("ListingID", "==", this.listingUID))
+                    const querySnapshot = await getDocs(dataQuery);
+                    querySnapshot.forEach((doc) => {
+                        let dataRef = doc.data()
+                        this.buyer_uid = dataRef.BuyerID
+                    })
+                }
+                
+            },
+
             async saveReview(){
-                // let user = auth.curre
-                ntUser; // replace with unique user id
+                // let user = auth.currentUser; // replace with unique user id
                 // let userData = user.data()
-                let listing = await getDoc(doc(db, "Listings", "eb7UW4wz2V7YjZTaO8c6"))//put listing ID here
-                let listingData = listing.data();
+                // let listing = await getDoc(doc(db, "Listings", this.listing_uid))//put listing ID here
+                // let listingData = listing.data();
                 var ref = collection(db, "Reviews");
                 // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
                 // let userData = user.data()
                 const docRef = await addDoc(
                     ref, {
-                        ListingID: "placeholder for listing ID", //input listing ID here
-                        BuyerID: this.curr_user, 
-                        SellerID:listingData.SellerID, //to replace with seller name
+                        ListingID: this.listing_uid, //input listing ID here
+                        BuyerID: this.buyer_uid, 
+                        SellerID: this.seller_uid, //to replace with seller name
                         Rating: parseFloat(this.ratingValue),
                         Description:this.description
                     }

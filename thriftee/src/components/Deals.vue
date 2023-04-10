@@ -47,8 +47,8 @@
                         <!-- NOTE: changes from Pending to Review -->
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Pay</button>
-                        <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button>
-                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: listing.ListingID, isbuyer:true } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> {{ listing.Title }}</u></button>  </router-link>
+                        <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
+                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> Review</u></button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
                             <button @click="closeQR">Close Popup</button>
@@ -81,6 +81,7 @@
                         </div>
                         <div v-else-if="product.status === 'Paid'" id="paid-deals">
                             <button>Paid</button>
+                            <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button"> <u> Review</u></button>  </router-link>
                         </div>
                     </div>   
                 </div>
