@@ -2,7 +2,7 @@
 
 <div id = "container">
     <div id="linebreak">
-        <hr>
+     
     </div>
 
     <div id = "container2">
@@ -130,7 +130,7 @@
     border: none;
     margin-left: 0.3vw;
     font-size: 1.8em;
-    color: rgb(8, 8, 8);
+    color: rgb(164, 158, 158);
     margin-right: 5vw;
  }
 
@@ -242,6 +242,10 @@ hr {
 
 #container3 {
     width: 60vw;
+}
+
+#linebreak {
+    margin-top: 3vh;
 }
 
 </style>

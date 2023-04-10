@@ -12,6 +12,7 @@ import AllListings from "@/views/AllListings.vue";
 import ViewListing from "@/views/ViewListing.vue";
 import CustomerProfileView from "@/views/CustomerProfileView.vue";
 import CreateReviewView from "@/views/CreateReviewView.vue";
+import CustomerReviewView from "@/views/CustomerReviewView.vue";
 
 const auth = getAuth();
 
@@ -67,6 +68,14 @@ const routes = [
     path: "/sellerprofile-:sellerid",
     name: "CustomerProfileView",
     component: CustomerProfileView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/sellerreview-:sellerid",
+    name: "CustomerReviewView",
+    component: CustomerReviewView,
     meta: {
       requiresAuth: true
     }

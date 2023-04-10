@@ -235,8 +235,8 @@ export default {
 }
 .product-item {
   outline-style: solid;
-  width: 17.5vw;
-  height: 35vh;
+  width: auto;
+  height: auto;
   padding: 10px;
 }
 .product-image-placeholder {

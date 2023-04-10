@@ -1,12 +1,12 @@
 <template>
   <div id="container">
     <div id="linebreak">
-      <hr />
+    
     </div>
 
     <div id="container2">
       <div>
-        <router-link to="/profilelistings" custom v-slot="{ navigate }">
+        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> 
           <button
             @click="navigate"
             role="link"
@@ -19,7 +19,7 @@
       </div>
 
       <div>
-        <router-link to="/profilereviews" custom v-slot="{ navigate }">
+        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerReviewView', params:{ sellerid: seller_uid } }"> 
           <button
             @click="navigate"
             role="link"
@@ -120,7 +120,7 @@ export default {
   border: none;
   margin-left: 0.3vw;
   font-size: 1.8em;
-  color: rgb(8, 8, 8);
+  color: rgb(164, 158, 158);
   margin-right: 5vw;
 }
 
@@ -229,5 +229,9 @@ hr {
 
 #container3 {
   width: 60vw;
+}
+
+#linebreak {
+    margin-top: 3vh;
 }
 </style>

@@ -2,7 +2,7 @@
 
   <div id = "container">
       <div id="linebreak">
-          <hr>
+         
       </div>
   
   <div id = "container2">
@@ -216,7 +216,7 @@
   border: none;
   margin-left: 0.3vw;
   font-size: 1.8em;
-  color: rgb(8, 8, 8);
+  color: rgb(164, 158, 158);
 }
 #reviewsbutton:hover {
   font-size: 1.8em;
@@ -256,5 +256,9 @@ margin-left: 10vw;
 #entirereview {
 display: flex;
 width:60vw;
+}
+
+#linebreak {
+    margin-top: 3vh;
 }
 </style>
