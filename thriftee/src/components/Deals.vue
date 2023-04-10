@@ -418,7 +418,7 @@ import firebaseApp from '../firebase.js';
     background: transparent;
     border: none;
     color: rgb(8, 8, 8);
-    border-bottom: 1px solid rgb(98, 95, 95);
+    /* border-bottom: 1px solid rgb(98, 95, 95); */
     font-size: 1.15em;
  }
 
@@ -427,7 +427,7 @@ import firebaseApp from '../firebase.js';
     background: transparent;
     border: none;
     color: rgb(170, 168, 168);
-    border-bottom: 1px solid rgb(160, 154, 154);
+    /* border-bottom: 1px solid rgb(160, 154, 154); */
  }
 
     

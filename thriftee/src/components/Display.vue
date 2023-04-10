@@ -113,7 +113,7 @@
                 Condition: {{ listing.Condition }}
               </div>
               <div id="productTitle">
-                <router-link class="link" :to="{ name: 'ViewListing', params:{ listingid: listing.ListingID } }"> {{ listing.Title }} </router-link>
+                <router-link class="link" :to="{ name: 'ViewListing', params:{ listingid: listing.ListingID } }"> <button @click="navigate" role="link" id = "listingpagebutton" type="button"> <u> {{ listing.Title }}</u></button>  </router-link>
               </div>
               <div id="productPrice">
                 ${{ listing.Price }}
@@ -301,4 +301,14 @@ export default {
   display: none
 } */
 
+#listingpagebutton {
+  border: none;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#listingpagebutton:hover {
+  border: none;
+  color:grey;
+}
 </style>

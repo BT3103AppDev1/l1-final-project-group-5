@@ -1,4 +1,7 @@
 <template>
+     <div id = "back">
+            <button id = "backbutton" type="button" @click="goBack">←</button> 
+    </div>
     <div id = "profiledetails">
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
@@ -57,6 +60,9 @@
                 this.location = dataSnap.Meet_Up
                 this.name = dataSnap.Name
 
+            },
+            goBack() {
+                window.history.back()
             }
         }, 
         
@@ -140,6 +146,20 @@ img {
     height: auto;
     margin-left: 2vw;
     border: 50%;
+}
+
+#backbutton {
+    font-size: 2em;
+    border: none;
+    background-color: transparent;
+}
+
+#backbutton:hover {
+    font-size: 1.5em;
+    border: none;
+    background-color: transparent;
+    color: grey;
+    border-bottom: 1px solid grey;
 }
 
 </style>
