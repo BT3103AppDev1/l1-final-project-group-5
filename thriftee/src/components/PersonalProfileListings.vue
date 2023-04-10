@@ -214,7 +214,7 @@ hr {
   /* background-color: aqua; */
   width: 75vw;
   display: table-cell;
-  border-left: 2px solid black;
+  
 }
 .displayContainer {
   display: grid;
@@ -222,7 +222,7 @@ hr {
   row-gap: 10px;
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  background-color: #7e7d7d20;
+  background-color: transparent;
   height: auto;
 }
 .product-item {
