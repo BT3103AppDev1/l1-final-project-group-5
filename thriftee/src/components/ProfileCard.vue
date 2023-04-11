@@ -65,23 +65,17 @@
             async getRating() {
                 let user = auth.currentUser;
                 let userID = user.uid;
-                let count =0;
-                const firstQuery = query(collection(db, "Reviews"), where("SellerID", "==", userID))
-                const secondQuery = query(collection(db, "Reviews"), where("BuyerID", "==", userID))
+                let count = 0;
+                const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
+               
                 const querySnapshot = await getDocs(firstQuery);
                 
                 querySnapshot.forEach((doc) => {
                     let review = doc.data()
-                    this.value += review.Rating
+                    this.value += parseFloat(review.Rating)
                     count++
                 })
-                const querySnapshot2 = await getDocs(secondQuery);
-                querySnapshot2.forEach((doc) => {
-                    let review = doc.data()
-                    this.value += review.Rating
-                    count++
-                })
-                this.value = this.value/5
+                this.value = this.value/count;
             },
 
             async getName() {

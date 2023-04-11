@@ -88,28 +88,25 @@
         async updateReviews() {
           let user = auth.currentUser;
           let userID = user.uid;
-          const firstQuery = query(collection(db, "Reviews"), where("SellerID", "==", userID))
-          const secondQuery = query(collection(db, "Reviews"), where("BuyerID", "==", userID))
+          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
+          
           const querySnapshot = await getDocs(firstQuery);
           
+          if(querySnapshot.empty){
+            this.slides.push({   
+                title: "No reviews yet :<",
+                buyer: "Thriftee"
+              });
+          } else{
           querySnapshot.forEach((doc) => {
               let review = doc.data()
               this.slides.push({   
                 title: review.Description,
-                buyer: review.BuyerID
+                buyer: review.ReviewerName
               });
               
           })
-          const querySnapshot2 = await getDocs(secondQuery);
-          querySnapshot2.forEach((doc) => {
-              let review = doc.data()
-              this.slides.push({        
-                title: review.Description,
-                buyer: review.SellerID
-              });
-              
-          })
-          
+        }
       }, 
   }
 }

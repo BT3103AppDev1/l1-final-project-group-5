@@ -55,7 +55,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { collection, addDoc, getFirestore } from "firebase/firestore";
-    import { query, where, getDocs } from "firebase/firestore";
+    import { doc,getDoc,query, where, getDocs } from "firebase/firestore";
     import {getAuth, onAuthStateChanged} from "firebase/auth";
     
     const db = getFirestore(firebaseApp);
@@ -119,20 +119,28 @@
             },
 
             async saveReview(){
-                // let user = auth.currentUser; // replace with unique user id
-                // let userData = user.data()
-                // let listing = await getDoc(doc(db, "Listings", this.listing_uid))//put listing ID here
-                // let listingData = listing.data();
+                let user = auth.currentUser; // replace with unique user id
+                
+                let reviewee = ""
+                if(user.uid == this.seller_uid){
+                    reviewee = this.buyer_uid
+                } else {
+                    reviewee = this.seller_uid
+                }
                 var ref = collection(db, "Reviews");
-                // let user = await getDoc(doc(db, "Profiles", "uniqueUserID")) // replace with unique user id
-                // let userData = user.data()
+                let userProfile = await getDoc(doc(db, "Profiles", user.uid))
+                let userProfileData = userProfile.data();
+                let RevieweeProfile = await getDoc(doc(db, "Profiles", reviewee))
+                let RevieweeProfileData = RevieweeProfile.data();
                 const docRef = await addDoc(
                     ref, {
                         ListingID: this.listing_uid, //input listing ID here
-                        BuyerID: this.buyer_uid, 
-                        SellerID: this.seller_uid, //to replace with seller name
+                        ReviewerID: user.uid, 
+                        RevieweeID: reviewee, //to replace with seller name
                         Rating: parseFloat(this.ratingValue),
-                        Description:this.description
+                        Description:this.description,
+                        ReviewerName: userProfileData.Name,
+                        RevieweeName: RevieweeProfileData.Name
                     }
                 )
                 .then(()=>{
