@@ -52,11 +52,14 @@
                         <div id="productPrice">
                             ${{ listing.data().Price }}
                         </div>
-                        <router-link to="/sell"
+                        <!-- <router-link to="/sell"
                             custom
                             v-slot="{ navigate }" >
                             <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>
-                        </router-link>  
+                        </router-link>   -->
+                        <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.id } }"> 
+                            <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>  
+                        </router-link>
                         <button id="deletebutton" type="button" @click="deleteButton(listing.id)">Delete</button>
                     </div>
                 </div>
