@@ -60,6 +60,46 @@
                 </div>
             </div>
             <h2 v-if="buying_list.length === 0">No buying deals</h2>
+
+            <!-- test using table, delete from here on if dw -->
+            <table class="deal_table">
+                <thead>
+                    <tr>
+                        <th>Listing</th>
+                        <th>Seller</th>
+                        <th>Offer Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="product in buying_list" :key="product.uid">
+                        <td>
+                            <div id="buylistingtitle">
+                                <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">   <u> {{ product.title }} </u> </router-link>
+                            </div>
+                        </td>
+                        <td>{{product.sellerID}}</td>
+                        <td>${{product.offerPrice}}</td>
+                        <td>
+                            <div id="buystatusbutton">
+                                <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
+                                <!-- change above to {{ status }} later instead of pending-->
+                                <!-- NOTE: changes from Pending to Review -->
+                                <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                                <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
+                                <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
+                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                <div class="qrcode" v-if="showQR">
+                                    <img src="qr.png">
+                                    <button @click="closeQR">Close Popup</button>
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- delete till here -->
         </div>
        
         <div id="sellingdeals">
@@ -90,6 +130,74 @@
                 </div>
             </div>
             <h2 v-if="selling_list.length === 0">No selling deals</h2>
+
+            <!-- test using table, delete from here on if dw -->
+            <table class="deal_table">
+                <thead>
+                    <tr>
+                        <th>Listing</th>
+                        <th>Buyer</th>
+                        <th>Offer Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="product in selling_list2" :key="product.uid">
+                        <tr>
+                            <td :rowspan="product.offer.length">
+                                <div id="selllistingtitle">
+                                    <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">  <u> {{ product.title }} </u>  </router-link>
+                                </div>
+                            </td>
+                            <td>{{product.offer[0].buyerID}}</td>
+                            <td>${{product.offer[0].offerPrice}}</td>
+                            <td>
+                                <div id="sellbuttons">
+                                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> ✓ </button> 
+                                        <button id = "rejectbutton" type="button"> ✗ </button> 
+                                        <!-- change above to {{ status }} later instead of Accept-->
+                                        <!-- NOTE: changes from Accept to Review -->
+                                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                                    </div>
+                                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                                        <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    </div>
+                                    <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                                        <!-- <button>Paid</button> -->
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    </div>
+                                </div>   
+                            </td>
+                        </tr>
+                        <tr v-for="item in product.offer.slice(1)" :key="product.uid + item.buyerID">
+                            <td>{{item.buyerID}}</td>
+                            <td>${{item.offerPrice}}</td>
+                            <td>
+                                <div id="sellbuttons">
+                                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
+                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> ✓ </button> 
+                                        <button id = "rejectbutton" type="button"> ✗ </button> 
+                                        <!-- change above to {{ status }} later instead of Accept-->
+                                        <!-- NOTE: changes from Accept to Review -->
+                                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                                    </div>
+                                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                                        <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    </div>
+                                    <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                                        <!-- <button>Paid</button> -->
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    </div>
+                                </div>   
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <!-- delete till here -->
         </div>
     </div>
 </div>
@@ -126,6 +234,7 @@ import firebaseApp from '../firebase.js';
                 ], 
                 buying_list: [], // test
                 selling_list: [],
+                selling_list2: [],
                 user_uid: "",
                 showQR: false
             };
@@ -138,6 +247,7 @@ import firebaseApp from '../firebase.js';
                 this.getSellingList()
                 
             })
+            console.log(this.selling_list2)
         },
 
         methods: {
@@ -161,6 +271,7 @@ import firebaseApp from '../firebase.js';
                 const querySnapshot = await getDocs(sellingQuery);
                 querySnapshot.forEach((doc) => {
                     let dataRef = doc.data()
+
                     this.selling_list.push({ 
                         title: dataRef.ListingName, 
                         uid: dataRef.ListingID, 
@@ -168,6 +279,23 @@ import firebaseApp from '../firebase.js';
                         buyerID: dataRef.BuyerID,
                         status: dataRef.Status
                     })
+
+                    if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
+                        this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
+                            buyerID: dataRef.BuyerID,
+                            offerPrice: dataRef.OfferAmount
+                        })
+                    } else {
+                        this.selling_list2.push({ 
+                            title: dataRef.ListingName, 
+                            uid: dataRef.ListingID, 
+                            status: dataRef.Status,
+                            offer: [{
+                                offerPrice: dataRef.OfferAmount,
+                                buyerID: dataRef.BuyerID
+                            }]
+                        })
+                    }
                 })
             },
 
@@ -479,5 +607,40 @@ a { text-decoration: none; }
     /* border: none; */
 }
 
+.deal_table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
+.deal_table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.deal_table td, .deal_table th {
+  padding: 12px 15px;
+  border: 1px black solid;
+}
+
+.deal_table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.deal_table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.deal_table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.deal_table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
 </style>
