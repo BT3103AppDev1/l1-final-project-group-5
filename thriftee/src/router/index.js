@@ -19,11 +19,6 @@ const auth = getAuth();
 const routes = [
   {
     path: "/",
-    name: "AllListings",
-    component: AllListings,
-  },
-  {
-    path: "/",
     name: "LogInDisplay",
     component: LogInDisplay,
   },
@@ -116,6 +111,11 @@ const routes = [
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: "/",
+    name: "AllListings",
+    component: AllListings,
   },
 ];
 const router = createRouter({
