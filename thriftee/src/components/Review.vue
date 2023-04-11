@@ -47,7 +47,7 @@
 
         <div id = "reviewButtons">
             <button id = "cancelbutton" type="button" @click="backToHome">Cancel</button> 
-            <button id = "submitbutton" type="button" @click="saveReview">Submit</button> 
+            <button id = "submitbutton" role= "link" type="button" @click="saveReview">Submit</button>
         </div>
     </div>
 </template>
@@ -132,6 +132,10 @@
                 let userProfileData = userProfile.data();
                 let RevieweeProfile = await getDoc(doc(db, "Profiles", reviewee))
                 let RevieweeProfileData = RevieweeProfile.data();
+                if (this.description.length == 0){
+                    alert("Please provide a review")
+                    location.reload()
+                }
                 const docRef = await addDoc(
                     ref, {
                         ListingID: this.listing_uid, //input listing ID here
@@ -145,6 +149,7 @@
                 )
                 .then(()=>{
                     alert("Review added successfully")
+                    window.history.back()
                 })
                 .catch((error)=>{
                     alert("Unsuccessful operation, error:" + error)
