@@ -44,20 +44,20 @@
                     </div>
                     <div class="product-text">
                         <div id="productCondition">
-                            Condition: {{ listing.Condition }}
+                            Condition: {{ listing.data().Condition }}
                         </div>
                         <div id="productTitle">
-                            {{ listing.Title }}
+                            {{ listing.data().Title }}
                         </div>
                         <div id="productPrice">
-                            ${{ listing.Price }}
+                            ${{ listing.data().Price }}
                         </div>
                         <router-link to="/sell"
                             custom
                             v-slot="{ navigate }" >
                             <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>
                         </router-link>  
-                        <button id="deletebutton" type="button" @click="delete">Delete</button>
+                        <button id="deletebutton" type="button" @click="deleteButton(listing.id)">Delete</button>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, getDocs } from "firebase/firestore";
+    import { collection, doc, getDocs, deleteDoc, query, where } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -99,11 +99,22 @@
                 const querySnapshot = await getDocs(collection(db, "Listings"));
                 querySnapshot.forEach((doc) => {
                     if (doc.data().SellerID == this.uid)
-                        this.listings.push(doc.data());
+                        this.listings.push(doc);
                 });
             },
-            delete() {
-                console.log("hello")
+            async deleteButton(listingID) {
+                // await deleteDoc(doc(db, "Listings", listingID)) // delete from Listings collection
+                // console.log("delete listing from Listings collection")
+                const listingOffersQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
+                const querySnapshot = await getDocs(listingOffersQuery)
+                querySnapshot.forEach(function(doc) {
+                    console.log(doc.ref)
+                    // doc.ref.delete()
+                    deleteDoc(doc.ref)
+                }) 
+                console.log("delete listing offers from Offers collection")
+                location.reload() 
+                alert("Listing deleted!")
             },
         },
         created() {
