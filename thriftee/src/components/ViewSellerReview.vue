@@ -6,21 +6,31 @@
         </div>
     
     <div id = "container2">
-        <div>
-            <router-link to="/profilelistings"
-                custom
-                v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "listingsbutton" type="button"> <em>Listings</em></button> 
-            </router-link>  
-        </div>
+      <div>
+        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> 
+          <button
+            @click="navigate"
+            role="link"
+            id="listingsbutton"
+            type="button"
+          >
+            <em>Listings</em>
+          </button>
+        </router-link>
+      </div>
        
-        <div>
-            <router-link to="/profilereviews"
-                custom
-                v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "reviewsbutton" type="button"> <em>Reviews</em></button> 
-            </router-link>  
-        </div>
+      <div>
+        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerReviewView', params:{ sellerid: seller_uid } }"> 
+          <button
+            @click="navigate"
+            role="link"
+            id="reviewsbutton"
+            type="button"
+          >
+            <em>Reviews</em>
+          </button>
+        </router-link>
+      </div>
   
        
     </div>
@@ -53,14 +63,22 @@
     const auth = getAuth();
     
     export default {
-        name: "PersonalProfileReviews",
+        name: "ViewSellerReview",
+        props: {
+            sellerUID: {
+                type: String,
+                default: ""
+            }
+        
+        },
         data() {
             return {
                 value: 3,
                 name: "", 
                 uid: "", 
                 slides:[],
-            };
+                seller_uid: this.sellerUID,
+            }
         },
         mounted() {
             onAuthStateChanged(auth, (user) => {
@@ -68,6 +86,7 @@
                 this.uid = user.uid;
                 this.updateReviews()
             })
+            
         },
         methods: {
           nextSlide () {
@@ -80,7 +99,8 @@
           }, 
           
           async updateReviews() {
-            const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", ))
+            console.log(this.seller)
+            const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
             
             const querySnapshot = await getDocs(firstQuery);
             

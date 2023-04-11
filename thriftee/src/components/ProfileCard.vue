@@ -5,7 +5,7 @@
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: {{ value }}/5</p>
+                    <p class="mt-2">Rating: {{ value }}</p>
                 </div>
             
                 <div class="Location">
@@ -69,13 +69,16 @@
                 const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
                
                 const querySnapshot = await getDocs(firstQuery);
-                
-                querySnapshot.forEach((doc) => {
-                    let review = doc.data()
-                    this.value += parseFloat(review.Rating)
-                    count++
-                })
-                this.value = this.value/count;
+                if(querySnapshot.empty){
+                    this.value = "No Reviews Yet"
+                } else{
+                    querySnapshot.forEach((doc) => {
+                        let review = doc.data()
+                        this.value += parseFloat(review.Rating)
+                        count++
+                    })
+                    this.value = Math.round(this.value/count * 10)/10 +"/5";
+                }
             },
 
             async getName() {
