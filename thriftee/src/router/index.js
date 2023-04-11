@@ -19,6 +19,11 @@ const auth = getAuth();
 const routes = [
   {
     path: "/",
+    name: "AllListings",
+    component: AllListings,
+  },
+  {
+    path: "/",
     name: "LogInDisplay",
     component: LogInDisplay,
   },
