@@ -60,9 +60,9 @@
                             ${{ listing.data().Price }}
                         </div>
                         <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.id } }"> 
-                            <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>  
+                            <button @click="navigate" role="link" id = "editbutton" type="button"><u>Edit</u></button>  
                         </router-link>
-                        <button id="deletebutton" type="button" @click="deleteButton(listing.id)">Delete</button>
+                        <button id="deletebutton" type="button" @click="deleteButton(listing.id)"><u>Delete</u></button>
                     </div>
                 </div>
             </div>
@@ -166,37 +166,54 @@
 
  #editbutton {
     margin-right: 1vw;
-    font-size: 0.85em;
+    font-size: 0.9em;
     margin-top: 1vh;
-    background-color: rgb(188, 191, 192);
-    border: 0.1px solid rgb(144, 142, 142);
-    border-radius: 5px;
+    background-color: transparent;
+    border: none;
+    /* border-bottom: 2px solid rgb(98, 98, 98); */
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:0px;
+    font-weight: bolder;
+    color:rgb(98, 98, 98);
  }
 
  #editbutton:hover {
     margin-right: 1vw;
-    font-size: 0.85em;
+    font-size: 0.9em;
     margin-top: 1vh;
-    background-color: rgba(81, 94, 97, 0.688);
-    border: 0.1px solid rgb(105, 104, 104);
-    border-radius: 5px;
+    background-color: transparent;
+    border: none;
+    /* border-bottom: 2px solid rgb(98, 98, 98); */
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:0px;
+    font-weight: bolder;
+    color:rgb(189, 183, 183);
  }
 
  #deletebutton {
     font-size: 0.85em;
     margin-top: 1vh;
-    background-color: rgba(231, 137, 137, 0.76);
-    border: 0.1px solid rgb(144, 142, 142);
-    border-radius: 5px;
+    background-color: transparent;
+    border: none;
+    /* border-bottom: 2px solid rgb(172, 84, 84); */
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:0px;
+    font-weight: bolder;
+    color:rgb(172, 84, 84);
  }
 
  #deletebutton:hover {
-    font-size: 0.85em;
-    margin-top: 1vh;
-    background-color: rgba(164, 71, 71, 0.903);
-    border: 0.1px solid rgb(105, 104, 104);
-    border-radius: 5px;
-  
+    background-color: transparent;
+    border:none;
+    /* border-bottom: 2px solid rgb(222, 176, 176); */
+    padding-left:1px;
+    padding-right:1px;
+    padding-bottom:0px;
+    font-weight: bolder;
+    color:rgb(222, 176, 176);
  }
 
  #reviewsbutton:hover {
