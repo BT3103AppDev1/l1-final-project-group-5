@@ -35,13 +35,21 @@
   <div class='carousel-view'>
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
-      <img src ="previous.png" class="btn" id=btn @click="previousSlide">
+      <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="slide in slides" class='slide' :key="slide.id">
-        
+      
       <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
+      <div v-if="havestar" id="star-rating">
+      <p> {{ slide.ratingstar }} / 5 </p>
+      <p> </p>
+       <p id="startext">★</p>
+      </div>
+      <div v-else id="nostar">
+        <p> </p>
+      </div>
       <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
       </div>
-      <img src ="next.png" class="btn" id=btn  @click="nextSlide">
+      <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
     
     </div>
@@ -66,6 +74,7 @@
               name: "", 
               uid: "", 
               slides:[],
+              havestar: false
           };
       },
       mounted() {
@@ -93,16 +102,20 @@
           const querySnapshot = await getDocs(firstQuery);
           
           if(querySnapshot.empty){
+            this.havestar = false;
             this.slides.push({   
-                title: "No reviews yet :<",
-                buyer: "Thriftee"
+                title: "No reviews yet",
+                buyer: "",
+                ratingstar: ""
               });
           } else{
           querySnapshot.forEach((doc) => {
               let review = doc.data()
+              this.havestar= true
               this.slides.push({   
                 title: review.Description,
-                buyer: review.ReviewerName
+                buyer: review.ReviewerName + ",",
+                ratingstar: review.Rating
               });
               
           })
@@ -114,7 +127,20 @@
 
   
 <style scoped>
+#star-rating {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
 
+#nostar {
+  margin-bottom: 10vh;
+}
+
+#startext {
+  color: orange;
+  margin-left: 0.8vw;
+}
 .carousel-view {
   display: flex;
   flex-direction: column;
@@ -130,35 +156,40 @@
   margin-left: 20vw;
 }
 .buyer{
-  padding:20px;
+  padding-top:10px;
+  margin-left:0.8vw;
   text-align: left;
   font-size: x-large;
-  background-color: black;
-  color:white;
-  font-family: "Lucida Console", "Courier New", monospace;
+  /* background-color: black; */
+  color:rgb(74, 71, 71);
+  /* font-family: "Lucida Console", "Courier New", monospace; */
 }
 .description{
   display: flex;
+  text-align: center;
   align-items: center;
-  flex: left;
+  justify-content: center;
   font-size:x-large;
-  font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .slide {
-  max-width: 400px;
+  width: 100%;
   flex: 0 0 23em;
-  height: 15em;
+  height: 32vh;
   margin-top: 3vw;
   display: inline-block;
-  border: solid;
-  margin: 10px;
+  border: 1px solid rgb(242, 242, 242);
+  margin-top: 7vh;
   border-width: 0.3em;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
- 
-  background-color: beige;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  background-color: rgba(251, 250, 250, 0.852);
 }
+
+
+
 
 .slide:nth-last-of-type(odd) {
   display:none;
@@ -258,4 +289,6 @@ width:60vw;
 #linebreak {
     margin-top: 3vh;
 }
+
+
 </style>

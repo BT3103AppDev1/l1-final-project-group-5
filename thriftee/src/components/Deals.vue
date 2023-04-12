@@ -39,17 +39,15 @@
             <h1> Buying</h1>
 
             <div class="items" v-for="product in buying_list" :key="product.uid">
-                <div class="buyingitems">
+                <!-- <div class="buyingitems">
                     <div id="buylistingtitle">
                         <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">   <u> {{ product.title }} </u> </router-link>
                     </div>
                     <div id="buystatusbutton">
                         <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
-                        <!-- change above to {{ status }} later instead of pending-->
-                        <!-- NOTE: changes from Pending to Review -->
-                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
+                     
                         <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
-                        <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
+                     
                         <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
@@ -57,12 +55,12 @@
                         </div>
                         
                     </div>
-                </div>
+                </div> -->
             </div>
             <h2 v-if="buying_list.length === 0">No buying deals</h2>
 
             <!-- test using table, delete from here on if dw -->
-            <table class="deal_table">
+            <table v-else class="deal_table">
                 <thead>
                     <tr>
                         <th>Listing</th>
@@ -132,7 +130,7 @@
             <h2 v-if="selling_list.length === 0">No selling deals</h2>
 
             <!-- test using table, delete from here on if dw -->
-            <table class="deal_table">
+            <table v-else class="deal_table">
                 <thead>
                     <tr>
                         <th>Listing</th>
@@ -607,28 +605,30 @@ a { text-decoration: none; }
     /* border: none; */
 }
 
+
 .deal_table {
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    
+   
 }
 
 .deal_table thead tr {
-    background-color: #009879;
+    background-color: #61686ba2;
     color: #ffffff;
     text-align: left;
 }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
-  border: 1px black solid;
+  border: 1px rgb(210, 218, 220) solid;
+ 
 }
 
 .deal_table tbody tr {
     border-bottom: 1px solid #dddddd;
+    border-radius: 50px;
 }
 
 .deal_table tbody tr:nth-of-type(even) {
@@ -636,11 +636,13 @@ a { text-decoration: none; }
 }
 
 .deal_table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
+   
 }
 
 .deal_table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
 }
+
+
 </style>
