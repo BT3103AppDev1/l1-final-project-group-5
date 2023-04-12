@@ -1,15 +1,17 @@
 <template>
-    <div>
-     <div id = "back">
-            <button id = "backbutton" type="button" @click="goBack">←</button> 
-    </div>
     <div id = "profiledetails">
         <img id = "profilephoto" src="default.png" alt="Profile Photo">
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: {{ value }}</p>
+                    <p class="mt-2">Rating: </p>
+                    <div v-if="havevalue" id ="overallstartext">
+                        <p id="valueofstar"> {{ value }} </p>
+                        <p id ="startext"> ★</p>
+                    </div>
+                    
+                    <p v-else id="emptystarvaluestar">{{ value }}</p>
                 </div>
             
                 <div class="Location">
@@ -17,19 +19,8 @@
                 </div>
         </div>
         
-        <!-- <div id = "buttonsofprofile">
-            <div>
-            <router-link to="/editprofile"
-                custom
-                v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "editbutton" type="button" >Edit Profile</button> 
-            </router-link>  
-            </div>
-            <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
-        </div> -->
-        
+       
     </div>
-</div>
 </template>
 
 <script>
@@ -172,6 +163,7 @@ button{
   color: white;
  
 }
+
 img {
     width: auto;
     height: auto;
@@ -179,18 +171,25 @@ img {
     border: 50%;
 }
 
-#backbutton {
-    font-size: 2em;
-    border: none;
-    background-color: transparent;
+.rate {
+    display: flex;
 }
 
-#backbutton:hover {
-    font-size: 1.5em;
-    border: none;
-    background-color: transparent;
+#emptystarvaluestar {
+    margin-left: 0.5vw;
     color: grey;
-    border-bottom: 1px solid grey;
 }
 
+#valueofstar {
+    margin-left: 0.5vw;
+}
+
+#startext {
+  color: orange;
+  margin-left: 0.4vw;
+}
+
+#overallstartext {
+    display: flex;
+}
 </style>

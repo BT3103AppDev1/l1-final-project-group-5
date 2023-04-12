@@ -5,7 +5,13 @@
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: {{ value }}</p>
+                    <p class="mt-2">Rating: </p>
+                    <div v-if="havevalue" id ="overallstartext">
+                        <p id="valueofstar"> {{ value }} </p>
+                        <p id ="startext"> ★</p>
+                    </div>
+                    
+                    <p v-else id="emptystarvaluestar">{{ value }}</p>
                 </div>
             
                 <div class="Location">
@@ -42,7 +48,8 @@
                 value: 0,
                 location: "",
                 name: "",
-                uid: ""
+                uid: "",
+                havevalue: false
             }
         },
         
@@ -71,8 +78,10 @@
                 const querySnapshot = await getDocs(firstQuery);
                 if(querySnapshot.empty){
                     this.value = "No Reviews Yet"
+                    this.havevalue = false
                 } else{
                     querySnapshot.forEach((doc) => {
+                        this.havevalue = true
                         let review = doc.data()
                         this.value += parseFloat(review.Rating)
                         count++
@@ -182,4 +191,25 @@ img {
     border: 50%;
 }
 
+.rate {
+    display: flex;
+}
+
+#emptystarvaluestar {
+    margin-left: 0.5vw;
+    color: grey;
+}
+
+#valueofstar {
+    margin-left: 0.5vw;
+}
+
+#startext {
+  color: orange;
+  margin-left: 0.4vw;
+}
+
+#overallstartext {
+    display: flex;
+}
 </style>

@@ -31,7 +31,12 @@
         </div>
     </div>
 
-    <h2 v-if="listings.length === 0"> Start Listing! </h2>
+    <h2 id = "ifnolisting" v-if="listings.length === 0"> No Current Listings </h2>
+    <router-link  v-if="listings.length === 0" to="/sell"
+                custom
+                v-slot="{ navigate }" >
+                <button @click="navigate" role="link" id = "startsellingnow" type="button"> <em>＋  Start Listing </em></button> 
+            </router-link>  
 
     <div id = "container3">
         <div class="rightContainer">
@@ -256,6 +261,24 @@ hr {
 
 #linebreak {
     margin-top: 3vh;
+}
+
+#ifnolisting {
+    margin-top: 5vw;
+    font-weight: bold;
+    color: rgb(83, 80, 80);
+}
+
+#startsellingnow {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid grey;
+    color: grey;
+}
+
+#startsellingnow:hover {
+    color: rgb(215, 209, 209);
+    border-bottom: 2px solid rgb(215, 209, 209);
 }
 
 </style>
