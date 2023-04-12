@@ -156,7 +156,9 @@
                         ListingID: this.listing_uid,
                         ListingName: this.listing_name,
                         OfferAmount: this.offerAmount,
-                        Status: "Pending"
+                        Status: "Pending",
+                        isBuyerReviewed: false,
+                        isSellerReviwed: false
                     })
                     alert("Offer sent!")
                 } catch(error) {

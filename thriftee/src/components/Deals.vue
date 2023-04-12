@@ -282,7 +282,7 @@ import firebaseApp from '../firebase.js';
                         buyerID: dataRef.BuyerID,
                         status: dataRef.Status
                     })
-                    if (dataRef.Status !== "Deleted/Others") {
+                    if (dataRef.Status !== "Deleted/Others" && dataRef.Status !== "Reviewed") {
                         // if offer for listing exists
                         if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
                             this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
