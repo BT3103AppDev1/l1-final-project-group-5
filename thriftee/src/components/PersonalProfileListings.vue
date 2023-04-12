@@ -31,6 +31,8 @@
         </div>
     </div>
 
+    <h2 v-if="listings.length === 0"> Start Listing! </h2>
+
     <div id = "container3">
         <div class="rightContainer">
             <div class="displayContainer">
@@ -111,7 +113,7 @@
                 //     Status: "Deleted"
                 // })
                 location.reload() 
-                alert("Listing deleted!")
+                alert("Listing deleted! (delete function has not been implemented -- waiting for status database confirmation)")
             },
         },
         created() {
