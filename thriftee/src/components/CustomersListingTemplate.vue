@@ -121,12 +121,6 @@
                 this.seller_name = userProfileData.Name;
             },
 
-            async getName() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                this.name = userProfileData.Name;
-            },
-
             async goToTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
@@ -152,7 +146,9 @@
                 try {
                     await addDoc(collection(db, "Offers"), { 
                         SellerID: this.seller_uid,
+                        SellerName: this.seller_name,
                         BuyerID: this.buyer_uid,
+                        BuyerName: this.buyer_name,
                         ListingID: this.listing_uid,
                         ListingName: this.listing_name,
                         OfferAmount: this.offerAmount,

@@ -78,7 +78,9 @@
                                 <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">   <u> {{ product.title }} </u> </router-link>
                             </div>
                         </td>
-                        <td>{{product.sellerID}}</td>
+                        <td>
+                            <router-link id = "profilebutton" :to="{ name: 'CustomerProfileView', params:{ sellerid: product.sellerID } }">  <u> {{product.sellerName}} </u>  </router-link>
+                        </td>
                         <td>${{product.offerPrice}}</td>
                         <td>
                             <div id="buystatusbutton">
@@ -88,7 +90,9 @@
                                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                 <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
                                     <button id="paystatusbutton"  @click="openQR">Payment</button>
-                                    <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> 
+                                        <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  
+                                    </router-link>
                                 </div>
         
                                 <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
@@ -153,7 +157,9 @@
                                     <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">  <u> {{ product.title }} </u>  </router-link>
                                 </div>
                             </td>
-                            <td>{{product.offer[0].buyerID}}</td>
+                            <td>   
+                                <router-link id = "profilebutton" :to="{ name: 'CustomerProfileView', params:{ sellerid: product.offer[0].buyerID } }">  <u> {{product.offer[0].buyerName}} </u>  </router-link>
+                            </td>
                             <td>${{product.offer[0].offerPrice}}</td>
                             <td>
                                 <div id="sellbuttons">
@@ -176,7 +182,9 @@
                             </td>
                         </tr>
                         <tr v-for="item in product.offer.slice(1)" :key="product.uid + item.buyerID">
-                            <td>{{item.buyerID}}</td>
+                            <td>
+                                <router-link id = "profilebutton" :to="{ name: 'CustomerProfileView', params:{ sellerid: item.buyerID } }">  <u> {{item.buyerName}} </u>  </router-link>
+                            </td>
                             <td>${{item.offerPrice}}</td>
                             <td>
                                 <div id="sellbuttons">
@@ -250,7 +258,6 @@ import firebaseApp from '../firebase.js';
                 this.getSellingList()
                 
             })
-            console.log(this.selling_list2)
         },
 
         methods: {
@@ -264,7 +271,8 @@ import firebaseApp from '../firebase.js';
                         uid: dataRef.ListingID, 
                         offerPrice: dataRef.OfferAmount,
                         sellerID: dataRef.SellerID,
-                        status: dataRef.Status
+                        status: dataRef.Status,
+                        sellerName: dataRef.SellerName
                     })
                 })
             },
@@ -280,13 +288,14 @@ import firebaseApp from '../firebase.js';
                         uid: dataRef.ListingID, 
                         offerPrice: dataRef.OfferAmount,
                         buyerID: dataRef.BuyerID,
-                        status: dataRef.Status
+                        status: dataRef.Status,
                     })
                     if (dataRef.Status !== "Deleted/Others" && dataRef.Status !== "Reviewed") {
                         // if offer for listing exists
                         if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
                             this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
                                 buyerID: dataRef.BuyerID,
+                                buyerName: dataRef.BuyerName,
                                 offerPrice: dataRef.OfferAmount,
                                 status: dataRef.Status
                             })
@@ -297,6 +306,7 @@ import firebaseApp from '../firebase.js';
                                 offer: [{
                                     offerPrice: dataRef.OfferAmount,
                                     buyerID: dataRef.BuyerID,
+                                    buyerName: dataRef.BuyerName,
                                     status: dataRef.Status
                                 }]
                             })

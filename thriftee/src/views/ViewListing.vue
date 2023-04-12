@@ -25,6 +25,7 @@ export default {
             return listing.ListingID === this.$route.params.listingid;
         })
         this.currListingUID = this.currentListing.at(0).ListingID
+        console.log(this.currListingUID)
     }
 }
 </script>
