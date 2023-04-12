@@ -92,6 +92,7 @@
                 uid: "", 
                 slides:[],
                 seller_uid: this.sellerUID,
+                havestar: false
             }
         },
         mounted() {
@@ -119,16 +120,19 @@
             const querySnapshot = await getDocs(firstQuery);
             
             if(querySnapshot.empty){
+              this.havestar = false
               this.slides.push({   
-                  title: "No reviews yet :<",
+                  title: "No reviews yet",
                   buyer: ""
                 });
             } else{
             querySnapshot.forEach((doc) => {
+                this.havestar = true
                 let review = doc.data()
                 this.slides.push({   
                   title: review.Description,
-                  buyer: review.ReviewerName
+                  buyer: review.ReviewerName,
+                  ratingstar: review.Rating
                 });
                 
             })

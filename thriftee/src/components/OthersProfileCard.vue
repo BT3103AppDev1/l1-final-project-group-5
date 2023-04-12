@@ -10,16 +10,16 @@
                         <p id="valueofstar"> {{ value }} </p>
                         <p id ="startext"> ★</p>
                     </div>
-                    
-                    <p v-else id="emptystarvaluestar">{{ value }}</p>
+                    <p v-else id="emptystarvaluestar"><em>{{ value }}</em></p>
+                </div>
+                <div class="Location">
+                    <p class="mt-3" style = "margin-bottom: 5vh;">Meet up Location: {{ location }}</p>
                 </div>
             
-                <div class="Location">
-                    <p class="mt-3">Meet up Location: {{ location }}</p>
-                </div>
         </div>
         
-       
+        <button v-if="havevalue" @click="goToTelegram" id = "chatbutton" type="button"> Message</button> 
+        <button v-else @click="goToTelegram" id = "chatbutton" type="button"> Message</button> 
     </div>
 </template>
 
@@ -48,6 +48,8 @@
                 name: "",
                 uid: "",
                 seller_uid: this.sellerUID,
+                havevalue: false,
+                telegram: "https://t.me/",
             }
         },
         
@@ -63,8 +65,17 @@
                 const dataSnap = docSnap.data()
                 this.location = dataSnap.Meet_Up
                 this.name = dataSnap.Name
+                this.telegram_handle = dataSnap.Telegram
 
             },
+
+            async goToTelegram() {
+                let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // shld get telegram from unique listing
+                let userProfileData = userProfile.data();
+                this.telegram = this.telegram + userProfileData.Telegram;
+                window.open(this.telegram, '_blank')
+            },
+
             goBack() {
                 window.history.back()
             },
@@ -74,9 +85,11 @@
                
                 const querySnapshot = await getDocs(firstQuery);
                 if(querySnapshot.empty){
+                    this.havevalue = false
                     this.value = "No Reviews Yet"
                 } else{
                     querySnapshot.forEach((doc) => {
+                        this.havevalue = true
                         let review = doc.data()
                         this.value += parseFloat(review.Rating)
                         count++
@@ -95,10 +108,12 @@
     margin-top: 5vh;
     display: flex;
     background-color: rgb(246, 241, 241);
-    height: 30vh;
+    height: 35vh;
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
     font-size: 1.4em;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 #profiledetails h1{
@@ -108,6 +123,7 @@
 
 #contentofprofile {
     margin-left: 5vw;
+    font-weight: 540;
 }
 
 #buttonsofprofile {
@@ -191,5 +207,35 @@ img {
 
 #overallstartext {
     display: flex;
+}
+
+
+#space{
+    margin-bottom: 3vh;
+}
+
+#chatbutton {
+    background-color: #ffffffe0; 
+    border: 0.5px solid #c0bdbd; 
+    border-radius: 5px;
+    color: rgb(13, 10, 10);
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.8em;
+    font-style: italic;
+    transition-duration: 0.2s;
+    height: 6.5vh;
+    margin-top: 15vh;
+    margin-left: 3vw;
+    margin-right: 4vw;
+    font-weight: 550;
+    
+}
+
+#chatbutton:hover {
+    color: #cdc9c9e0; 
+    background-color: white;
 }
 </style>

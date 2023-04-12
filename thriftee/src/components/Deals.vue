@@ -62,12 +62,12 @@
                         <td>${{product.offerPrice}}</td>
                         <td>
                             <div id="buystatusbutton">
-                                <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> Pending</button> 
+                                <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> <em>Pending</em></button> 
                                 <!-- change above to {{ status }} later instead of pending-->
                                 <!-- NOTE: changes from Pending to Review -->
                                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                 <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
-                                    <button id="paystatusbutton"  @click="openQR">Payment</button>
+                                    <button id="paystatusbutton"  @click="openQR">Pay</button>
                                     <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> 
                                         <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  
                                     </router-link>
@@ -80,9 +80,9 @@
                                     <button @click="closeQR">Close Popup</button>
                                 </div>
                                 
-                                <div v-else-if="product.status === 'Deleted/Others'">
-                                    <p>Listing Sold☹</p>
-                                    <button>Remove</button>
+                                <div id = "actioncolumn" v-else-if="product.status === 'Deleted/Others'">
+                                    <p id="soldlisting">Listing Sold</p>
+                                    <button id="trashcan">⌫</button>
                                 </div>    
                             </div>
                         </td>
@@ -325,34 +325,47 @@ import firebaseApp from '../firebase.js';
 #paystatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(92, 198, 164, 0.639);
-    border-radius: 5px;
-    border: 0.8px solid rgba(113, 223, 188, 0.817);
-    font-weight: normal;
-    color: black;
-
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    color: rgba(185, 80, 80, 0.896);
+    font-size: 1.1em;
 }
 
 #paystatusbutton:hover {
-    color: white;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    color: rgba(185, 80, 80, 0.417);
+    font-size: 1.1em;
+    border-bottom: 1px solid rgba(185, 80, 80, 0.417);
 }
 
 #reviewstatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(169, 236, 211, 0.852);
-    border-radius: 5px;
-    border: 0.8px solid rgba(171, 233, 210, 0.8);
-    color: black;
+    background-color: transparent;
+    border: none;
+    color: rgb(32, 155, 101);
     text-decoration: none;
-    font-weight: normal;
-
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 0.1vh;
 }
 
 #reviewstatusbutton:hover {
-   
-    color: white;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    color: rgba(32, 155, 102, 0.433);
     text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 0.1vh;
+    border-bottom: 1px solid rgba(32, 155, 102, 0.433);
 }
 .buyingitems {
     display: flex;
@@ -387,17 +400,11 @@ import firebaseApp from '../firebase.js';
 #buyingstatusbutton {
     display: flex;
     justify-content: center;
-    background-color: rgba(207, 206, 206, 0.802);
-    border-radius: 5px;
-    border: 0.8px solid rgba(205, 203, 203, 0.802);
-    width: 100%;
-    color: black;
-    font-weight: normal;
-}
-
-#buyingstatusbutton:hover {
-  
-    color: white;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    color: rgba(76, 73, 73, 0.896);
+    font-size: 1.1em;
 }
 
 #sellstatusbutton {
@@ -559,6 +566,12 @@ import firebaseApp from '../firebase.js';
     /* border-bottom: 1px solid rgb(160, 154, 154); */
  }
 
+ #profilebutton:hover {
+    background: transparent;
+    border: none;
+    color: rgb(170, 168, 168);
+ }
+
     
 hr {
     height: 1px;
@@ -603,14 +616,14 @@ a { text-decoration: none; }
 }
 
 .deal_table thead tr {
-    background-color: #61686ba2;
+    background-color: #424547d8;
     color: #ffffff;
     text-align: left;
 }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
-  border: 1px rgb(210, 218, 220) solid;
+  border: 1px rgb(69, 84, 87) solid;
  
 }
 
@@ -631,5 +644,32 @@ a { text-decoration: none; }
 
 #buyer-accepted_buttons {
     display: flex;
+}
+
+#actioncolumn {
+    display: flex;
+}
+
+#soldlisting {
+    color: red;
+    font-weight: 600;
+}
+
+#trashcan {
+    background-color: transparent;
+    border: none;
+    color: black;
+    margin-top:0.2vh;
+    font-size: 1.3em;
+    font-weight: bolder;
+}
+
+#trashcan:hover {
+    background-color: transparent;
+    border: none;
+    color: rgb(163, 160, 160);
+    margin-top:0.2vh;
+    font-size: 1.3em;
+    font-weight: bolder;
 }
 </style>

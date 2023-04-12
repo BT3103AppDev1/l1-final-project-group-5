@@ -11,7 +11,7 @@
                         <p id ="startext"> ★</p>
                     </div>
                     
-                    <p v-else id="emptystarvaluestar">{{ value }}</p>
+                    <p v-else id="emptystarvaluestar"><em>{{ value }}</em></p>
                 </div>
             
                 <div class="Location">
@@ -115,10 +115,12 @@
     margin-top: 5vh;
     display: flex;
     background-color: rgb(246, 241, 241);
-    height: 30vh;
+    height: 35vh;
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
     font-size: 1.4em;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 #profiledetails h1{
@@ -128,6 +130,7 @@
 
 #contentofprofile {
     margin-left: 5vw;
+    font-weight: 540;
 }
 
 #buttonsofprofile {
@@ -142,33 +145,35 @@ button{
 }
 
 #editbutton {
-  background-color: #ccccdb; /* Green */
+  background-color: #84848a; /* Green */
   border-radius: 5px;
   border: 0.5px solid #ccccdb; 
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 0.75em;
   transition-duration: 0.2s;
-  margin-top: 10vh;
+  margin-top: 12.5vh;
+  font-weight: 450;
   
 
 }
 
 #editbutton:hover {
   /* background-color: 359138; Green */
-  color: white;
+  color: rgb(172, 166, 166);
   /* border: 0.5px solid #5a525d; Green */
 }
 
 #signoutbutton {
-  background-color: #b7b7c3; /* Green */
-  border: 1px solid #b7b7c3; /* Green */
+ background-color: #868689; /* Green */
   border-radius: 5px;
- 
-  color: rgb(0, 0, 0);
+  border: 0.5px solid #ccccdb; 
+  color: rgb(255, 255, 255);
+  font-weight: 450;
+
   padding: 10px 32px;
   text-align: center;
   text-decoration: none;
@@ -179,8 +184,8 @@ button{
 }
 
 #signoutbutton:hover {
- 
-  color: white;
+ color: rgb(172, 166, 166);
+  
  
 }
 
@@ -198,6 +203,7 @@ img {
 #emptystarvaluestar {
     margin-left: 0.5vw;
     color: grey;
+    /* font-weight: 450; */
 }
 
 #valueofstar {
@@ -212,4 +218,6 @@ img {
 #overallstartext {
     display: flex;
 }
+
+
 </style>
