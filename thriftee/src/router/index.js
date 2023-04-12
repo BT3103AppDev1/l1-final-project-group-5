@@ -121,6 +121,11 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/",
+    name: "AllListings",
+    component: AllListings,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

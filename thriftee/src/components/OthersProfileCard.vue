@@ -1,4 +1,5 @@
 <template>
+    <div>
      <div id = "back">
             <button id = "backbutton" type="button" @click="goBack">←</button> 
     </div>
@@ -8,7 +9,7 @@
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: {{ value }}/5</p>
+                    <p class="mt-2">Rating: {{ value }}</p>
                 </div>
             
                 <div class="Location">
@@ -16,7 +17,7 @@
                 </div>
         </div>
         
-        <div id = "buttonsofprofile">
+        <!-- <div id = "buttonsofprofile">
             <div>
             <router-link to="/editprofile"
                 custom
@@ -25,15 +26,16 @@
             </router-link>  
             </div>
             <div><button id = "signoutbutton" type="button" @click="signout">Sign Out </button> </div>
-        </div>
+        </div> -->
         
     </div>
+</div>
 </template>
 
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc } from "firebase/firestore";
+    import {query,collection,where,getDocs, doc, getDoc } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -50,7 +52,7 @@
         },
         data() {
             return {
-                value: 3,
+                value: 0,
                 location: "",
                 name: "",
                 uid: "",
@@ -60,6 +62,7 @@
         
         mounted() {
             this.getProfileDetails()
+            this.getRating()
            
         },
         methods: {
@@ -73,7 +76,23 @@
             },
             goBack() {
                 window.history.back()
-            }
+            },
+            async getRating() {
+                let count = 0;
+                const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
+               
+                const querySnapshot = await getDocs(firstQuery);
+                if(querySnapshot.empty){
+                    this.value = "No Reviews Yet"
+                } else{
+                    querySnapshot.forEach((doc) => {
+                        let review = doc.data()
+                        this.value += parseFloat(review.Rating)
+                        count++
+                    })
+                    this.value = Math.round(this.value/count * 10) / 10 +"/5";
+                }
+            },
         }, 
         
     }

@@ -11,6 +11,6 @@ export default {
     name: "AllListings",
     components: {
         Display,
-    }
+    },
 }
 </script>
