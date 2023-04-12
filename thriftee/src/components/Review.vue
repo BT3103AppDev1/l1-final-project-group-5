@@ -1,4 +1,3 @@
-
 <template>
     <div id = "container">
         <!-- <div id = "Reviewheader">
@@ -70,9 +69,9 @@
                 default: ""
             },
 
-            isBuyer: {
-                type: Boolean,
-                default: null
+            revieweeUID: {
+                type: String,
+                default: ""
             },
         },
         
@@ -81,6 +80,10 @@
                 ratingValue: 0,
                 description:"",
                 listing_uid: this.listingUID,
+                reviewee_uid: null,
+                reviewee_name: null,
+                reviewer_uid: null,
+                reviewer_name: null,
                 buyer_uid: null,
                 seller_uid: null
             }

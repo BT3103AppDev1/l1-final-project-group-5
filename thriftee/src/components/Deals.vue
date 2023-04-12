@@ -50,7 +50,7 @@
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
                         <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
                             <button @click="closeQR">Close Popup</button>
@@ -86,9 +86,13 @@
                                 <!-- change above to {{ status }} later instead of pending-->
                                 <!-- NOTE: changes from Pending to Review -->
                                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
-                                <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
+                                <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
+                                    <button id="paystatusbutton"  @click="openQR">Payment</button>
+                                    <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                </div>
+        
                                 <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                 <div class="qrcode" v-if="showQR">
                                     <img src="qr.png">
                                     <button @click="closeQR">Close Popup</button>
@@ -120,11 +124,11 @@
                         </div>
                         <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
                             <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                         <div v-else-if="product.status === 'Paid'" id="paid-deals">
                             <!-- <button>Paid</button> -->
-                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                     </div>   
                 </div>
@@ -145,7 +149,7 @@
                     <template v-for="product in selling_list2" :key="product.uid">
                         <tr>
                             <td :rowspan="product.offer.length">
-                                <div id="selllistingtitle">
+                                <div id="selllistingtitle" style="width:10vw">
                                     <router-link id = "listingbutton" :to="{ name: 'ViewListing', params:{ listingid: product.uid } }">  <u> {{ product.title }} </u>  </router-link>
                                 </div>
                             </td>
@@ -153,20 +157,20 @@
                             <td>${{product.offer[0].offerPrice}}</td>
                             <td>
                                 <div id="sellbuttons">
-                                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
-                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> ✓ </button> 
+                                    <div id="sellstatusbutton" v-if="product.offer[0].status === 'Pending'">
+                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.offer[0].buyerID)"> ✓ </button> 
                                         <button id = "rejectbutton" type="button"> ✗ </button> 
                                         <!-- change above to {{ status }} later instead of Accept-->
                                         <!-- NOTE: changes from Accept to Review -->
                                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
-                                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                                    <div v-else-if="product.offer[0].status === 'Accepted'" id="accepted-deals">
                                         <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
-                                    <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                                    <div v-else-if="product.offer[0].status === 'Paid'" id="paid-deals">
                                         <!-- <button>Paid</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
                             </td>
@@ -176,20 +180,20 @@
                             <td>${{item.offerPrice}}</td>
                             <td>
                                 <div id="sellbuttons">
-                                    <div id="sellstatusbutton" v-if="product.status === 'Pending'">
-                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.buyerID)"> ✓ </button> 
+                                    <div id="sellstatusbutton" v-if="item.status === 'Pending'">
+                                        <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, item.buyerID)"> ✓ </button> 
                                         <button id = "rejectbutton" type="button"> ✗ </button> 
                                         <!-- change above to {{ status }} later instead of Accept-->
                                         <!-- NOTE: changes from Accept to Review -->
                                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
-                                    <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
+                                    <div v-else-if="item.status === 'Accepted'" id="accepted-deals">
                                         <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
-                                    <div v-else-if="product.status === 'Paid'" id="paid-deals">
+                                    <div v-else-if="item.status === 'Paid'" id="paid-deals">
                                         <!-- <button>Paid</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, isbuyer:false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
                             </td>
@@ -211,7 +215,6 @@ import firebaseApp from '../firebase.js';
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
-    const user = auth.currentUser;
 
     export default {
         name: "Deals",
@@ -279,36 +282,52 @@ import firebaseApp from '../firebase.js';
                         buyerID: dataRef.BuyerID,
                         status: dataRef.Status
                     })
-
-                    if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
-                        this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
-                            buyerID: dataRef.BuyerID,
-                            offerPrice: dataRef.OfferAmount
-                        })
-                    } else {
-                        this.selling_list2.push({ 
-                            title: dataRef.ListingName, 
-                            uid: dataRef.ListingID, 
-                            status: dataRef.Status,
-                            offer: [{
+                    if (dataRef.Status !== "Deleted/Others") {
+                        // if offer for listing exists
+                        if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
+                            this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
+                                buyerID: dataRef.BuyerID,
                                 offerPrice: dataRef.OfferAmount,
-                                buyerID: dataRef.BuyerID
-                            }]
-                        })
+                                status: dataRef.Status
+                            })
+                        } else {
+                            this.selling_list2.push({ 
+                                title: dataRef.ListingName, 
+                                uid: dataRef.ListingID, 
+                                offer: [{
+                                    offerPrice: dataRef.OfferAmount,
+                                    buyerID: dataRef.BuyerID,
+                                    status: dataRef.Status
+                                }]
+                            })
+                        }
                     }
                 })
             },
 
             async acceptDeal(listing_uid, buyer_uid) {
-                const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
-                const querySnapshot = await getDocs(query_accept);
+                const queryAccept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+                const querySnapshot = await getDocs(queryAccept);
                 const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
 
                 await updateDoc(docRef, {
                     Status: "Accepted"
                 })
-                location.reload()
-                alert("Offer Accepted!")
+
+                // update other offers of this listing
+                const queryOthers = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "!=", buyer_uid))
+                const queryOthersSnapshot = await getDocs(queryOthers);
+                
+                queryOthersSnapshot.forEach(function(doc) {
+                    console.log(doc.data())
+                    updateDoc(doc.ref, {
+                        Status: "Deleted/Others"
+                    })
+                })
+                
+                if (!alert("Offer Accepted!")){
+                    location.reload()
+                }
             },
 
             async confirmPayment(listing_uid, buyer_uid) {
@@ -394,7 +413,7 @@ import firebaseApp from '../firebase.js';
 #buystatusbutton {
     display: flex;
     justify-content: center;
-    margin-left: 3vw;
+    /* margin-left: 3vw; */
   
 }
 
@@ -417,7 +436,7 @@ import firebaseApp from '../firebase.js';
 #sellstatusbutton {
     display: flex;
     justify-content: center;
-    margin-left: 3vw;
+    /* margin-left: 3vw; */
 }
 
 #acceptbutton {
@@ -642,5 +661,9 @@ a { text-decoration: none; }
 .deal_table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
+}
+
+#buyer-accepted_buttons {
+    display: flex;
 }
 </style>
