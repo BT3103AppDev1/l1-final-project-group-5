@@ -1,4 +1,3 @@
-
 <template>
     <div id = "container">
         <!-- <div id = "Reviewheader">
@@ -55,7 +54,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { collection, addDoc, getFirestore } from "firebase/firestore";
-    import { doc,getDoc,query, where, getDocs } from "firebase/firestore";
+    import { doc,getDoc,query, where, getDocs, updateDoc } from "firebase/firestore";
     import {getAuth, onAuthStateChanged} from "firebase/auth";
     
     const db = getFirestore(firebaseApp);
@@ -70,10 +69,14 @@
                 default: ""
             },
 
+            revieweeUID: {
+                type: String,
+                default: ""
+            },
             isBuyer: {
                 type: Boolean,
                 default: null
-            },
+            }
         },
         
         data() {
@@ -81,79 +84,96 @@
                 ratingValue: 0,
                 description:"",
                 listing_uid: this.listingUID,
+                reviewee_uid: this.revieweeUID,
+                reviewee_name: null,
+                reviewer_uid: null,
+                reviewer_name: null,
                 buyer_uid: null,
-                seller_uid: null
+                seller_uid: null,
+                is_buyer: this.isBuyer
             }
         },
 
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                if (this.isBuyer) {
-                    this.buyer_uid = user.uid
-                } else {
-                    this.seller_uid = user.uid
-                }
-                this.getUserDetails(this.isBuyer, user.uid);
+                this.reviewer_uid = user.uid;
+                this.reviewer_name = user.displayName;
             })
-            
+            this.getRevieweeDetails()
         },
     
         methods:{
-            async getUserDetails(isBuyer, currUID) {
-                if (isBuyer) {
-                    const dataQuery = query(collection(db, "Offers"), where("BuyerID", "==", currUID), where("ListingID", "==", this.listingUID))
-                    const querySnapshot = await getDocs(dataQuery);
-                    querySnapshot.forEach((doc) => {
-                        let dataRef = doc.data()
-                        this.seller_uid = dataRef.SellerID
-                    })
-                } else {
-                    const dataQuery = query(collection(db, "Offers"), where("SellerID", "==", currUID), where("ListingID", "==", this.listingUID))
-                    const querySnapshot = await getDocs(dataQuery);
-                    querySnapshot.forEach((doc) => {
-                        let dataRef = doc.data()
-                        this.buyer_uid = dataRef.BuyerID
-                    })
-                }
-                
+            async getRevieweeDetails() {
+                let docRef = await getDoc(doc(db, "Profiles", this.reviewee_uid))
+                let dataRef = docRef.data()
+                this.reviewee_name = dataRef.Name
             },
 
             async saveReview(){
-                let user = auth.currentUser; // replace with unique user id
-                
-                let reviewee = ""
-                if(user.uid == this.seller_uid){
-                    reviewee = this.buyer_uid
-                } else {
-                    reviewee = this.seller_uid
-                }
                 var ref = collection(db, "Reviews");
-                let userProfile = await getDoc(doc(db, "Profiles", user.uid))
-                let userProfileData = userProfile.data();
-                let RevieweeProfile = await getDoc(doc(db, "Profiles", reviewee))
-                let RevieweeProfileData = RevieweeProfile.data();
                 if (this.description.length == 0){
                     alert("Please provide a review")
                     location.reload()
                 }
-                const docRef = await addDoc(
-                    ref, {
-                        ListingID: this.listing_uid, //input listing ID here
-                        ReviewerID: user.uid, 
-                        RevieweeID: reviewee, //to replace with seller name
-                        Rating: parseFloat(this.ratingValue),
-                        Description:this.description,
-                        ReviewerName: userProfileData.Name,
-                        RevieweeName: RevieweeProfileData.Name
-                    }
-                )
-                .then(()=>{
+                try {
+                    const docRef = await addDoc(
+                        ref, {
+                            ListingID: this.listing_uid, //input listing ID here
+                            ReviewerID: this.reviewer_uid, 
+                            RevieweeID: this.reviewee_uid, //to replace with seller name
+                            Rating: parseFloat(this.ratingValue),
+                            Description:this.description,
+                            ReviewerName: this.reviewer_name,
+                            RevieweeName: this.reviewee_name
+                        }
+                    )
+                
+                    this.updateReviewStatus()
                     alert("Review added successfully")
                     window.history.back()
-                })
-                .catch((error)=>{
+                } catch(error) {
                     alert("Unsuccessful operation, error:" + error)
-                });
+                };
+            },
+            async updateReviewStatus() {
+                if (this.is_buyer) {
+                    const queryRef = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("BuyerID", "==", this.reviewer_uid), where("SellerID", "==", this.reviewee_uid))
+                    const querySnapshot = await getDocs(queryRef);
+                    
+                    querySnapshot.forEach(function(doc) {
+                        let dataRef = doc.data();
+                        if (dataRef.isSellerReviewed) {
+                            updateDoc(doc.ref, {
+                                isBuyerReviewed: true,
+                                Status: "Reviewed"
+                            })
+                        } else {
+                            updateDoc(doc.ref, {
+                                isBuyerReviewed: true
+                            })
+                        }
+                    })
+
+                } else {
+                    const queryRef = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("SellerID", "==", this.reviewer_uid), where("BuyerID", "==", this.reviewee_uid))
+                    const querySnapshot = await getDocs(queryRef);
+                    console.log(querySnapshot.docs)
+                    
+                    querySnapshot.forEach(function(doc) {
+                        let dataRef = doc.data();
+                        console.log(dataRef)
+                        if (dataRef.isBuyerReviewed) {
+                            updateDoc(doc.ref, {
+                                isSellerReviewed: true,
+                                Status: "Reviewed"
+                            })
+                        } else {
+                            updateDoc(doc.ref, {
+                                isSellerReviewed: true
+                            })
+                        }
+                    })
+                }
             },
             backToHome() {
                 window.history.back()

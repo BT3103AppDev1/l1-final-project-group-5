@@ -1,13 +1,17 @@
 <template>
+  <div id="container">
+    <div id="linebreak"></div>
 
-    <div id = "container">
-        <div id="linebreak">
-           
-        </div>
-    
-    <div id = "container2">
+    <div id="container2">
       <div>
-        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> 
+        <router-link
+          v-if="seller_uid"
+          class="link"
+          :to="{
+            name: 'CustomerProfileView',
+            params: { sellerid: seller_uid },
+          }"
+        >
           <button
             @click="navigate"
             role="link"
@@ -18,9 +22,13 @@
           </button>
         </router-link>
       </div>
-       
+
       <div>
-        <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerReviewView', params:{ sellerid: seller_uid } }"> 
+        <router-link
+          v-if="seller_uid"
+          class="link"
+          :to="{ name: 'CustomerReviewView', params: { sellerid: seller_uid } }"
+        >
           <button
             @click="navigate"
             role="link"
@@ -31,8 +39,6 @@
           </button>
         </router-link>
       </div>
-  
-       
     </div>
     <div id="entirereview">
   <div class='carousel-controls'>
@@ -157,7 +163,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow:visible;
+  overflow: visible;
   width: 20vw;
   min-height: 10em;
   margin-left: 20vw;
@@ -279,23 +285,20 @@ hr {
   margin: auto;
 }
 #nextbutton {
-width: 15%;
-margin-top: 10vw;
-
+  width: 15%;
+  margin-top: 10vw;
 }
 #previousbutton {
-width: 15%;
-margin-top: 10vw;
-margin-left: 10vw;
+  width: 15%;
+  margin-top: 10vw;
+  margin-left: 10vw;
 }
 #entirereview {
-display: flex;
-width:60vw;
+  display: flex;
+  width: 60vw;
 }
 
 #linebreak {
-    margin-top: 3vh;
+  margin-top: 3vh;
 }
-
-
 </style>

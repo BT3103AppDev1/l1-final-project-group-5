@@ -82,7 +82,7 @@ const routes = [
     }
   },
   {
-    path: "/review-:listingid-:isbuyer",
+    path: "/review-:listingid-:revieweeid:isbuyer",
     name: "CreateReviewView",
     component: CreateReviewView,
     meta: {
@@ -134,19 +134,41 @@ const router = createRouter({
 
 
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        next({ name: 'LogInDisplay' });
-      } else {
-        next()
-      }
-    })
-  } else {
-    next()
-  }
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     onAuthStateChanged(auth, (user) => {
+//       if (!user) {
+//         next({ name: 'LogInDisplay' });
+//       } else {
+//         next()
+//       }
+//     })
+//   } else {
+//     next()
+//   }
     
+// });
+let isAuthenticated = false;
+
+const authPromise = new Promise((resolve) => {
+  onAuthStateChanged(auth, (user) => {
+    isAuthenticated = !!user;
+    resolve();
+  });
+});
+
+router.beforeEach(async (to, from, next) => {
+  await authPromise;
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next({ name: 'LogInDisplay' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;
