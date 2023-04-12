@@ -50,7 +50,7 @@
                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                         <button id="paystatusbutton" v-else-if="product.status === 'Accepted'" @click="openQR">Payment</button>
                         <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                        <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         <div class="qrcode" v-if="showQR">
                             <img src="qr.png">
                             <button @click="closeQR">Close Popup</button>
@@ -88,11 +88,11 @@
                                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                 <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
                                     <button id="paystatusbutton"  @click="openQR">Payment</button>
-                                    <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                    <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                 </div>
         
                                 <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                 <div class="qrcode" v-if="showQR">
                                     <img src="qr.png">
                                     <button @click="closeQR">Close Popup</button>
@@ -124,11 +124,11 @@
                         </div>
                         <div v-else-if="product.status === 'Accepted'" id="accepted-deals">
                             <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                         <div v-else-if="product.status === 'Paid'" id="paid-deals">
                             <!-- <button>Paid</button> -->
-                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                            <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                         </div>
                     </div>   
                 </div>
@@ -166,11 +166,11 @@
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Accepted'" id="accepted-deals">
                                         <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Paid'" id="paid-deals">
                                         <!-- <button>Paid</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
                             </td>
@@ -189,11 +189,11 @@
                                     </div>
                                     <div v-else-if="item.status === 'Accepted'" id="accepted-deals">
                                         <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="item.status === 'Paid'" id="paid-deals">
                                         <!-- <button>Paid</button> -->
-                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
+                                        <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
                             </td>

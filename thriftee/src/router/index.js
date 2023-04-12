@@ -82,7 +82,7 @@ const routes = [
     }
   },
   {
-    path: "/review-:listingid-:revieweeid",
+    path: "/review-:listingid-:revieweeid:isbuyer",
     name: "CreateReviewView",
     component: CreateReviewView,
     meta: {

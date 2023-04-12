@@ -54,7 +54,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { collection, addDoc, getFirestore } from "firebase/firestore";
-    import { doc,getDoc,query, where, getDocs } from "firebase/firestore";
+    import { doc,getDoc,query, where, getDocs, updateDoc } from "firebase/firestore";
     import {getAuth, onAuthStateChanged} from "firebase/auth";
     
     const db = getFirestore(firebaseApp);
@@ -73,6 +73,10 @@
                 type: String,
                 default: ""
             },
+            isBuyer: {
+                type: Boolean,
+                default: null
+            }
         },
         
         data() {
@@ -85,7 +89,8 @@
                 reviewer_uid: null,
                 reviewer_name: null,
                 buyer_uid: null,
-                seller_uid: null
+                seller_uid: null,
+                is_buyer: this.isBuyer
             }
         },
 
@@ -110,24 +115,65 @@
                     alert("Please provide a review")
                     location.reload()
                 }
-                const docRef = await addDoc(
-                    ref, {
-                        ListingID: this.listing_uid, //input listing ID here
-                        ReviewerID: this.reviewer_uid, 
-                        RevieweeID: this.reviewee_uid, //to replace with seller name
-                        Rating: parseFloat(this.ratingValue),
-                        Description:this.description,
-                        ReviewerName: this.reviewer_name,
-                        RevieweeName: this.reviewee_name
-                    }
-                )
-                .then(()=>{
+                try {
+                    const docRef = await addDoc(
+                        ref, {
+                            ListingID: this.listing_uid, //input listing ID here
+                            ReviewerID: this.reviewer_uid, 
+                            RevieweeID: this.reviewee_uid, //to replace with seller name
+                            Rating: parseFloat(this.ratingValue),
+                            Description:this.description,
+                            ReviewerName: this.reviewer_name,
+                            RevieweeName: this.reviewee_name
+                        }
+                    )
+                
+                    this.updateReviewStatus()
                     alert("Review added successfully")
                     window.history.back()
-                })
-                .catch((error)=>{
+                } catch(error) {
                     alert("Unsuccessful operation, error:" + error)
-                });
+                };
+            },
+            async updateReviewStatus() {
+                if (this.is_buyer) {
+                    const queryRef = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("BuyerID", "==", this.reviewer_uid), where("SellerID", "==", this.reviewee_uid))
+                    const querySnapshot = await getDocs(queryRef);
+                    
+                    querySnapshot.forEach(function(doc) {
+                        let dataRef = doc.data();
+                        if (dataRef.isSellerReviewed) {
+                            updateDoc(doc.ref, {
+                                isBuyerReviewed: true,
+                                Status: "Reviewed"
+                            })
+                        } else {
+                            updateDoc(doc.ref, {
+                                isBuyerReviewed: true
+                            })
+                        }
+                    })
+
+                } else {
+                    const queryRef = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("SellerID", "==", this.reviewer_uid), where("BuyerID", "==", this.reviewee_uid))
+                    const querySnapshot = await getDocs(queryRef);
+                    console.log(querySnapshot.docs)
+                    
+                    querySnapshot.forEach(function(doc) {
+                        let dataRef = doc.data();
+                        console.log(dataRef)
+                        if (dataRef.isBuyerReviewed) {
+                            updateDoc(doc.ref, {
+                                isSellerReviewed: true,
+                                Status: "Reviewed"
+                            })
+                        } else {
+                            updateDoc(doc.ref, {
+                                isSellerReviewed: true
+                            })
+                        }
+                    })
+                }
             },
             backToHome() {
                 window.history.back()

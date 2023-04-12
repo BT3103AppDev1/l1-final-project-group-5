@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Review :revieweeUID="revieweeID" :listingUID="listingUID" v-if="listingUID"/>
+    <Review :revieweeUID="revieweeID" :listingUID="listingUID" :isBuyer="isBuyer" :v-if="listingUID"/>
   </div>
 </template>
 
@@ -17,12 +17,14 @@ export default {
   data() {
     return {
         revieweeID: null,
-        listingUID: null
+        listingUID: null,
+        isBuyer: null
     }
   },
   created() {
     this.listingUID = this.$route.params.listingid;
-    this.revieweeID = this.$route.params.revieweeid
+    this.revieweeID = this.$route.params.revieweeid;
+    this.isBuyer = (this.$route.params.isbuyer === 'true');
   }
   
 };
