@@ -9,7 +9,7 @@
 
     export default {
         name: "EditListingView",
-        componenets: {
+        components: {
             EditListing
         },
         data() {

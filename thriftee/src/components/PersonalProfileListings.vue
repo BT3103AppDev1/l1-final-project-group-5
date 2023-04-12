@@ -52,11 +52,6 @@
                         <div id="productPrice">
                             ${{ listing.data().Price }}
                         </div>
-                        <!-- <router-link to="/sell"
-                            custom
-                            v-slot="{ navigate }" >
-                            <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>
-                        </router-link>   -->
                         <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.id } }"> 
                             <button @click="navigate" role="link" id = "editbutton" type="button">Edit</button>  
                         </router-link>
@@ -73,7 +68,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, doc, getDocs, deleteDoc, query, where } from "firebase/firestore";
+    import { collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -108,14 +103,13 @@
             async deleteButton(listingID) {
                 // await deleteDoc(doc(db, "Listings", listingID)) // delete from Listings collection
                 // console.log("delete listing from Listings collection")
-                const listingOffersQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
-                const querySnapshot = await getDocs(listingOffersQuery)
-                querySnapshot.forEach(function(doc) {
-                    console.log(doc.ref)
-                    // doc.ref.delete()
-                    deleteDoc(doc.ref)
-                }) 
-                console.log("delete listing offers from Offers collection")
+                // const listingOffersQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
+                // const querySnapshot = await getDocs(listingOffersQuery)
+                // const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+                const querySnapshot = await getDoc(doc(db, "Listings", listingID))
+                // await updateDoc(querySnapshot, {
+                //     Status: "Deleted"
+                // })
                 location.reload() 
                 alert("Listing deleted!")
             },

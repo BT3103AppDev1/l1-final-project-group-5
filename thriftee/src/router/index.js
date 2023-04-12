@@ -13,7 +13,7 @@ import ViewListing from "@/views/ViewListing.vue";
 import CustomerProfileView from "@/views/CustomerProfileView.vue";
 import CreateReviewView from "@/views/CreateReviewView.vue";
 import CustomerReviewView from "@/views/CustomerReviewView.vue";
-import EditListing from "@/views/EditListingView.vue"
+import EditListingView from "@/views/EditListingView.vue"
 
 const auth = getAuth();
 
@@ -116,7 +116,7 @@ const routes = [
   {
     path:"/editlistings-:listingid", 
     name: "EditListing", 
-    component: EditListing, 
+    component: EditListingView, 
     meta: {
       requiresAuth: true
     }

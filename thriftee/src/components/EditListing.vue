@@ -1,7 +1,7 @@
 <template>
     <div id = "listingcreate">
         <div id = "listingheader">
-            <h2> Edit Listing</h2>
+            <h2> Edit Listing </h2>
         </div>
 
         <div id ="container">
@@ -80,7 +80,7 @@
                         <br><br>
                         
                         <div id = "buttonsupdate">
-                            <button id = "cancelbutton" type="button">Cancel</button> 
+                            <button id = "cancelbutton" type="button" v-on:click="cancel">Cancel</button> 
                             <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
                         </div>
                     </div>
@@ -94,7 +94,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { doc, setDoc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -122,10 +122,16 @@
             }
         },
         
-        mounted() {
+        created() {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     this.uid = user.uid;
+                    this.getListingTitle();
+                    this.getPrice();
+                    this.getCondition();
+                    this.getCategory();
+                    this.getColour();
+                    this.getSize();
                 } 
             })
         },
@@ -149,13 +155,43 @@
                     document.getElementById("listingphoto").src="defaultListing.png"
                 }
             },
+            async getListingTitle() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.listingtitle = listingData.Title;
+            },
+            async getPrice() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.price = listingData.Price;
+            },
+            async getCondition() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.condition = listingData.Condition;
+            },
+            async getCategory() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.category = listingData.Category;
+            },
+            async getColour() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.colour = listingData.Colour;
+            },
+            async getSize() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.size = listingData.Size;
+            },
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 try {
                 let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
                 let userProfileData = userProfile.data()
                 this.telegram = userProfileData.Telegram
-                const docRef = await addDoc(collection(db, "Listings"), { 
+                const docRef = await setDoc(doc(db, "Listings", this.listing_uid), { 
                     SellerID: this.uid,
                     Title: this.listingtitle,
                     Price: this.price,
@@ -166,12 +202,16 @@
                     Listing_Image: image,
                     Telegram: this.telegram
                 })
-                alert("Listing creating!")
+                alert("Listing saved!")
                 this.$router.push({name: "ProfileListings"})
                 } catch(error) {
-                alert("Error creating listing: ", error)
+                alert("Error saving edited listing: ", error)
                 }
             }, 
+            async cancel() {
+                this.$router.push({name: "ProfileListings"})
+                alert("Listing edit is not saved!")
+            },
             deleteListingImage: function() {
                 if (document.getElementById("uploadbutton").value == "") {
                     alert("Upload Image!")
