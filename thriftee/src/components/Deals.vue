@@ -338,9 +338,8 @@ import firebaseApp from '../firebase.js';
     background-color: transparent;
     border: none;
     font-weight: 600;
-    color: rgba(185, 80, 80, 0.417);
     font-size: 1.1em;
-    border-bottom: 1px solid rgba(185, 80, 80, 0.417);
+    border-bottom: 2px solid rgba(185, 80, 80, 0.896);
 }
 
 #reviewstatusbutton {
@@ -360,12 +359,11 @@ import firebaseApp from '../firebase.js';
     justify-content: center;
     background-color: transparent;
     border: none;
-    color: rgba(32, 155, 102, 0.433);
     text-decoration: none;
     font-size: 1.1em;
     font-weight: 600;
     margin-top: 0.1vh;
-    border-bottom: 1px solid rgba(32, 155, 102, 0.433);
+    border-bottom: 2px solid rgb(32, 155, 101);
 }
 .buyingitems {
     display: flex;
