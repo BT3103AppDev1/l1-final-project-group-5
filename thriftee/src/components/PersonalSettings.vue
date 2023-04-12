@@ -120,7 +120,6 @@
         async getMeetUp() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
-                
                 this.meetup = userProfileData.Meet_Up;
         },
         async getTelegram() {
