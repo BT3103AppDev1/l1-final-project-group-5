@@ -89,6 +89,10 @@
                                     <p id="soldlisting">Offer Rejected</p>
                                     <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
                                 </div>  
+                                <div id = "actioncolumn" v-else-if="product.status === 'Removed'">
+                                    <p id="soldlisting">Listing Removed</p>
+                                    <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
+                                </div>  
                             </div>
                         </td>
                     </tr>
@@ -248,7 +252,7 @@ import firebaseApp from '../firebase.js';
                     let dataRef = doc.data()
 
                     //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
-                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && !dataRef.isSellerReviewed) {
+                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && dataRef.Status !== "Removed" && !dataRef.isSellerReviewed) {
                         // if offer for listing exists
                         if (this.selling_list.some(item => item.uid === dataRef.ListingID)) {
                             this.selling_list[this.selling_list.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
@@ -302,7 +306,7 @@ import firebaseApp from '../firebase.js';
                 } catch(error) {
                     alert("Error: " + error)
                 }
-                
+
                 if (!alert("Offer Accepted!")){
                     location.reload()
                 }
@@ -341,7 +345,7 @@ import firebaseApp from '../firebase.js';
                 try {
                     if (confirm('Are you sure you want to remove this offer?')) {
                         await deleteDoc(docRef)
-                        if (!alert('Offer successfully deleted!')){
+                        if (!alert('Offer successfully removed!')){
                             location.reload()
                         }
                     }
