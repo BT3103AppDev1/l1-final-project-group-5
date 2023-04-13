@@ -75,7 +75,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
+    import { collection, doc, getDoc, getDocs, updateDoc, query, where} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -103,22 +103,45 @@
             async readData() {
                 const querySnapshot = await getDocs(collection(db, "Listings"));
                 querySnapshot.forEach((doc) => {
-                    if (doc.data().SellerID == this.uid)
+                    const dataRef = doc.data();
+                    if (dataRef.SellerID == this.uid && dataRef.Listing_Available == true)
                         this.listings.push(doc);
                 });
             },
             async deleteButton(listingID) {
                 // await deleteDoc(doc(db, "Listings", listingID)) // delete from Listings collection
                 // console.log("delete listing from Listings collection")
-                // const listingOffersQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
-                // const querySnapshot = await getDocs(listingOffersQuery)
+                // const nonPendingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID), where("Status", "!=", "Pending"))
+                // const querySnapshot = await getDocs(nonPendingQuery)
+                // console.log(querySnapshot)
                 // const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
-                const querySnapshot = await getDoc(doc(db, "Listings", listingID))
+                // const querySnapshot = await getDoc(doc(db, "Listings", listingID))
                 // await updateDoc(querySnapshot, {
                 //     Status: "Deleted"
                 // })
-                location.reload() 
-                alert("Listing deleted! (delete function has not been implemented -- waiting for status database confirmation)")
+
+                const docRef = doc(db, "Listings", listingID);
+                try{
+                    if (confirm('Are you sure you want to delete this listing?')) {
+                        await updateDoc(docRef, {
+                            Listing_Available: false
+                        });
+                        const listingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
+                        const querySnapshot = await getDocs(listingQuery)
+                        querySnapshot.forEach(function(doc) {
+                            console.log(doc.data())
+                            updateDoc(doc.ref, {
+                                Status: "Removed"
+                            })
+                        })
+
+                        if (!alert('Listing deleted!')){
+                            location.reload()
+                        }
+                    }
+                } catch(error) {
+                    alert("Error: " + error)
+                }
             },
         },
         created() {

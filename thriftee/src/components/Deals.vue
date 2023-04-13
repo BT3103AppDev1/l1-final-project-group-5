@@ -80,10 +80,19 @@
                                     <button @click="closeQR">Close Popup</button>
                                 </div>
                                 
-                                <div id = "actioncolumn" v-else-if="product.status === 'Deleted/Others'">
+                                <div id = "actioncolumn" v-else-if="product.status === 'Sold Out'">
                                     <p id="soldlisting">Listing Sold</p>
-                                    <button id="trashcan">⌫</button>
-                                </div>    
+                                    <!-- <button id="trashcan">⌫</button> -->
+                                    <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
+                                </div>  
+                                <div id = "actioncolumn" v-else-if="product.status === 'Rejected'">
+                                    <p id="soldlisting">Offer Rejected</p>
+                                    <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
+                                </div>  
+                                <div id = "actioncolumn" v-else-if="product.status === 'Removed'">
+                                    <p id="soldlisting">Listing Removed</p>
+                                    <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
+                                </div>  
                             </div>
                         </td>
                     </tr>
@@ -107,7 +116,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="product in selling_list2" :key="product.uid">
+                    <template v-for="product in selling_list" :key="product.uid">
                         <tr>
                             <td :rowspan="product.offer.length">
                                 <div id="selllistingtitle" style="width:10vw">
@@ -122,7 +131,7 @@
                                 <div id="sellbuttons">
                                     <div id="sellstatusbutton" v-if="product.offer[0].status === 'Pending'">
                                         <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.offer[0].buyerID)"> ✓ </button> 
-                                        <button id = "rejectbutton" type="button"> ✗ </button> 
+                                        <button id = "rejectbutton" type="button" @click="rejectDeal(product.uid, product.offer[0].buyerID)"> ✗ </button> 
                                         <!-- change above to {{ status }} later instead of Accept-->
                                         <!-- NOTE: changes from Accept to Review -->
                                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
@@ -176,7 +185,7 @@
 <script>
 import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, query, where, getDocs, updateDoc, doc} from "firebase/firestore";
+    import { collection, query, where, getDocs, updateDoc, doc, deleteDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -202,7 +211,6 @@ import firebaseApp from '../firebase.js';
                 ], 
                 buying_list: [], // test
                 selling_list: [],
-                selling_list2: [],
                 user_uid: "",
                 showQR: false
             };
@@ -223,14 +231,17 @@ import firebaseApp from '../firebase.js';
                 const querySnapshot = await getDocs(buyingQuery);
                 querySnapshot.forEach((doc) => {
                     let dataRef = doc.data()
-                    this.buying_list.push({ 
-                        title: dataRef.ListingName, 
-                        uid: dataRef.ListingID, 
-                        offerPrice: dataRef.OfferAmount,
-                        sellerID: dataRef.SellerID,
-                        status: dataRef.Status,
-                        sellerName: dataRef.SellerName
-                    })
+                    //Removed from deals if buyer has reviewed item
+                    if (!dataRef.isBuyerReviewed) {
+                        this.buying_list.push({ 
+                            title: dataRef.ListingName, 
+                            uid: dataRef.ListingID, 
+                            offerPrice: dataRef.OfferAmount,
+                            sellerID: dataRef.SellerID,
+                            status: dataRef.Status,
+                            sellerName: dataRef.SellerName
+                        })
+                    }
                 })
             },
 
@@ -240,24 +251,18 @@ import firebaseApp from '../firebase.js';
                 querySnapshot.forEach((doc) => {
                     let dataRef = doc.data()
 
-                    this.selling_list.push({ 
-                        title: dataRef.ListingName, 
-                        uid: dataRef.ListingID, 
-                        offerPrice: dataRef.OfferAmount,
-                        buyerID: dataRef.BuyerID,
-                        status: dataRef.Status,
-                    })
-                    if (dataRef.Status !== "Deleted/Others" && dataRef.Status !== "Reviewed") {
+                    //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
+                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && dataRef.Status !== "Removed" && !dataRef.isSellerReviewed) {
                         // if offer for listing exists
-                        if (this.selling_list2.some(item => item.uid === dataRef.ListingID)) {
-                            this.selling_list2[this.selling_list2.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
+                        if (this.selling_list.some(item => item.uid === dataRef.ListingID)) {
+                            this.selling_list[this.selling_list.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
                                 buyerID: dataRef.BuyerID,
                                 buyerName: dataRef.BuyerName,
                                 offerPrice: dataRef.OfferAmount,
                                 status: dataRef.Status
                             })
                         } else {
-                            this.selling_list2.push({ 
+                            this.selling_list.push({ 
                                 title: dataRef.ListingName, 
                                 uid: dataRef.ListingID, 
                                 offer: [{
@@ -281,18 +286,42 @@ import firebaseApp from '../firebase.js';
                     Status: "Accepted"
                 })
 
-                // update other offers of this listing
+                // update other offers of this listing (when listing is offered to another buyer)
                 const queryOthers = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "!=", buyer_uid))
                 const queryOthersSnapshot = await getDocs(queryOthers);
                 
                 queryOthersSnapshot.forEach(function(doc) {
                     console.log(doc.data())
                     updateDoc(doc.ref, {
-                        Status: "Deleted/Others"
+                        Status: "Sold Out"
                     })
                 })
                 
+                // update Listing itself to be sold/unavailable
+                const listingDocRef = doc(db, "Listings", listing_uid)
+                try{
+                    await updateDoc(listingDocRef, {
+                        Listing_Available: false
+                    });
+                } catch(error) {
+                    alert("Error: " + error)
+                }
+
                 if (!alert("Offer Accepted!")){
+                    location.reload()
+                }
+            },
+
+            async rejectDeal(listing_uid, buyer_uid) {
+                const queryReject = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+                const querySnapshot = await getDocs(queryReject);
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+
+                await updateDoc(docRef, {
+                    Status: "Rejected"
+                })
+
+                if (!alert("Offer Rejected!")){
                     location.reload()
                 }
             },
@@ -307,6 +336,22 @@ import firebaseApp from '../firebase.js';
                 })
                 location.reload()
                 alert("Payment confirmed!")
+            },
+
+            async deleteOfferFromOffers(listing_uid, seller_uid) {
+                const query_delete = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("SellerID", "==", seller_uid), where("BuyerID", "==", this.user_uid));
+                const querySnapshot = await getDocs(query_delete);
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+                try {
+                    if (confirm('Are you sure you want to remove this offer?')) {
+                        await deleteDoc(docRef)
+                        if (!alert('Offer successfully removed!')){
+                            location.reload()
+                        }
+                    }
+                } catch(error) {
+                    alert("Unsuccessful removal, error:" + error)
+                }
             },
 
             openQR() {
@@ -656,18 +701,18 @@ a { text-decoration: none; }
 #trashcan {
     background-color: transparent;
     border: none;
-    color: black;
+    /* color: black; */
     margin-top:0.2vh;
     font-size: 1.3em;
-    font-weight: bolder;
+    /* font-weight: bolder; */
 }
 
 #trashcan:hover {
-    background-color: transparent;
-    border: none;
-    color: rgb(163, 160, 160);
-    margin-top:0.2vh;
-    font-size: 1.3em;
-    font-weight: bolder;
+    /* background-color: transparent; */
+    /* border: none; */
+    /* color: rgb(163, 160, 160); */
+    margin-top:0.5vh;
+    /* font-size: 1.3em;  */
+    /* font-weight: bolder; */
 }
 </style>
