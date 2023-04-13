@@ -5,7 +5,7 @@
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: </p>
+                    <p class="mt-2"><b>RATING:</b> </p>
                     <div v-if="havevalue" id ="overallstartext">
                         <p id="valueofstar"> {{ value }} </p>
                         <p id ="startext"> ★</p>
@@ -15,7 +15,7 @@
                 </div>
             
                 <div class="Location">
-                    <p class="mt-3">Meet up Location: {{ location }}</p>
+                    <p class="mt-3"><b>LOCATION:</b> {{ location }}</p>
                 </div>
         </div>
         
@@ -86,7 +86,7 @@
                         this.value += parseFloat(review.Rating)
                         count++
                     })
-                    this.value = Math.round(this.value/count * 10)/10 +"/5";
+                    this.value = Math.round(this.value/count * 10)/10 +" / 5";
                 }
             },
 
@@ -155,7 +155,7 @@ button{
   display: inline-block;
   font-size: 0.75em;
   transition-duration: 0.2s;
-  margin-top: 12.5vh;
+  margin-top: 80%;
   font-weight: 450;
   
 
@@ -219,5 +219,8 @@ img {
     display: flex;
 }
 
+#profilename {
+    margin-top: 2vh;
+}
 
 </style>
