@@ -227,14 +227,17 @@ import firebaseApp from '../firebase.js';
                 const querySnapshot = await getDocs(buyingQuery);
                 querySnapshot.forEach((doc) => {
                     let dataRef = doc.data()
-                    this.buying_list.push({ 
-                        title: dataRef.ListingName, 
-                        uid: dataRef.ListingID, 
-                        offerPrice: dataRef.OfferAmount,
-                        sellerID: dataRef.SellerID,
-                        status: dataRef.Status,
-                        sellerName: dataRef.SellerName
-                    })
+                    //Removed from deals if buyer has reviewed item
+                    if (!dataRef.isBuyerReviewed) {
+                        this.buying_list.push({ 
+                            title: dataRef.ListingName, 
+                            uid: dataRef.ListingID, 
+                            offerPrice: dataRef.OfferAmount,
+                            sellerID: dataRef.SellerID,
+                            status: dataRef.Status,
+                            sellerName: dataRef.SellerName
+                        })
+                    }
                 })
             },
 
@@ -244,7 +247,8 @@ import firebaseApp from '../firebase.js';
                 querySnapshot.forEach((doc) => {
                     let dataRef = doc.data()
 
-                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected") {
+                    //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
+                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && !dataRef.isSellerReviewed) {
                         // if offer for listing exists
                         if (this.selling_list.some(item => item.uid === dataRef.ListingID)) {
                             this.selling_list[this.selling_list.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
