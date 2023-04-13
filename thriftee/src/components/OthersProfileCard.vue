@@ -5,7 +5,7 @@
             <h1 id = "profilename"> {{ name }} </h1>
                 
                 <div class="rate">
-                    <p class="mt-2">Rating: </p>
+                    <p class="mt-2"><b>RATING: </b> </p>
                     <div v-if="havevalue" id ="overallstartext">
                         <p id="valueofstar"> {{ value }} </p>
                         <p id ="startext"> ★</p>
@@ -13,12 +13,13 @@
                     <p v-else id="emptystarvaluestar"><em>{{ value }}</em></p>
                 </div>
                 <div class="Location">
-                    <p class="mt-3" style = "margin-bottom: 5vh;">Meet up Location: {{ location }}</p>
+                    <p class="mt-3" style = "margin-bottom: 5vh;"><b>LOCATION: </b>  {{ location }}</p>
                 </div>
             
         </div>
         
-        <button v-if="havevalue" @click="goToTelegram" id = "chatbutton" type="button"> Message</button> 
+        
+        <button v-if="havevalue" @click="goToTelegram" id = "chatbutton2" type="button"> Message</button> 
         <button v-else @click="goToTelegram" id = "chatbutton" type="button"> Message</button> 
     </div>
 </template>
@@ -94,7 +95,7 @@
                         this.value += parseFloat(review.Rating)
                         count++
                     })
-                    this.value = Math.round(this.value/count * 10) / 10 +"/5";
+                    this.value = Math.round(this.value/count * 10) / 10 +" / 5";
                 }
             },
         }, 
@@ -207,6 +208,7 @@ img {
 
 #overallstartext {
     display: flex;
+    
 }
 
 
@@ -227,7 +229,7 @@ img {
     font-style: italic;
     transition-duration: 0.2s;
     height: 6.5vh;
-    margin-top: 15vh;
+    margin-top: 15.5vh;
     margin-left: 3vw;
     margin-right: 4vw;
     font-weight: 550;
@@ -235,6 +237,31 @@ img {
 }
 
 #chatbutton:hover {
+    color: #cdc9c9e0; 
+    background-color: white;
+}
+
+#chatbutton2 {
+    background-color: #ffffffe0; 
+    border: 0.5px solid #c0bdbd; 
+    border-radius: 5px;
+    color: rgb(13, 10, 10);
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.8em;
+    font-style: italic;
+    transition-duration: 0.2s;
+    height: 6.5vh;
+    margin-top: 16vh;
+    margin-left: 6vw;
+    margin-right: 4vw;
+    font-weight: 550;
+    
+}
+
+#chatbutton2:hover {
     color: #cdc9c9e0; 
     background-color: white;
 }
