@@ -293,6 +293,16 @@ import firebaseApp from '../firebase.js';
                     })
                 })
                 
+                // update Listing itself to be sold/unavailable
+                const listingDocRef = doc(db, "Listings", listing_uid)
+                try{
+                    await updateDoc(listingDocRef, {
+                        Listing_Available: false
+                    });
+                } catch(error) {
+                    alert("Error: " + error)
+                }
+                
                 if (!alert("Offer Accepted!")){
                     location.reload()
                 }
