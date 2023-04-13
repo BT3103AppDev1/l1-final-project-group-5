@@ -130,7 +130,7 @@
                 
                     this.updateReviewStatus()
                     alert("Review added successfully")
-                    window.history.back()
+                    this.$router.push({name: 'Deals'})
                 } catch(error) {
                     alert("Unsuccessful operation, error:" + error)
                 };

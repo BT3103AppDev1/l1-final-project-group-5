@@ -181,7 +181,7 @@
 <script>
 import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { collection, query, where, getDocs, updateDoc, doc} from "firebase/firestore";
+    import { collection, query, where, getDocs, updateDoc, doc, deleteDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -327,7 +327,17 @@ import firebaseApp from '../firebase.js';
             async deleteOfferFromOffers(listing_uid, seller_uid) {
                 const query_delete = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("SellerID", "==", seller_uid), where("BuyerID", "==", this.user_uid));
                 const querySnapshot = await getDocs(query_delete);
-                console.log(querySnapshot)
+                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+                try {
+                    if (confirm('Are you sure you want to remove this offer?')) {
+                        await deleteDoc(docRef)
+                        if (!alert('Offer successfully deleted!')){
+                            location.reload()
+                        }
+                    }
+                } catch(error) {
+                    alert("Unsuccessful removal, error:" + error)
+                }
             },
 
             openQR() {
