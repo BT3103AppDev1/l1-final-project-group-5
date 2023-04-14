@@ -104,7 +104,7 @@
             :key="listing.Title"
           >
             <div class="product-image-placeholder">
-              <img :src="listing.ImageUrl" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
+              <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
             </div>
             <div class="product-text">
               <div id="productCondition">

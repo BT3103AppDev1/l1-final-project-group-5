@@ -93,9 +93,9 @@
 
 <script>
     import firebaseApp, { storage } from '../firebase.js';
-    import { ref, uploadBytes } from 'firebase/storage'
-    import { getFirestore } from "firebase/firestore";
-    import { doc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
+    import { getFirestore, setDoc } from "firebase/firestore";
+    import { doc, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -133,13 +133,13 @@
                 try {
                     var image = document.getElementById("uploadbutton");
                     fReader.readAsDataURL(image.files[0]);
-                    console.log(image.files[0])
+                    // console.log(image.files[0])
                     fReader.onloadend = function(event) {
                         var img = document.getElementById("listingphoto");
                         img.src = event.target.result;
                     }
-                    console.log(image.value)
-                    console.log("I", this.$refs.listings.files[0])
+                    // console.log(image.value)
+                    // console.log("I", this.$refs.listings.files[0])
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
@@ -156,7 +156,12 @@
                         let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
                         let userProfileData = userProfile.data()
                         this.telegram = userProfileData.Telegram
-                        const docRef = await addDoc(collection(db, "Listings"), { 
+                        console.log("im here")
+                        const docRef = doc(collection(db, "Listings"));
+                        console.log(docRef.id)
+                        const url = await this.uploadToCloud(docRef.id)
+                        
+                        await setDoc(docRef, { 
                             SellerID: this.uid,
                             Title: this.listingtitle,
                             Price: this.price,
@@ -166,12 +171,16 @@
                             Size: this.size,
                             Listing_Image: image,
                             Telegram: this.telegram,
-                            Listing_Available: true
-                        })
-                        
-                        this.uploadToCloud(docRef.id)
+                            Listing_Available: true,
+                            Image_URL: url
+                        }, {merge: true})
+                        console.log("LOL", url)
                         alert("Listing creating!")
                         this.$router.push({name: "ProfileListings"})
+                        
+
+                        
+                        
                     } catch(error) {
                         alert("Error creating listing: ", error)
                     }
@@ -189,13 +198,17 @@
               
             },
 
-            uploadToCloud: function(listing_uid) {
+            uploadToCloud: async function(listing_uid) {
                 const storageRef = ref(storage, 'Listings/' + listing_uid )
-                uploadBytes(storageRef, this.$refs.listings.files[0]).then((snapshot) =>{
-                    console.log("uploaded")
-                })
+                await uploadBytes(storageRef, this.$refs.listings.files[0])
+                console.log("uploaded")
+                const url = await getDownloadURL(storageRef)
+                console.log("inside")
+                
+            
+                return url
             }   
-                // console.log(URL.createObjectURL(this.$refs.listings.files[0]))
+
           
         }
     }
