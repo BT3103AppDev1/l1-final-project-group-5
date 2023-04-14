@@ -1,6 +1,6 @@
 <template>
     <div id = "profiledetails">
-        <img id = "profilephoto" src="default.png" alt="Profile Photo">
+        <img id = "profilephoto" :src="this.image_URL" alt="">
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
@@ -37,6 +37,7 @@
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc, query, collection, where, getDocs } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+    import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -49,24 +50,37 @@
                 location: "",
                 name: "",
                 uid: "",
-                havevalue: false
+                havevalue: false,
+                image_URL: ""
             }
         },
         
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    this.name = user.displayName;
-                    this.uid = user.uid;
-                    this.getMeetUp()
-                    this.getName()
-                    this.getRating()
-                }
-                
+                this.name = user.displayName;
+                this.uid = user.uid;
+                this.getMeetUp()
+                this.getName()
+                this.getRating()
+                this.getImage()
             })
            
         },
         methods: {
+            async getImage(){
+                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+                let userProfileData = userProfile.data();
+                if(userProfileData.Image_URL == ""){
+                    const storage = getStorage();
+                    getDownloadURL(ref(storage, 'Profiles/default.png'))
+                    .then((url) => {
+                        this.image_URL = url
+                    })
+                }
+                else {
+                    this.image_URL = userProfileData.Image_URL;
+                }
+            },
             async getMeetUp() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
