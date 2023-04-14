@@ -41,7 +41,7 @@
             :key="listing.title"
           >
               <div class="product-image-placeholder">
-                <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
+                <img :src="listing.Image_URL" alt="" style="width: 16.5vw; height: 31vh; object-fit: cover;">
               </div>
             <div class="product-text">
               <div id="productCondition">
@@ -82,7 +82,7 @@ export default {
       // value: 4,
       // name: "",
       // uid: "",
-      //listings: [],
+      listings: [],
       seller_uid: this.sellerUID
     };
   },
@@ -92,35 +92,6 @@ export default {
     // });
   },
   methods: {
-<<<<<<< HEAD
-    async readData() {
-      const querySnapshot = await getDocs(collection(db, "Listings"));
-      querySnapshot.forEach((doc) => {
-        if (doc.data().SellerID == this.seller_uid && doc.data().Listing_Available == true) {
-          this.listings.push(doc.data());
-        }
-      });
-    },
-  },
-  computed: {
-    listingsData() {
-      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available).filter((listing) => listing.SellerID == this.seller_uid);
-      return availableListings;
-    },
-    maxPrice() {
-      var highestPrice = 0;
-      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
-      availableListings.forEach((listing) => {
-        if (listing.Price > highestPrice) {
-          highestPrice = listing.Price;
-        };
-      });
-      return highestPrice;
-    }
-  },
-  created() {
-    this.readData();
-=======
     // async readData() {
     //   const querySnapshot = await getDocs(collection(db, "Listings"));
     //   querySnapshot.forEach((doc) => {
@@ -135,7 +106,6 @@ export default {
           const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available && listing.SellerID == this.seller_uid);
           return availableListings
       },
->>>>>>> 5fd2246863d2010bd079ca035302b4f1d39e6c09
   },
   // created() {
   //   this.readData();
@@ -251,19 +221,20 @@ hr {
   height: auto;
 }
 .product-item {
-  outline-style: solid;
+  border: 1px solid black;
   width: 17.5vw;
   height: auto;
   padding: 10px;
+  
 }
 .product-image-placeholder {
-  outline-style: dashed;
   position: relative;
   /* padding: 20%; */
-  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1vh;
+  height: 30vh;
 }
 .product-text {
   padding: 10px;
@@ -287,5 +258,9 @@ hr {
 #listingpagebutton:hover {
   border: none;
   color:grey;
+}
+
+#container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>

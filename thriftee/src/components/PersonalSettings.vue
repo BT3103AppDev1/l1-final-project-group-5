@@ -188,8 +188,10 @@
 <style scoped>
 #profileheader h2 {
   /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-  color: rgb(134, 130, 130);
+  color: rgb(105, 102, 102);
   font-size: 2.8vw;
+  margin-top: 3vh;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   
 }
 #container{
@@ -330,5 +332,10 @@ img {
   width: 450px;
   height: auto;
   border: 50%;
+}
+
+#profilecreate {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 </style>

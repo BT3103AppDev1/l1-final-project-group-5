@@ -225,6 +225,7 @@
     text-align: left;
     line-height: 3vh;
     width: 100vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #containerleft {
@@ -293,8 +294,9 @@
 }
 
 img {
-    width: 70%;
+    width: 100%;
     height: auto;
+   
 }
 
 #viewprofile {
@@ -333,6 +335,10 @@ img {
     height:20px; 
     margin-left:5px;
     border: 1px solid black
+}
+
+#containerright{
+    margin-top: 15vh;
 }
 
 </style>

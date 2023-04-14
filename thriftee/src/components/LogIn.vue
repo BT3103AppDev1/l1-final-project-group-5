@@ -120,7 +120,7 @@ export default {
 
 #contentofwords {
     text-align: left;
-    line-height: 25px;
+    line-height: 30px;
 }
 
 #leftcontainer{
@@ -193,6 +193,10 @@ input, select {
 input:focus {
     color: rgb(9, 8, 8);
     outline: 3px rgba(43, 41, 41, 0.933);  
+}
+
+#container {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 </style>

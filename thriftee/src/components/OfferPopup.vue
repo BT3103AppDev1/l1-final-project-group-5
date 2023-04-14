@@ -66,6 +66,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 
@@ -75,6 +76,7 @@ export default {
     border-radius: 10px;
     color: white;
     border: 3px solid rgb(201, 199, 199);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #popup_buttons{
@@ -82,12 +84,14 @@ export default {
     text-align: center;
     display: flex;
     justify-content: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #popup_title{
     text-align: center;
     color: rgb(48, 48, 48);
     font-size: 1.8em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     
 }
 
@@ -95,9 +99,10 @@ export default {
     margin-right: 1vw;
     border: none;
     border-radius: 8px;
-    font-size: 0.95em;
+    font-size: 0.9em;
     background-color: rgba(185, 189, 189, 0.872);
     font-weight: normal;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #cancelButton:hover{
@@ -110,8 +115,9 @@ export default {
     color: black;
     border:none;
     border-radius: 8px;
-    font-size: 0.95em;
+    font-size: 0.9em;
     font-weight: normal;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #offerButton:hover{

@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 #app {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -53,7 +53,7 @@ export default {
 }
 .routerlink {
   color: rgba(76, 0, 0, 0.832);
-  font-family: gill sans, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: 26px;
   font-style: italic;
   margin-left: 1vw;
