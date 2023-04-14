@@ -338,6 +338,7 @@ hr {
     margin-top: 5vw;
     font-weight: bold;
     color: rgb(83, 80, 80);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #startsellingnow {
@@ -345,6 +346,7 @@ hr {
     border: none;
     border-bottom: 2px solid grey;
     color: grey;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #startsellingnow:hover {
