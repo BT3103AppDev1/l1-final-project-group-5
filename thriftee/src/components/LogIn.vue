@@ -36,7 +36,11 @@
 </template>
 
 <script>
+import firebaseApp from '../firebase.js';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getFirestore,getDoc } from 'firebase/firestore';
+
+const db = getFirestore(firebaseApp);
 
 export default {
     name:"LogIn",
@@ -49,16 +53,44 @@ export default {
     },
 
     methods: {
+        // login() {
+        //     const auth = getAuth();
+        //     signInWithEmailAndPassword(auth, this.email, this.password)
+        //         .then(() => {
+        //             alert('Successfully logged in');
+        //             this.$router.push({name: 'ProfileListings'});
+        //         })
+        //         .catch(error => {
+        //             alert(error.message);
+        //         });
+        // },
         login() {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, this.email, this.password)
-                .then(() => {
-                    alert('Successfully logged in');
-                    this.$router.push({name: 'ProfileListings'});
-                })
-                .catch(error => {
-                    alert(error.message);
-                });
+            .then((userCredential) => {
+                // Check if the user has verified their email
+                const user = userCredential.user;
+                console.log(user.uid)
+                const docRef = doc(db, "Profiles", user.uid)
+                console.log(docRef)
+                if (user.emailVerified) {
+                    getDoc(docRef).then((doc) => {
+                        console.log("LOL",doc.exists)
+                        if (!doc.exists) {
+                            alert('Successfully logged in');
+                            this.$router.push({ name: 'EditProfile' });
+                        } else {
+                            alert('Successfully logged in');
+                            this.$router.push({ name: 'ProfileListings' });
+                        }
+                    })
+                } else {
+                    alert('Please verify your email before logging in');
+                }
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
         },
 
         goToSignUp() {
