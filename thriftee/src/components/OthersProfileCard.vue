@@ -4,6 +4,7 @@
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
+            <div id ="overallhere">
                 <div class="rate">
                     <p class="mt-2"><b>RATING: </b> </p>
                     <div v-if="havevalue" id ="overallstartext">
@@ -11,16 +12,19 @@
                         <p id ="startext"> ★</p>
                     </div>
                     <p v-else id="emptystarvaluestar"><em>{{ value }}</em></p>
+                    
                 </div>
                 <div class="Location">
-                    <p class="mt-3" style = "margin-bottom: 5vh;"><b>LOCATION: </b>  {{ location }}</p>
+                    <p class="mt-3"><b>LOCATION: </b>  {{ location }}</p>
                 </div>
+            </div>
             
         </div>
         
-        
+        <div id = "buttonsid">
         <button v-if="havevalue" @click="goToTelegram" id = "chatbutton2" type="button"> Message</button> 
         <button v-else @click="goToTelegram" id = "chatbutton" type="button"> Message</button> 
+     </div>
     </div>
 </template>
 
@@ -129,19 +133,22 @@
     height: 35vh;
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
-    font-size: 1.4em;
-    font-family: 'Montserrat', sans-serif;
-
+    font-size: 1.25em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  
 }
 
 #profiledetails h1{
     font-size: 1.8em;
     /* font-weight: bold; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #contentofprofile {
-    margin-left: 5vw;
     font-weight: 540;
+    padding-top: 2vw;
+    margin-bottom: 2vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #buttonsofprofile {
@@ -155,56 +162,6 @@ button{
   display:block;
 }
 
-
-#editbutton {
-  background-color: #ccccdb; /* Green */
-  border-radius: 5px;
-  border: 0.5px solid #ccccdb; 
-  color: rgb(0, 0, 0);
-  padding: 10px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 0.75em;
-  transition-duration: 0.2s;
-  margin-top: 10vh;
-  
-
-}
-
-#editbutton:hover {
-  /* background-color: 359138; Green */
-  color: white;
-  /* border: 0.5px solid #5a525d; Green */
-}
-
-#signoutbutton {
-  background-color: #b7b7c3; /* Green */
-  border: 1px solid #b7b7c3; /* Green */
-  border-radius: 5px;
- 
-  color: rgb(0, 0, 0);
-  padding: 10px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 0.75em;
-  transition-duration: 0.2s;
-  
-}
-
-#signoutbutton:hover {
- 
-  color: white;
- 
-}
-
-img {
-    width: auto;
-    height: auto;
-    margin-left: 2vw;
-    border: 50%;
-}
 
 .rate {
     display: flex;
@@ -273,14 +230,44 @@ img {
     transition-duration: 0.2s;
     height: 6.5vh;
     margin-top: 16vh;
-    margin-left: 6vw;
-    margin-right: 4vw;
     font-weight: 550;
-    
+    margin-left: 3vw;
+}
+
+#buttonsid {
+    margin-left: 2vh;
 }
 
 #chatbutton2:hover {
     color: #cdc9c9e0; 
     background-color: white;
+}
+
+#overallhere {
+    text-align: left;
+}
+
+img {
+    width: 14.5vw;
+    height: 29vh;
+    margin-left: 2vw;
+    border-radius: 70%;
+    object-fit: cover;
+    margin:2%;
+    border: 1px solid rgb(196, 189, 189);
+    margin-left:5%;
+    margin-right:8%;
+}
+
+#profilephoto {
+    width: 14.5vw;
+    height: 27vh;
+    margin-left: 2vw;
+    border-radius: 50%;
+    object-fit: cover;
+    margin:2%;
+    border: 1px solid rgb(196, 189, 189);
+    margin-left:5%;
+    margin-right:8%;
 }
 </style>

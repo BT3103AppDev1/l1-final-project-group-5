@@ -1,7 +1,7 @@
 <template>
     <div id = "listingcreate">
         <div id = "listingheader">
-            <h2> Create Listing</h2>
+            <h2> New Listing</h2>
         </div>
 
         <div id ="container">
@@ -26,7 +26,7 @@
                         
                         <label for="listingprice">Price </label>
                         <div>
-                            <span id="dollarsign">$</span>
+                            <span style = "margin-left: 5vw;" id="dollarsign">$</span>
                             <input v-model="price" type = "number" id = "listingprice" placeholder = "In SGD" min="0" step="0.01" required> <br><br>                      
                         </div>
 
@@ -58,8 +58,8 @@
                             <option value="#FFFF00">Yellow</option>
                             <option value="#00FF00">Green</option>
                             <option value="#000080">Blue</option>
-                            <option value="#800080">Purple</option>
                             <option value="#FFFFFF">White</option>
+                            <option value="#800080">Purple</option>
                         </datalist>
                     
                         <label for="size">Size</label>
@@ -218,21 +218,22 @@
 
 <style scoped>
 #listingheader h2 {
-/* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-  color: rgb(134, 130, 130);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(88, 85, 85);
   font-size: 2.5vw;
   font-weight:bold;
 }
 #container{
     display: flex;
     width: 100vw;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 label[for="uploadbutton"] {
     background-color: #60cbb8; /* Green */
-  border: 2px solid #60cbb8; /* Green */
+    border: none; /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
-  padding: 10px 32px;
+  padding: 9px 28px;
   margin-left: 4vw;
   text-align: center;
   text-decoration: none;
@@ -243,7 +244,7 @@ label[for="uploadbutton"] {
 label[for="uploadbutton"]:hover {
   background-color: 359138; /* Green */
   color: white;
-  border: 2px solid #60cbb8; /* Green */
+ 
 }
 input::file-selector-button {
     font-weight: bold;
@@ -261,7 +262,7 @@ input::file-selector-button:hover {
     background-color: black; /* Green */
 }
 #leftcontainer{
-    margin-top: 13vh;
+    margin-top: 5vh;
     /* margin-right: 15vw; */
     width: 50%;
 }
@@ -271,11 +272,11 @@ input::file-selector-button:hover {
     width: 40%;
 }
 #deletebutton {
-  background-color: #ed4141; /* Green */
-  border: 2px solid #ed4141; /* Green */
+  background-color: #b02c2cbe; /* Green */
+  border: none; /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
-  padding: 10px 32px;
+  padding: 9px 28px;
   margin-left: 3vw;
   margin-right: 4vw;
   text-align: center;
@@ -286,14 +287,14 @@ input::file-selector-button:hover {
 }
 #deletebutton:hover {
   color: white;
-  border: 2px solid #ed4141; /* Green */
+  
 }
 #savebutton {
   background-color: #60cbb8; /* Green */
-  border: 2px solid #60cbb8; /* Green */
+  border: none; /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
-  padding: 10px 32px;
+  padding: 9px 28px;
   margin-left: 35px;
   text-align: center;
   text-decoration: none;
@@ -304,14 +305,14 @@ input::file-selector-button:hover {
 #savebutton:hover {
   background-color: 359138; /* Green */
   color: white;
-  border: 2px solid #60cbb8; /* Green */
+ 
 }
 #cancelbutton {
-  background-color: white; 
-  border: 2px solid #c64f31; /* Green */
+  background-color: rgb(175, 166, 166); 
+  border: none; /* Green */
   border-radius: 25px;
   color: black;
-  padding: 10px 32px;
+  padding: 9px 28px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -319,7 +320,6 @@ input::file-selector-button:hover {
   transition-duration: 0.4s;
 }
 #cancelbutton:hover {
-  background-color: #c64f31; /* Green */
   color: white;
 }
 h2 {
@@ -335,51 +335,53 @@ form {
     align-items: center;
     margin: auto;
 }
-input[type=text], input[type=number], input[type=color] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 1px 0;
+
+select {
+    width: 70%;
   display: block;
-  border: 1px solid #ccc;
+  border: none;
   box-sizing: border-box;
+  border-bottom: 1px solid black;
   height: 40px;
-  border-radius: 10px;
+  margin-left: 6vw;
   font-size: 16px;
+  margin-top: 1vh;
+}
+input[type=text], input[type=number], input[type=color] {
+  width: 70%;
+  padding: 10px 0px;
+  display: block;
+  border: none;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  height: 40px;
+  margin-left: 6vw;
+  font-size: 16px;
+  background-color: transparent;
 }
 input[type=file]{
   width: 100%;
   margin-top: 3vh;
 }
-select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 1px 0;
-    display: block;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-sizing: border-box;
-    height: 40px;
-    font-size: 12px;
-    text-align: center;
-}
+
 ::placeholder {
    text-align: center; 
    font-size: 17px;
 }
 input:hover, select:hover {
     /* box-shadow: 3px 3px purple; */
-    border-radius: 5px;
+   
 }
 .save {
     text-align: center;
 }
 img {
-    width: 450px;
+    width: auto;
     height: auto;
 }
 #listingphoto {
-    width: 350px;
-    padding-bottom: 10px;
+    width: 30vw;
+   margin-bottom: 2vh;
 }
 #dollarsign {
     display: flex;
@@ -388,4 +390,13 @@ img {
     margin-left: 8px;
     font-size: 15px;
 }
+
+#listingheader h2 {
+    margin-top: 2vh;
+    font-weight: 500;
+}
+
+
+
+
 </style>

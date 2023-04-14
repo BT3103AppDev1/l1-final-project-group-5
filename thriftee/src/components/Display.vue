@@ -118,7 +118,8 @@
             :key="listing.Title"
           >
             <div class="product-image-placeholder">
-              <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
+              <img :src="listing.Image_URL" alt="" style="width: 22vw; height: 35vh; object-fit: cover;">
+             
             </div>
             <div class="product-text">
               <div id="productCondition">
@@ -213,6 +214,7 @@ export default {
 .mainContainer {
   background-color: transparent;
   width: 100vw;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .topContainer {
   height: 10vh;
@@ -245,22 +247,20 @@ export default {
   row-gap: 10px;
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  background-color: #7e7d7d20;
+  background-color: transparent;
 }
 .product-item {
-  outline-style: solid;
   width: auto;
   height: auto;
-  padding: 10px;
+  padding: 5px;
+  border: 1px solid black;
 }
 .product-image-placeholder {
-  outline-style: dashed;
   position: relative;
-  /* padding: 20%; */
-  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1vh;
 }
 .product-text {
   padding: 10px;
@@ -328,5 +328,14 @@ export default {
 #listingpagebutton:hover {
   border: none;
   color:grey;
+}
+
+img {
+  border-radius: 4px;
+  border: 1px solid rgb(232, 232, 232);
+}
+
+button{
+  background-color: transparent;
 }
 </style>

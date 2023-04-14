@@ -41,7 +41,7 @@
             :key="listing.title"
           >
               <div class="product-image-placeholder">
-                <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
+                <img :src="listing.Image_URL" alt="" style="width: 16.5vw; height: 31vh; object-fit: cover;">
               </div>
             <div class="product-text">
               <div id="productCondition">
@@ -221,19 +221,20 @@ hr {
   height: auto;
 }
 .product-item {
-  outline-style: solid;
+  border: 1px solid black;
   width: 17.5vw;
   height: auto;
   padding: 10px;
+  
 }
 .product-image-placeholder {
-  outline-style: dashed;
   position: relative;
   /* padding: 20%; */
-  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1vh;
+  height: 30vh;
 }
 .product-text {
   padding: 10px;
@@ -257,5 +258,9 @@ hr {
 #listingpagebutton:hover {
   border: none;
   color:grey;
+}
+
+#container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>

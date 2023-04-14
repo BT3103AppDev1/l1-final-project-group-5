@@ -48,7 +48,7 @@
       <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="slide in slides" class='slide' :key="slide.id">
       
-      <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
+      <h2 class = buyer style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> <b>{{ slide.buyer }}</b></h2>
       <div v-if="havestar" id="star-rating">
       <p> {{ slide.ratingstar }} / 5 </p>
       <p> </p>
@@ -57,7 +57,7 @@
       <div v-else id="nostar">
         <p> </p>
       </div>
-      <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
+      <h3 class = description style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><i>"{{ slide.title }}" </i> </h3>
       </div>
       <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
@@ -148,6 +148,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #nostar {
@@ -300,9 +301,14 @@ hr {
 #entirereview {
   display: flex;
   width: 60vw;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #linebreak {
   margin-top: 3vh;
+}
+
+#container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>

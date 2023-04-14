@@ -123,6 +123,7 @@ input:focus {
 #myform {
     margin-top: 5vh;
     margin-bottom: 5vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #container {
@@ -130,8 +131,8 @@ input:focus {
     width: 100vw;
 }
 
-#contentofwords {
-    
+#contentofwords h1{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     line-height: 25px;
 }
 
@@ -139,6 +140,7 @@ input:focus {
     margin-top: 5vh;
     /* margin-right: 15vw; */
     flex: 0.55;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
 }
 
@@ -156,6 +158,7 @@ img {
     display: inline-block;
     text-align: center;
     width: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 form {
@@ -175,11 +178,13 @@ background: transparent;
 border: none;
 border-bottom: 1px solid #a49e9e;
 text-align: left;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 ::placeholder {
 font-size: 17px;
 color: rgb(170, 164, 164);
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #createaccountbutton {
@@ -202,6 +207,10 @@ width: 100%;
 background-color: #9b9999; /* Green */
 color: white;
 border: 2px solid #9b9999; /* Green */
+}
+
+#container {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 </style>

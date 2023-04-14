@@ -9,7 +9,7 @@
 
         <div class="ratingContainer">
             <div class="rating-wrap">
-                <h2>Star Rating</h2>
+                <h2> Rating</h2>
                 <div class="center">
                     <fieldset class="rating">
                         <input type="radio" id="star5" name="rating" value=5 v-model="ratingValue">
@@ -194,10 +194,11 @@
 html,body{
 	width: 100%;
 	height: 100%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 body{
-	font-family: Arial, sans-serif;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .ratingContainer{
@@ -213,6 +214,12 @@ body{
 	padding: 15px;
 	box-shadow: 0 0 3px 0 rgba(0,0,0,.2);
 	text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.rating-wrap h2{
+	
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .center{
@@ -285,6 +292,7 @@ body{
   display: inline-block;
   font-size: 16px;
   transition-duration: 0.4s;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #submitbutton:hover {
@@ -304,6 +312,7 @@ body{
   display: inline-block;
   font-size: 16px;
   transition-duration: 0.4s;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #cancelbutton:hover {
@@ -334,8 +343,12 @@ input[type=file]{
     height: 200px;
 }
 
-#LeaveReviewheader {
+#LeaveReviewheader h1 {
     margin-top: 8vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+#container {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 </style>

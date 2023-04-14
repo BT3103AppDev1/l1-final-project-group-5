@@ -507,7 +507,7 @@ import firebaseApp from '../firebase.js';
 
 #buyingdeals h1 {
     /* font-weight:bold; */
-    font-family: Monaco;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: rgb(52, 50, 50);
     /* border: 2px solid rgb(114, 113, 113); */
     border-radius: 5px;
@@ -524,7 +524,7 @@ import firebaseApp from '../firebase.js';
 #sellingdeals h1 {
     /* font-weight:bold; */
     font-weight: bold;
-    font-family: Monaco;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: rgb(52, 50, 50);
     border: 2px solid rgb(114, 113, 113);
     border-radius: 5px;
@@ -649,7 +649,6 @@ a { text-decoration: none; }
     margin: 25px 0;
     font-size: 0.9em;
     
-   
 }
 
 .deal_table thead tr {
@@ -660,8 +659,8 @@ a { text-decoration: none; }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
-  border: 1px rgb(69, 84, 87) solid;
- 
+  border: 1px rgb(219, 224, 224) solid;
+  
 }
 
 .deal_table tbody tr {
@@ -708,5 +707,10 @@ a { text-decoration: none; }
     margin-top:0.5vh;
     /* font-size: 1.3em;  */
     /* font-weight: bolder; */
+}
+
+#container {
+    
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>

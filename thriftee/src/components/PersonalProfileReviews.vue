@@ -131,6 +131,7 @@
   display: flex;
   justify-content: center;
   text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #nostar {
@@ -163,6 +164,7 @@
   /* background-color: black; */
   color:rgb(74, 71, 71);
   /* font-family: "Lucida Console", "Courier New", monospace; */
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .description{
   display: flex;
@@ -170,6 +172,7 @@
   align-items: center;
   justify-content: center;
   font-size:x-large;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .slide {
@@ -290,5 +293,8 @@ width:60vw;
     margin-top: 3vh;
 }
 
+#container {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 
 </style>

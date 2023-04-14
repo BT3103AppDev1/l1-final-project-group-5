@@ -128,6 +128,7 @@
 </script>
 
 <style scoped>
+
 #profiledetails {
     margin-top: 5vh;
     display: flex;
@@ -135,25 +136,29 @@
     height: 35vh;
     border-radius: 25px;
     border: 1px solid rgb(195, 187, 187);
-    font-size: 1.4em;
-    font-family: 'Montserrat', sans-serif;
-
+    font-size: 1.25em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  
 }
+
 
 #profiledetails h1{
     font-size: 1.8em;
     /* font-weight: bold; */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #contentofprofile {
     margin-left: 5vw;
     font-weight: 540;
+    margin-top: 1vh;
 }
+
 
 #buttonsofprofile {
     display:block;
-    margin-left: 3vw;
-    margin-right: 3vw;
+    margin-left: 4vw;
+   
 }
 
 button{
@@ -174,7 +179,6 @@ button{
   transition-duration: 0.2s;
   margin-top: 80%;
   font-weight: 450;
-  
 
 }
 
@@ -207,11 +211,16 @@ button{
 }
 
 img {
-    width: auto;
-    height: auto;
+    width: 15.5vw;
+    height: 29vh;
     margin-left: 2vw;
-    border: 50%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin:2%;
+    border: 1px solid rgb(196, 189, 189);
+    margin-left:5%;
 }
+
 
 .rate {
     display: flex;
