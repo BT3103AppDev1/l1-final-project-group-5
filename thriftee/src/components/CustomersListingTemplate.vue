@@ -179,7 +179,7 @@
                             OfferAmount: this.offerAmount,
                             Status: "Pending",
                             isBuyerReviewed: false,
-                            isSellerReviwed: false
+                            isSellerReviewed: false
                         })
                         alert("Offer sent!")
                     } catch(error) {
