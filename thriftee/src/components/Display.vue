@@ -5,96 +5,110 @@
     </div>
     <div class="bottomContainer">
       <div class="leftContainer">
-        <div class="w3-bar-block" id="filterContainer">
+        <form class="w3-bar-block" id="filterContainer">
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Price</strong></div>
-              <button class="filterRowRight w3-button">+</button>
+              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
             <div id="sliderContainer">
-              <input v-bind:max=maxPrice :value=maxPrice/2
+              <input v-bind:max=maxPrice v-model="priceCap"
                 type="range"
                 min="1"
                 class="slider"
                 id="myRange"
               />
             </div>
+            <div>Price Limit: {{ priceCap }}</div>
           </div>
           <hr />
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Condition</strong></div>
               <!-- <button class="filterRowRight w3-button" id="conditionButton" v-on:click="openClose">+</button>  -->
-              <button class="filterRowRight w3-button">+</button>
+              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
-            <form>
-              <input type="checkbox" id="Brand New" value="Brand New" />
+            <div>
+              <input type="checkbox" id="Brand New" value="Brand New" v-model="conditionReq"/>
               <label for="Brand New" class="checkboxOption"> Brand New</label
               ><br />
-              <input type="checkbox" id="Like New" value="Like New" />
+              <input type="checkbox" id="Like New" value="Like New" v-model="conditionReq"/>
               <label for="Like New" class="checkboxOption"> Like New</label
               ><br />
-              <input type="checkbox" id="Lightly Used" value="Lightly Used" />
+              <input type="checkbox" id="Lightly Used" value="Lightly Used" v-model="conditionReq"/>
               <label for="Lightly Used" class="checkboxOption">
                 Lightly Used</label
               ><br />
-              <input type="checkbox" id="Well Used" value="Well Used" />
+              <input type="checkbox" id="Well Used" value="Well Used" v-model="conditionReq"/>
               <label for="Well Used" class="checkboxOption"> Well Used</label
               ><br />
-              <input type="checkbox" id="Heavily Used" value="Heavily Used" />
+              <input type="checkbox" id="Heavily Used" value="Heavily Used" v-model="conditionReq"/>
               <label for="Heavily Used" class="checkboxOption">
                 Heavily Used</label
               >
-            </form>
+            </div>
           </div>
           <hr />
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Size</strong></div>
-              <button class="filterRowRight w3-button">+</button>
+              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
-            <form>
-              <input type="checkbox" id="Small" value="Small" />
-              <label for="Small" class="checkboxOption"> Small</label><br />
-              <input type="checkbox" id="Medium" value="Medium" />
-              <label for="Medium" class="checkboxOption"> Medium</label><br />
-              <input type="checkbox" id="Large" value="Large" />
-              <label for="Large" class="checkboxOption"> Large</label>
-            </form>
-          </div>
-          <hr />
-          <div class="w3-bar-item">
-            <div class="filterRow">
-              <div class="filterRowLeft"><strong>Gender</strong></div>
-              <button class="filterRowRight w3-button">+</button>
+            <div>
+              <input type="checkbox" id="XXS" value="XXS" v-model="sizeReq"/>
+              <label for="XXS" class="checkboxOption"> XXS</label><br />
+              <input type="checkbox" id="XS" value="XS" v-model="sizeReq"/>
+              <label for="XS" class="checkboxOption"> XS</label><br />
+              <input type="checkbox" id="S" value="S" v-model="sizeReq"/>
+              <label for="S" class="checkboxOption"> S</label><br />
+              <input type="checkbox" id="M" value="M" v-model="sizeReq"/>
+              <label for="M" class="checkboxOption"> M</label><br />
+              <input type="checkbox" id="L" value="L" v-model="sizeReq"/>
+              <label for="L" class="checkboxOption"> L</label><br />
+              <input type="checkbox" id="XL" value="XL" v-model="sizeReq"/>
+              <label for="XL" class="checkboxOption"> XL</label><br />
+              <input type="checkbox" id="XXL" value="XXL" v-model="sizeReq"/>
+              <label for="XXL" class="checkboxOption"> XXL</label><br />
+              <input type="checkbox" id="EU 34" value="EU 34" v-model="sizeReq"/>
+              <label for="EU 34" class="checkboxOption"> EU 34</label><br />
+              <input type="checkbox" id="EU 36" value="EU 36" v-model="sizeReq"/>
+              <label for="EU 36" class="checkboxOption"> EU 36</label><br />
+              <input type="checkbox" id="EU 38" value="EU 38" v-model="sizeReq"/>
+              <label for="EU 38" class="checkboxOption"> EU 38</label><br />
+              <input type="checkbox" id="EU 40" value="EU 40" v-model="sizeReq"/>
+              <label for="EU 40" class="checkboxOption"> EU 40</label><br />
+              <input type="checkbox" id="EU 42" value="EU 42" v-model="sizeReq"/>
+              <label for="EU 42" class="checkboxOption"> EU 42</label><br />
+              <input type="checkbox" id="EU 44" value="EU 44" v-model="sizeReq"/>
+              <label for="EU 44" class="checkboxOption"> EU 44</label><br />
+              <input type="checkbox" id="EU 46" value="EU 46" v-model="sizeReq"/>
+              <label for="EU 46" class="checkboxOption"> EU 46</label><br />
+              <input type="checkbox" id="EU 48" value="EU 48" v-model="sizeReq"/>
+              <label for="EU 48" class="checkboxOption"> EU 48</label><br />
+              <input type="checkbox" id="EU 50" value="EU 50" v-model="sizeReq"/>
+              <label for="EU 50" class="checkboxOption"> EU 50</label>
             </div>
-            <form>
-              <input type="checkbox" id="Male" value="Male" />
-              <label for="Male" class="checkboxOption"> Male</label><br />
-              <input type="checkbox" id="Female" value="Female" />
-              <label for="Female" class="checkboxOption"> Female</label>
-            </form>
           </div>
           <hr />
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Category</strong></div>
-              <button class="filterRowRight w3-button">+</button>
+              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
-            <form>
-              <input type="checkbox" id="Tops" value="Tops" />
-              <label for="Tops" class="checkboxOption"> Tops</label><br />
-              <input type="checkbox" id="Bottoms" value="Bottoms" />
-              <label for="Bottoms" class="checkboxOption"> Bottoms</label><br />
-              <input type="checkbox" id="Outerwear" value="Outerwear" />
+            <div>
+              <input type="checkbox" id="Tops" value="Top" v-model="categoryReq"/>
+              <label for="Top" class="checkboxOption"> Tops</label><br />
+              <input type="checkbox" id="Bottoms" value="Bottom" v-model="categoryReq"/>
+              <label for="Bottom" class="checkboxOption"> Bottoms</label><br />
+              <input type="checkbox" id="Outerwear" value="Outerwear" v-model="categoryReq"/>
               <label for="Outerwear" class="checkboxOption"> Outerwear</label
               ><br />
-              <input type="checkbox" id="Shoes" value="Shoes" />
-              <label for="Shoes" class="checkboxOption"> Shoes</label>
-            </form>
+              <input type="checkbox" id="Shoes" value="Shoe" v-model="categoryReq"/>
+              <label for="Shoe" class="checkboxOption"> Shoes</label>
+            </div>
           </div>
           <hr />
-        </div>
+        </form>
       </div>
       <div class="rightContainer">
         <div class="displayContainer">
@@ -134,59 +148,50 @@ const db = getFirestore(firebaseApp);
 export default {
   data() {
     return {
-      //products is just internal test data not from firestore database
-      products: [
-        { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-        { title: "Jeans", condition: "Like New", price: "$15" },
-        { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-        { title: "Leather Shoes", condition: "Like New", price: "$12" },
-        { title: "Accessory", condition: "Like New", price: "$5" },
-        { title: "Shorts", condition: "Brand New", price: "$10" },
-        { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-        { title: "Jeans", condition: "Like New", price: "$15" },
-        { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-        { title: "Leather Shoes", condition: "Like New", price: "$12" },
-        { title: "Accessory", condition: "Like New", price: "$5" },
-        { title: "Shorts", condition: "Brand New", price: "$10" }
-      ],
-      // listings:[],
+      //listingsDisplayed: [],
+      priceCap: "",
+      sizeReq: [],
+      conditionReq: [],
+      genderReq: [], //currently add listing no gender input & firestore no gender field
+      categoryReq: []
     };
   },
   methods: {
-    // async readData() {
-    //   const querySnapshot = await getDocs(collection(db, "Listings"));
-    //   querySnapshot.forEach((doc) => {
-    //     const dataRef = doc.data();
-    //     dataRef.ListingID = doc.id;
-    //     this.listings.push(dataRef);
-    //   });
-    //   console.log("original");
-    //   console.log(this.listings);
-    // },
-    // openClose() {
-    //   var x = document.getElementById("conditionForm")
-    //   console.log(x.style.display)
-    //   if (x.style.display == "none") {
-    //     x.style.display = "block";
-    //   } else {
-    //     x.style.display = "none";
-    //   }
-    //   const btn = document.getElementById("conditionButton");
-    //   console.log(btn.innerText)
-    //   if (btn.innerText == "+") {
-    //     btn.innerText = "-"
-    //   } else {
-    //     btn.innerText = "+"
-    //   }
-    // },
+    openClose() {
+      var x = document.getElementById("conditionForm")
+      console.log(x.style.display)
+      if (x.style.display == "none") {
+        x.style.display = "block";
+      } else {
+        x.style.display = "none";
+      }
+      const btn = document.getElementById("conditionButton");
+      console.log(btn.innerText)
+      if (btn.innerText == "+") {
+        btn.innerText = "-"
+      } else {
+        btn.innerText = "+"
+      }
+    },
   },
-  // created() {
-  //   this.readData()
-  // },
   computed: {
     listingsData() {
-      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
-      return availableListings;
+      let availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available)
+      if (this.sizeReq.length > 0) {
+        //console.log(this.sizeReq[0])
+        availableListings = availableListings.filter((listing) => this.sizeReq.includes(listing.Size))
+        //availableListings = availableListings.filter((listing) => listing.Size == this.sizeReq[0] || listing.Size == this.sizeReq[1])
+      }
+      if (this.conditionReq.length > 0) {
+        availableListings = availableListings.filter((listing) => this.conditionReq.includes(listing.Condition))
+      }
+      if (this.categoryReq.length > 0) {
+        availableListings = availableListings.filter((listing) => this.categoryReq.includes(listing.Category))
+      }
+      if (this.priceCap.length != "") {
+        availableListings = availableListings.filter((listing) => listing.Price <= this.priceCap)
+      }
+      return availableListings
     },
     maxPrice() {
       var highestPrice = 0;
@@ -263,7 +268,7 @@ export default {
 .filterRowLeft {
   /* background-color: green; */
   display: table-cell;
-  width: 20vw;
+  /* width: 20vw; */
   font-size: 1em;
 }
 .filterRowRight {
