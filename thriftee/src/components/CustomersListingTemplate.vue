@@ -43,7 +43,7 @@
         </div>
 
         <div id = "containerright">
-         <img src="listingdefault.jpeg" alt="listing picture">
+         <img :src="image_url" alt="listing picture">
      </div>
     </div>
   
@@ -88,12 +88,13 @@
                 listing_condition: null,
                 listing_colour: null,
                 listing_size: null,
+                image_url: null,
                 telegram: "https://t.me/",
                 isPopupOpen: false,
                 offerAmount: 0,
                 seller_uid: null, //placeholder for seller uid
                 location: null,
-                seller_name: null
+                seller_name: null,
             }
         },
         
@@ -117,6 +118,7 @@
                 this.listing_colour = dataSnap.Colour;
                 this.listing_size = dataSnap.Size;
                 this.seller_uid = dataSnap.SellerID;
+                this.image_url = dataSnap.Image_URL;
                 let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid))
                 let userProfileData = userProfile.data();
                 this.seller_name = userProfileData.Name;
