@@ -31,8 +31,8 @@
         </div>
     </div>
 
-    <h2 id = "ifnolisting" v-if="listings.length === 0"> No Current Listings </h2>
-    <router-link  v-if="listings.length === 0" to="/sell"
+    <h2 id = "ifnolisting" v-if="readDataLength === 0"> No Current Listings </h2>
+    <router-link  v-if="readDataLength === 0" to="/sell"
                 custom
                 v-slot="{ navigate }" >
                 <button @click="navigate" role="link" id = "startsellingnow" type="button"> <em>＋  Start Listing </em></button> 
@@ -43,26 +43,26 @@
             <div class="displayContainer">
                 <div
                     class="product-item"
-                    v-for="listing in listings"
-                    :key="listing.title"
+                    v-for="listing in readData"
+                    :key="listing.ListingID"
                 >
                     <div class="product-image-placeholder">
-                        <p>Image Placeholder</p>
+                        <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
                     </div>
                     <div class="product-text">
                         <div id="productCondition">
-                            Condition: {{ listing.data().Condition }}
+                            Condition: {{ listing.Condition }}
                         </div>
                         <div id="productTitle">
-                            {{ listing.data().Title }}
+                            {{ listing.Title }}
                         </div>
                         <div id="productPrice">
-                            ${{ listing.data().Price }}
+                            ${{ listing.Price }}
                         </div>
-                        <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.id } }"> 
+                        <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.ListingID } }"> 
                             <button @click="navigate" role="link" id = "editbutton" type="button"><u>Edit</u></button>  
                         </router-link>
-                        <button id="deletebutton" type="button" @click="deleteButton(listing.id)"><u>Delete</u></button>
+                        <button id="deletebutton" type="button" @click="deleteButton(listing.ListingID)"><u>Delete</u></button>
                     </div>
                 </div>
             </div>
@@ -73,9 +73,10 @@
 </template>
 
 <script>
-    import firebaseApp from '../firebase.js';
+    import firebaseApp, { storage } from '../firebase.js';
+    import { ref, getDownloadURL } from 'firebase/storage'
     import { getFirestore } from "firebase/firestore";
-    import { collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
+    import { collection, doc, getDoc, getDocs, updateDoc, query, where} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
 
     const db = getFirestore(firebaseApp);
@@ -100,30 +101,75 @@
             
         }, 
         methods: {
-            async readData() {
-                const querySnapshot = await getDocs(collection(db, "Listings"));
-                querySnapshot.forEach((doc) => {
-                    if (doc.data().SellerID == this.uid)
-                        this.listings.push(doc);
-                });
-            },
+            // async readData() {
+            //     const querySnapshot = await getDocs(collection(db, "Listings"));
+            //     querySnapshot.forEach((doc) => {
+            //         const dataRef = doc.data();
+            //         dataRef.ListingID = doc.id
+
+            //         getDownloadURL(ref(storage, "Listings/" + doc.id)).then(function(result){
+            //             dataRef.ImageUrl = result
+            //         }).catch(() =>{
+            //             dataRef.ImageUrl = "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw" //placeholder
+            //         })
+                    
+            //         if (dataRef.SellerID == this.uid && dataRef.Listing_Available == true) {
+            //             this.listings.push(dataRef);
+            //         }
+            //     });
+            //     console.log(this.listings)
+            // },
+            
             async deleteButton(listingID) {
                 // await deleteDoc(doc(db, "Listings", listingID)) // delete from Listings collection
                 // console.log("delete listing from Listings collection")
-                // const listingOffersQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
-                // const querySnapshot = await getDocs(listingOffersQuery)
+                // const nonPendingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID), where("Status", "!=", "Pending"))
+                // const querySnapshot = await getDocs(nonPendingQuery)
+                // console.log(querySnapshot)
                 // const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
-                const querySnapshot = await getDoc(doc(db, "Listings", listingID))
+                // const querySnapshot = await getDoc(doc(db, "Listings", listingID))
                 // await updateDoc(querySnapshot, {
                 //     Status: "Deleted"
                 // })
-                location.reload() 
-                alert("Listing deleted! (delete function has not been implemented -- waiting for status database confirmation)")
+
+                const docRef = doc(db, "Listings", listingID);
+                try{
+                    if (confirm('Are you sure you want to delete this listing?')) {
+                        await updateDoc(docRef, {
+                            Listing_Available: false
+                        });
+                        const listingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
+                        const querySnapshot = await getDocs(listingQuery)
+                        querySnapshot.forEach(function(doc) {
+                            console.log(doc.data())
+                            updateDoc(doc.ref, {
+                                Status: "Removed"
+                            })
+                        })
+
+                        if (!alert('Listing deleted!')){
+                            location.reload()
+                        }
+                    }
+                } catch(error) {
+                    alert("Error: " + error)
+                }
             },
         },
-        created() {
-            this.readData();
+        computed: {
+            readData() {
+                const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available && listing.SellerID == this.uid);
+                return availableListings
+            },
+
+            readDataLength() {
+                return this.readData.length
+            }
         },
+        
+        // created() {
+        //     this.readData();
+        // },
     }
 
 </script>
@@ -266,8 +312,13 @@ hr {
 .product-image-placeholder {
   outline-style: dashed;
   position: relative;
-  padding: 20%;
+  /* padding: 20%; */
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .product-text {
   padding: 10px;
 }

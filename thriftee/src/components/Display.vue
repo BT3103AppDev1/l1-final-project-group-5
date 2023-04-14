@@ -115,10 +115,10 @@
           <div
             class="product-item"
             v-for="listing in listingsData"
-            :key="listing.title"
+            :key="listing.Title"
           >
             <div class="product-image-placeholder">
-              <p>Image Placeholder</p>
+              <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
             </div>
             <div class="product-text">
               <div id="productCondition">
@@ -256,7 +256,11 @@ export default {
 .product-image-placeholder {
   outline-style: dashed;
   position: relative;
-  padding: 20%;
+  /* padding: 20%; */
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .product-text {
   padding: 10px;

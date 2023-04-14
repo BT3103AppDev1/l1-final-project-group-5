@@ -11,6 +11,9 @@
         name: "ForgetPasswordDisplay",
         components: {
             ForgetPassword,
+        },
+        created() {
+            document.title ="Forget Password"
         }
     }
 </script>

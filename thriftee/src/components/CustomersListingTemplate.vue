@@ -43,7 +43,7 @@
         </div>
 
         <div id = "containerright">
-         <img src="listingdefault.jpeg" alt="listing picture">
+         <img :src="image_url" alt="listing picture">
      </div>
     </div>
   
@@ -53,6 +53,7 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import { doc, getDoc, collection, addDoc } from "firebase/firestore";
+    import { query, where, getDocs, updateDoc } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from "firebase/auth";
     import OfferPopup from './OfferPopup.vue';
 
@@ -87,12 +88,13 @@
                 listing_condition: null,
                 listing_colour: null,
                 listing_size: null,
+                image_url: null,
                 telegram: "https://t.me/",
                 isPopupOpen: false,
                 offerAmount: 0,
                 seller_uid: null, //placeholder for seller uid
                 location: null,
-                seller_name: null
+                seller_name: null,
             }
         },
         
@@ -116,6 +118,7 @@
                 this.listing_colour = dataSnap.Colour;
                 this.listing_size = dataSnap.Size;
                 this.seller_uid = dataSnap.SellerID;
+                this.image_url = dataSnap.Image_URL;
                 let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid))
                 let userProfileData = userProfile.data();
                 this.seller_name = userProfileData.Name;
@@ -143,23 +146,46 @@
             },
 
             async updateOfferDB() {
-                try {
-                    await addDoc(collection(db, "Offers"), { 
-                        SellerID: this.seller_uid,
-                        SellerName: this.seller_name,
-                        BuyerID: this.buyer_uid,
-                        BuyerName: this.buyer_name,
-                        ListingID: this.listing_uid,
-                        ListingName: this.listing_name,
-                        OfferAmount: this.offerAmount,
-                        Status: "Pending",
-                        isBuyerReviewed: false,
-                        isSellerReviwed: false
-                    })
-                    alert("Offer sent!")
-                } catch(error) {
-                    alert("Error saving offer: ", error)
-                    console.log(error)
+                // if offer for particular listing by buyer exists, overwrite the previous offer
+                const queryOfferExists = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("SellerID", "==", this.seller_uid), where("BuyerID", "==", this.buyer_uid));
+                const querySnapshot = await getDocs(queryOfferExists);
+                if (!querySnapshot.empty) {
+                    try {
+                        const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+                        const docSnap = await getDoc(docRef);
+                        const dataRef = docSnap.data();
+                        if (dataRef.Status !== "Pending") {
+                            alert("Transaction in progress! Unable to make new offer")
+                        } else {
+                            await updateDoc(docRef, {
+                                Status: "Pending",
+                                OfferAmount: this.offerAmount
+                            })
+                            alert("New Offer sent!")
+                        }
+                    } catch (error) {
+                        alert("Error saving offer: ", error)
+                        console.log(error)
+                    }
+                } else {
+                    try {
+                        await addDoc(collection(db, "Offers"), { 
+                            SellerID: this.seller_uid,
+                            SellerName: this.seller_name,
+                            BuyerID: this.buyer_uid,
+                            BuyerName: this.buyer_name,
+                            ListingID: this.listing_uid,
+                            ListingName: this.listing_name,
+                            OfferAmount: this.offerAmount,
+                            Status: "Pending",
+                            isBuyerReviewed: false,
+                            isSellerReviewed: false
+                        })
+                        alert("Offer sent!")
+                    } catch(error) {
+                        alert("Error saving offer: ", error)
+                        console.log(error)
+                    }
                 }
             },
 
