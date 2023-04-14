@@ -34,7 +34,7 @@
 </template>
  
 <script>
-    import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged} from "firebase/auth";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, onAuthStateChanged} from "firebase/auth";
 
     export default {
         name:"SignUp",
@@ -62,11 +62,28 @@
                         alert(error.message);
                     })
             },
+            // code below works for email verification but commented out as accounts created beforehead cannot log in as they nvr verify account
+            // register() {
+            //     const auth = getAuth();
+            //     createUserWithEmailAndPassword(auth, this.email, this.password)
+            //         .then((userCredential) => {
+            //             const user = userCredential.user
+            //             updateProfile(user, {
+            //                 displayName: this.name
+            //             })  
+            //             sendEmailVerification(user).then(() => {
+            //                 alert("Successfully registered! Please check your email and verify your account.")
+            //             })
+            //             this.$router.push({name: 'LogInDisplay'})
+            //         }).catch(error => {
+            //             alert(error.message);
+            //         })
+            // },
 
             goToLogIn() {
                 this.$router.push({name: 'LogInDisplay'})
             }
-        }
+        },
     
     }
 </script>
