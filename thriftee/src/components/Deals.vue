@@ -610,7 +610,6 @@ a { text-decoration: none; }
     margin: 25px 0;
     font-size: 0.9em;
     
-   
 }
 
 .deal_table thead tr {
@@ -621,8 +620,8 @@ a { text-decoration: none; }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
-  border: 1px rgb(69, 84, 87) solid;
- 
+  border: 1px rgb(219, 224, 224) solid;
+  
 }
 
 .deal_table tbody tr {
