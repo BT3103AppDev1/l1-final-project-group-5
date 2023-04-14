@@ -37,18 +37,18 @@
         <div class="displayContainer">
           <div
             class="product-item"
-            v-for="listing in listings"
+            v-for="listing in readData"
             :key="listing.title"
           >
-            <div class="product-image-placeholder">
-              <p>Image Placeholder</p>
-            </div>
+              <div class="product-image-placeholder">
+                <img :src="listing.Image_URL" alt="" style="max-width: 100%;max-height: 100%; object-fit: contain;">
+              </div>
             <div class="product-text">
               <div id="productCondition">
                 Condition: {{ listing.Condition }}
               </div>
               <div id="productTitle">
-                {{ listing.Title }}
+                <router-link class="link" :to="{ name: 'ViewListing', params:{ listingid: listing.ListingID } }"> <button @click="navigate" role="link" id = "listingpagebutton" type="button"> <u> {{ listing.Title }}</u></button>  </router-link>
               </div>
               <div id="productPrice">${{ listing.Price }}</div>
             </div>
@@ -92,6 +92,7 @@ export default {
     // });
   },
   methods: {
+<<<<<<< HEAD
     async readData() {
       const querySnapshot = await getDocs(collection(db, "Listings"));
       querySnapshot.forEach((doc) => {
@@ -119,7 +120,26 @@ export default {
   },
   created() {
     this.readData();
+=======
+    // async readData() {
+    //   const querySnapshot = await getDocs(collection(db, "Listings"));
+    //   querySnapshot.forEach((doc) => {
+    //     if (doc.data().SellerID == this.seller_uid && doc.data().Listing_Available) {
+    //     this.listings.push(doc.data());
+    //     }
+    //   });
+    // },
   },
+  computed: {
+      readData() {
+          const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available && listing.SellerID == this.seller_uid);
+          return availableListings
+      },
+>>>>>>> 5fd2246863d2010bd079ca035302b4f1d39e6c09
+  },
+  // created() {
+  //   this.readData();
+  // },
 };
 </script>
 
@@ -239,7 +259,11 @@ hr {
 .product-image-placeholder {
   outline-style: dashed;
   position: relative;
-  padding: 20%;
+  /* padding: 20%; */
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .product-text {
   padding: 10px;
@@ -251,5 +275,17 @@ hr {
 
 #linebreak {
     margin-top: 3vh;
+}
+
+#listingpagebutton {
+  border: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  background-color: transparent;
+}
+
+#listingpagebutton:hover {
+  border: none;
+  color:grey;
 }
 </style>
