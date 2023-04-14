@@ -12,11 +12,9 @@
               <button class="filterRowRight w3-button">+</button>
             </div>
             <div id="sliderContainer">
-              <input
+              <input v-bind:max=maxPrice :value=maxPrice/2
                 type="range"
                 min="1"
-                max="100"
-                value="50"
                 class="slider"
                 id="myRange"
               />
@@ -187,7 +185,18 @@ export default {
   // },
   computed: {
     listingsData() {
-      return this.$store.getters.listingsData;
+      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
+      return availableListings;
+    },
+    maxPrice() {
+      var highestPrice = 0;
+      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
+      availableListings.forEach((listing) => {
+        if (listing.Price > highestPrice) {
+          highestPrice = listing.Price;
+        };
+      });
+      return highestPrice;
     }
   }
 };
