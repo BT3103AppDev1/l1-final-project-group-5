@@ -244,7 +244,7 @@
                         }, {merge: true})
                         console.log("LOL", url)
                         alert("Listing saved!")
-                        this.$router.push({name: "ProfileListings"})
+                        this.$router.push({name: "ProfileListings"}).then(() => location.reload())
                         
 
                         
