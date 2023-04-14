@@ -73,12 +73,6 @@
                                     </router-link>
                                 </div>
         
-                                <!-- <button id="reviewstatusbutton" v-else-if="product.status === 'Paid'" @click="openQR">Review</button> -->
-                                <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }" v-else-if="product.status === 'Paid'"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
-                                <div class="qrcode" v-if="showQR">
-                                    <img src="qr.png">
-                                    <button @click="closeQR">Close Popup</button>
-                                </div>
                                 
                                 <div id = "actioncolumn" v-else-if="product.status === 'Sold Out'">
                                     <p id="soldlisting">Listing Sold</p>
@@ -93,6 +87,10 @@
                                     <p id="soldlisting">Listing Removed</p>
                                     <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
                                 </div>  
+                                <div class="qrcode" v-if="showQR">
+                                    <img src="qr.png">
+                                    <button @click="closeQR">Close Popup</button>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -137,7 +135,6 @@
                                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Accepted'" id="accepted-deals">
-                                        <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Paid'" id="paid-deals">
@@ -162,7 +159,6 @@
                                         <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
                                     <div v-else-if="item.status === 'Accepted'" id="accepted-deals">
-                                        <!-- <button id ="tickbutton" @click="confirmPayment(product.uid, product.buyerID)">✓</button> -->
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="item.status === 'Paid'" id="paid-deals">
@@ -184,7 +180,7 @@
     
 <script>
 import firebaseApp from '../firebase.js';
-    import { getFirestore } from "firebase/firestore";
+    import { getFirestore, onSnapshot } from "firebase/firestore";
     import { collection, query, where, getDocs, updateDoc, doc, deleteDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
@@ -228,52 +224,56 @@ import firebaseApp from '../firebase.js';
         methods: {
             getBuyingList: async function() {
                 const buyingQuery = query(collection(db, "Offers"), where("BuyerID", "==", auth.currentUser.uid))
-                const querySnapshot = await getDocs(buyingQuery);
-                querySnapshot.forEach((doc) => {
-                    let dataRef = doc.data()
-                    //Removed from deals if buyer has reviewed item
-                    if (!dataRef.isBuyerReviewed) {
-                        this.buying_list.push({ 
-                            title: dataRef.ListingName, 
-                            uid: dataRef.ListingID, 
-                            offerPrice: dataRef.OfferAmount,
-                            sellerID: dataRef.SellerID,
-                            status: dataRef.Status,
-                            sellerName: dataRef.SellerName
-                        })
-                    }
+                onSnapshot(buyingQuery, (snap) => {
+                    const updatedBuyingList = [];
+                    snap.forEach((doc) => {
+                        let dataRef = doc.data()
+                        //Removed from deals if buyer has reviewed item
+                        if (!dataRef.isBuyerReviewed) {
+                            updatedBuyingList.push({ 
+                                title: dataRef.ListingName, 
+                                uid: dataRef.ListingID, 
+                                offerPrice: dataRef.OfferAmount,
+                                sellerID: dataRef.SellerID,
+                                status: dataRef.Status,
+                                sellerName: dataRef.SellerName
+                            })
+                        }
+                    })
+                    this.buying_list = updatedBuyingList;
                 })
             },
 
             getSellingList: async function() {
                 const sellingQuery = query(collection(db, "Offers"), where("SellerID", "==", auth.currentUser.uid))
-                const querySnapshot = await getDocs(sellingQuery);
-                querySnapshot.forEach((doc) => {
-                    let dataRef = doc.data()
+                onSnapshot(sellingQuery, (snap) => {
+                    const updatedSellingList = [];
+                    snap.forEach((doc) => {
+                        const dataRef = doc.data();
+                        //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
+                        if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && dataRef.Status !== "Removed" && !dataRef.isSellerReviewed) {
+                            const existingOfferIndex = updatedSellingList.findIndex((listing) => listing.uid === dataRef.ListingID);
 
-                    //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
-                    if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && dataRef.Status !== "Removed" && !dataRef.isSellerReviewed) {
-                        // if offer for listing exists
-                        if (this.selling_list.some(item => item.uid === dataRef.ListingID)) {
-                            this.selling_list[this.selling_list.findIndex(item => item.uid === dataRef.ListingID)].offer.push({
+                            const updatedOffer = {
                                 buyerID: dataRef.BuyerID,
                                 buyerName: dataRef.BuyerName,
                                 offerPrice: dataRef.OfferAmount,
-                                status: dataRef.Status
-                            })
-                        } else {
-                            this.selling_list.push({ 
-                                title: dataRef.ListingName, 
-                                uid: dataRef.ListingID, 
-                                offer: [{
-                                    offerPrice: dataRef.OfferAmount,
-                                    buyerID: dataRef.BuyerID,
-                                    buyerName: dataRef.BuyerName,
-                                    status: dataRef.Status
-                                }]
-                            })
+                                status: dataRef.Status,
+                            };
+
+                            if (existingOfferIndex !== -1) {
+                                updatedSellingList[existingOfferIndex].offer.push(updatedOffer);
+                            } else {
+                                updatedSellingList.push({
+                                    title: dataRef.ListingName,
+                                    uid: dataRef.ListingID,
+                                    offer: [updatedOffer],
+                                });
+                            }
                         }
-                    }
+                    });
+
+                    this.selling_list = updatedSellingList;
                 })
             },
 
@@ -307,9 +307,7 @@ import firebaseApp from '../firebase.js';
                     alert("Error: " + error)
                 }
 
-                if (!alert("Offer Accepted!")){
-                    location.reload()
-                }
+                alert("Offer Accepted!")
             },
 
             async rejectDeal(listing_uid, buyer_uid) {
@@ -321,22 +319,20 @@ import firebaseApp from '../firebase.js';
                     Status: "Rejected"
                 })
 
-                if (!alert("Offer Rejected!")){
-                    location.reload()
-                }
+                alert("Offer Rejected!")
             },
 
-            async confirmPayment(listing_uid, buyer_uid) {
-                const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
-                const querySnapshot = await getDocs(query_accept);
-                const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
+            // async confirmPayment(listing_uid, buyer_uid) {
+            //     const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
+            //     const querySnapshot = await getDocs(query_accept);
+            //     const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
 
-                await updateDoc(docRef, {
-                    Status: "Paid"
-                })
-                location.reload()
-                alert("Payment confirmed!")
-            },
+            //     await updateDoc(docRef, {
+            //         Status: "Paid"
+            //     })
+            //     location.reload()
+            //     alert("Payment confirmed!")
+            // },
 
             async deleteOfferFromOffers(listing_uid, seller_uid) {
                 const query_delete = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("SellerID", "==", seller_uid), where("BuyerID", "==", this.user_uid));
@@ -345,9 +341,7 @@ import firebaseApp from '../firebase.js';
                 try {
                     if (confirm('Are you sure you want to remove this offer?')) {
                         await deleteDoc(docRef)
-                        if (!alert('Offer successfully removed!')){
-                            location.reload()
-                        }
+                        !alert('Offer successfully removed!')
                     }
                 } catch(error) {
                     alert("Unsuccessful removal, error:" + error)
