@@ -7,17 +7,17 @@
         <div id ="container">
             <div id = "leftcontainer">
                 <div id = "listingphotoset">
-                    <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
+                    <img id = "listingphoto" :src="image_url" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
-                        <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
+                        <input type="file" id="uploadbutton" v-on:change="updateListingImage"  ref="listings" hidden/>
                         <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
                     </div>
                 </div>
             </div>
 
             <div id = "rightcontainer">
-                <form id="myform">
+                <form id="myform" @submit.prevent="saveListing">
 
                     <div class = "formli">
 
@@ -81,7 +81,7 @@
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button" v-on:click="cancel">Cancel</button> 
-                            <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
+                            <button id = "savebutton" type="submit">Save</button> 
                         </div>
                     </div>
                 </form>
@@ -92,7 +92,8 @@
 </template>
 
 <script>
-    import firebaseApp from '../firebase.js';
+    import firebaseApp, { storage } from '../firebase.js';
+    import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
     import { getFirestore } from "firebase/firestore";
     import { doc, setDoc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -118,7 +119,8 @@
                 colour: "#ffffff",
                 size: "",
                 uid: "",
-                telegram: ""
+                telegram: "",
+                image_url: ""
             }
         },
         
@@ -132,6 +134,7 @@
                     this.getCategory();
                     this.getColour();
                     this.getSize();
+                    this.getImage();
                 } 
             })
         },
@@ -185,29 +188,84 @@
                 let listingData = listing.data();
                 this.size = listingData.Size;
             },
+            async getImage() {
+                let listing = await getDoc(doc(db, "Listings", this.listing_uid))
+                let listingData = listing.data();
+                this.image_url = listingData.Image_URL;
+            },
+            // saveListing: async function() {
+            //     let image = document.getElementById("uploadbutton").value
+            //     try {
+            //     let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+            //     let userProfileData = userProfile.data()
+            //     this.telegram = userProfileData.Telegram
+            //     const docRef = await setDoc(doc(db, "Listings", this.listing_uid), { 
+            //         SellerID: this.uid,
+            //         Title: this.listingtitle,
+            //         Price: this.price,
+            //         Condition: this.condition,
+            //         Category: this.category,
+            //         Colour: this.colour,
+            //         Size: this.size,
+            //         Listing_Image: image,
+            //         Telegram: this.telegram
+            //     })
+            //     alert("Listing saved!")
+            //     this.$router.push({name: "ProfileListings"})
+            //     } catch(error) {
+            //     alert("Error saving edited listing: ", error)
+            //     }
+            // }, 
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
-                try {
-                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
-                let userProfileData = userProfile.data()
-                this.telegram = userProfileData.Telegram
-                const docRef = await setDoc(doc(db, "Listings", this.listing_uid), { 
-                    SellerID: this.uid,
-                    Title: this.listingtitle,
-                    Price: this.price,
-                    Condition: this.condition,
-                    Category: this.category,
-                    Colour: this.colour,
-                    Size: this.size,
-                    Listing_Image: image,
-                    Telegram: this.telegram
-                })
-                alert("Listing saved!")
-                this.$router.push({name: "ProfileListings"})
-                } catch(error) {
-                alert("Error saving edited listing: ", error)
+                if (image == "") {
+                    alert("Upload Image!")
+                } else {
+                    try {
+                        let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                        let userProfileData = userProfile.data()
+                        this.telegram = userProfileData.Telegram
+                        console.log("im here")
+                        const docRef = doc(db, "Listings", this.listing_uid);
+                        const url = await this.uploadToCloud(this.listing_uid)
+                        
+                        await setDoc(docRef, { 
+                            SellerID: this.uid,
+                            Title: this.listingtitle,
+                            Price: this.price,
+                            Condition: this.condition,
+                            Category: this.category,
+                            Colour: this.colour,
+                            Size: this.size,
+                            Listing_Image: image,
+                            Telegram: this.telegram,
+                            Listing_Available: true,
+                            Image_URL: url
+                        }, {merge: true})
+                        console.log("LOL", url)
+                        alert("Listing saved!")
+                        this.$router.push({name: "ProfileListings"})
+                        
+
+                        
+                        
+                    } catch(error) {
+                        alert("Error creating listing: ", error)
+                    }
                 }
-            }, 
+            },
+
+            uploadToCloud: async function(listing_uid) {
+                const storageRef = ref(storage, 'Listings/' + listing_uid )
+                await uploadBytes(storageRef, this.$refs.listings.files[0])
+                console.log("uploaded")
+                const url = await getDownloadURL(storageRef)
+                console.log("inside")
+                
+            
+                return url
+            },
+
             async cancel() {
                 this.$router.push({name: "ProfileListings"})
                 alert("Listing edit is not saved!")
