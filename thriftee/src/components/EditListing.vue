@@ -218,41 +218,39 @@
             // }, 
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
-                if (image == "") {
-                    alert("Upload Image!")
-                } else {
-                    try {
-                        let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
-                        let userProfileData = userProfile.data()
-                        this.telegram = userProfileData.Telegram
-                        console.log("im here")
-                        const docRef = doc(db, "Listings", this.listing_uid);
-                        const url = await this.uploadToCloud(this.listing_uid)
-                        
-                        await setDoc(docRef, { 
-                            SellerID: this.uid,
-                            Title: this.listingtitle,
-                            Price: this.price,
-                            Condition: this.condition,
-                            Category: this.category,
-                            Colour: this.colour,
-                            Size: this.size,
-                            Listing_Image: image,
-                            Telegram: this.telegram,
-                            Listing_Available: true,
-                            Image_URL: url
-                        }, {merge: true})
-                        console.log("LOL", url)
-                        alert("Listing saved!")
-                        this.$router.push({name: "ProfileListings"})
-                        
+                
+                try {
+                    let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                    let userProfileData = userProfile.data()
+                    this.telegram = userProfileData.Telegram
+                    console.log("im here")
+                    const docRef = doc(db, "Listings", this.listing_uid);
+                    const url = await this.uploadToCloud(this.listing_uid)
+                    
+                    await setDoc(docRef, { 
+                        SellerID: this.uid,
+                        Title: this.listingtitle,
+                        Price: this.price,
+                        Condition: this.condition,
+                        Category: this.category,
+                        Colour: this.colour,
+                        Size: this.size,
+                        Listing_Image: image,
+                        Telegram: this.telegram,
+                        Listing_Available: true,
+                        Image_URL: url
+                    }, {merge: true})
+                    console.log("LOL", url)
+                    alert("Listing saved!")
+                    this.$router.push({name: "ProfileListings"})
+                    
 
-                        
-                        
-                    } catch(error) {
-                        alert("Error creating listing: ", error)
-                    }
+                    
+                    
+                } catch(error) {
+                    alert("Error creating listing: ", error)
                 }
+                
             },
 
             uploadToCloud: async function(listing_uid) {
