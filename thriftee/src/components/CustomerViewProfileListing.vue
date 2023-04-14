@@ -82,7 +82,7 @@ export default {
       // value: 4,
       // name: "",
       // uid: "",
-      listings: [],
+      //listings: [],
       seller_uid: this.sellerUID
     };
   },
@@ -95,9 +95,27 @@ export default {
     async readData() {
       const querySnapshot = await getDocs(collection(db, "Listings"));
       querySnapshot.forEach((doc) => {
-        if (doc.data().SellerID == this.seller_uid) this.listings.push(doc.data());
+        if (doc.data().SellerID == this.seller_uid && doc.data().Listing_Available == true) {
+          this.listings.push(doc.data());
+        }
       });
     },
+  },
+  computed: {
+    listingsData() {
+      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available).filter((listing) => listing.SellerID == this.seller_uid);
+      return availableListings;
+    },
+    maxPrice() {
+      var highestPrice = 0;
+      const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
+      availableListings.forEach((listing) => {
+        if (listing.Price > highestPrice) {
+          highestPrice = listing.Price;
+        };
+      });
+      return highestPrice;
+    }
   },
   created() {
     this.readData();
