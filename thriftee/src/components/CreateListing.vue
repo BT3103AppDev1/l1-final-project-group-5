@@ -10,14 +10,14 @@
                     <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
-                        <input type="file" id="uploadbutton" v-on:change="updateListingImage" hidden/>
+                        <input type="file" id="uploadbutton" accept="image/*" v-on:change="updateListingImage" ref="listings" hidden/>
                         <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
                     </div>
                 </div>
             </div>
 
             <div id = "rightcontainer">
-                <form id="myform">
+                <form id="myform" @submit.prevent="saveListing">
 
                     <div class = "formli">
 
@@ -81,7 +81,7 @@
                         
                         <div id = "buttonsupdate">
                             <button id = "cancelbutton" type="button">Cancel</button> 
-                            <button id = "savebutton" type="button" v-on:click ="saveListing">Save</button> 
+                            <button id = "savebutton" type="submit">Save</button> 
                         </div>
                     </div>
                 </form>
@@ -92,7 +92,8 @@
 </template>
 
 <script>
-    import firebaseApp from '../firebase.js';
+    import firebaseApp, { storage } from '../firebase.js';
+    import { ref, uploadBytes } from 'firebase/storage'
     import { getFirestore } from "firebase/firestore";
     import { doc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -101,6 +102,8 @@
     const auth = getAuth();
     
     export default {
+        name: "CreateListing",
+
         data() {
             return {
                 listingtitle: "",
@@ -110,7 +113,8 @@
                 colour: "#ffffff",
                 size: "",
                 uid: "",
-                telegram: ""
+                telegram: "",
+                listingImage: null
             }
         },
         
@@ -135,45 +139,63 @@
                         img.src = event.target.result;
                     }
                     console.log(image.value)
+                    console.log("I", this.$refs.listings.files[0])
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
                     document.getElementById("listingphoto").src="defaultListing.png"
                 }
             },
+
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
-                try {
-                let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
-                let userProfileData = userProfile.data()
-                this.telegram = userProfileData.Telegram
-                const docRef = await addDoc(collection(db, "Listings"), { 
-                    SellerID: this.uid,
-                    Title: this.listingtitle,
-                    Price: this.price,
-                    Condition: this.condition,
-                    Category: this.category,
-                    Colour: this.colour,
-                    Size: this.size,
-                    Listing_Image: image,
-                    Telegram: this.telegram
-                })
-                alert("Listing creating!")
-                this.$router.push({name: "ProfileListings"})
-                } catch(error) {
-                alert("Error creating listing: ", error)
+                if (image == "") {
+                    alert("Upload Image!")
+                } else {
+                    try {
+                        let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                        let userProfileData = userProfile.data()
+                        this.telegram = userProfileData.Telegram
+                        const docRef = await addDoc(collection(db, "Listings"), { 
+                            SellerID: this.uid,
+                            Title: this.listingtitle,
+                            Price: this.price,
+                            Condition: this.condition,
+                            Category: this.category,
+                            Colour: this.colour,
+                            Size: this.size,
+                            Listing_Image: image,
+                            Telegram: this.telegram,
+                            Listing_Available: true
+                        })
+                        
+                        this.uploadToCloud(docRef.id)
+                        alert("Listing creating!")
+                        this.$router.push({name: "ProfileListings"})
+                    } catch(error) {
+                        alert("Error creating listing: ", error)
+                    }
                 }
             }, 
+            
             deleteListingImage: function() {
                 if (document.getElementById("uploadbutton").value == "") {
                     alert("Upload Image!")
                 } else {
                     document.getElementById("uploadbutton").value = ""
                     document.getElementById("listingphoto").src = "defaultListing.png"
-                    alert("Listing Image Successfully Deleted")
+                    alert("Listing Image Successfully Removed")
                 }
               
-            }
+            },
+
+            uploadToCloud: function(listing_uid) {
+                const storageRef = ref(storage, 'Listings/' + listing_uid )
+                uploadBytes(storageRef, this.$refs.listings.files[0]).then((snapshot) =>{
+                    console.log("uploaded")
+                })
+            }   
+                // console.log(URL.createObjectURL(this.$refs.listings.files[0]))
           
         }
     }
