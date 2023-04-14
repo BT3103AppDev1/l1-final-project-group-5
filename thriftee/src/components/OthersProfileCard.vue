@@ -1,6 +1,6 @@
 <template>
     <div id = "profiledetails">
-        <img id = "profilephoto" src="default.png" alt="Profile Photo">
+        <img id = "profilephoto" :src="this.image_URL" alt="Profile Photo">
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
@@ -29,6 +29,7 @@
     import { getFirestore } from "firebase/firestore";
     import {query,collection,where,getDocs, doc, getDoc } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+    import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -51,15 +52,31 @@
                 seller_uid: this.sellerUID,
                 havevalue: false,
                 telegram: "https://t.me/",
+                image_URL:""
             }
         },
         
         mounted() {
             this.getProfileDetails()
             this.getRating()
+            this.getImage()
            
         },
         methods: {
+            async getImage(){
+                let userProfile = await getDoc(doc(db, "Profiles", this.sellerUID))
+                let userProfileData = userProfile.data();
+                if(userProfileData.Image_URL == null){
+                    const storage = getStorage();
+                    getDownloadURL(ref(storage, 'Profiles/default.png'))
+                    .then((url) => {
+                        this.image_URL = url
+                    })
+                }
+                else {
+                    this.image_URL = userProfileData.Image_URL;
+                }
+            },
             async getProfileDetails() {
                 const docRef = doc(db, "Profiles", this.seller_uid)
                 const docSnap = await getDoc(docRef)
@@ -137,6 +154,7 @@ button{
   margin-bottom:2vh;
   display:block;
 }
+
 
 #editbutton {
   background-color: #ccccdb; /* Green */

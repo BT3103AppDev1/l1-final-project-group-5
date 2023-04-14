@@ -6,10 +6,11 @@
  <div id ="container">
   <div id = "leftcontainer">
      <div id = "profilephotoset">
-      <img id = "profilephoto" src="default.png" alt="Profile Photo">
+      <!-- <img src="test" height="125px" width="200px"/>  -->
+      <img id = "profilephoto" :src="this.image_URL" alt="default.png">
       <div id = "buttonsupdate">
           <label for="uploadbutton">Upload</label>
-          <input type="file" id="uploadbutton" v-on:change="displayProfileImage" hidden/>
+          <input type="file" id="uploadbutton" accept ="image/*" v-on:change="displayProfileImage" ref = "profiles" hidden/>
           <button id = "deletebutton" type="button" v-on:click="deleteProfileImage">Delete </button> 
       </div>
       </div>
@@ -49,11 +50,12 @@
 </template>
 
 <script>
-  import firebaseApp from '../firebase.js';
+  import firebaseApp , {storage} from '../firebase.js';
   import { getFirestore } from "firebase/firestore";
-  import { doc, setDoc, getDoc } from "firebase/firestore";
+  import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
   import { getAuth, onAuthStateChanged,updateProfile } from 'firebase/auth';
-
+  import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
+  
   const db = getFirestore(firebaseApp);
   const auth = getAuth();
 
@@ -65,7 +67,9 @@
           meetup: "",
           uid: "",
           curruser: "",
-          telegram: ""
+          telegram: "",
+          listingImage:null,
+          image_URL: ""
         }
       },
       created() {
@@ -76,10 +80,26 @@
                 this.curruser = user;
                 this.getMeetUp();
                 this.getTelegram();
+                this.displayProfileImage()
+                this.getImage();
             }
         })
       },
       methods: {
+        async getImage(){
+                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+                let userProfileData = userProfile.data();
+                if(userProfileData.Image_URL == null){
+                    const storage = getStorage();
+                    getDownloadURL(ref(storage, 'Profiles/default.png'))
+                    .then((url) => {
+                        this.image_URL = url
+                    })
+                }
+                else {
+                    this.image_URL = userProfileData.Image_URL;
+                }
+            },
         async displayProfileImage() {
           var fReader = new FileReader();
           try {
@@ -91,7 +111,6 @@
             }
             alert("Profile image displayed")
           } catch(error) {
-            alert("No profile image found ", error)
             document.getElementById("profilephoto").src="default.png"
           }
         }, 
@@ -99,13 +118,16 @@
         async saveProfile() {
           let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
+          const docRef = doc(collection(db, "Profiles"));
+          const url = await this.uploadToCloud(docRef.id)
           try {
-            const docRef = await setDoc(doc(db, "Profiles", this.uid), { 
+          await setDoc(doc(db, "Profiles", this.uid), { 
               Name: this.name,
               Meet_Up: this.meetup,
               QRCode: qrcode, 
               Profile_Image: image,
-              Telegram: this.telegram
+              Telegram: this.telegram,
+              Image_URL:url
             })
             updateProfile(this.curruser, {
               displayName: this.name
@@ -127,15 +149,36 @@
                 let userProfileData = userProfile.data();
                 this.telegram = userProfileData.Telegram;
         },
-        deleteProfileImage() {
-            if (document.getElementById("uploadbutton").value == "") {
-                alert("Upload Image!")
-            } else {
-                document.getElementById("uploadbutton").value = ""
-                document.getElementById("profilephoto").src = "default.png"
-                alert("Profile Image Successfully Deleted")
-            }
-        }
+        async deleteProfileImage() {
+          let qrcode = document.getElementById("qrcode").value
+          let image = document.getElementById("uploadbutton").value
+          
+          await setDoc(doc(db, "Profiles", this.uid), { 
+              Name: this.name,
+              Meet_Up: this.meetup,
+              QRCode: qrcode, 
+              Profile_Image: image,
+              Telegram: this.telegram,
+              Image_URL:""
+            })
+            alert("Profile Image deleted")
+            location.reload();
+            // if (document.getElementById("uploadbutton").value == "") {
+            //     alert("Upload Image!")
+            // } else {
+            //     document.getElementById("uploadbutton").value = ""
+            //     document.getElementById("profilephoto").src = "default.png"
+            //     alert("Profile Image Successfully Deleted")
+            // }
+        },
+        uploadToCloud: async function(user_uid) {
+            const storageRef = ref(storage, 'Profiles/' + user_uid)
+            await uploadBytes(storageRef, this.$refs.profiles.files[0])
+            console.log("uploaded")
+            const url = await getDownloadURL(storageRef)
+            console.log("inside")
+            return url
+        }   
       }
   }
   
