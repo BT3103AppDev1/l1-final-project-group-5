@@ -17,7 +17,7 @@
                     
                     <input type = "email" id = "email" v-model="email" placeholder = "Email Address" required> <br><br>
 
-                    <input type = "password" id = "password" v-model="password" required = "" placeholder = "Password"> <br><br>
+                    <input type = "password" id = "password" v-model="password" required = "" autocomplete="password" placeholder = "Password"> <br><br>
 
                     <div id = "buttonsupdate">
                         <button id = "createaccountbutton" type="submit">Create Account</button> 
