@@ -15,7 +15,7 @@
                 <h3 style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>${{listing_price}}</em></h3>
                 <div id = "listedby">
                     <router-link v-if="seller_uid && seller_uid !== buyer_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
-                    <router-link v-else class="link" :to="{ name: 'ProfileListings'}"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
+                    <router-link v-else class="link" :to="{ name: 'ProfileListings'}"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by you</button>  </router-link>
 
                 </div>
               
@@ -275,23 +275,23 @@
 }
 
 #editlistingbutton {
-    background-color: rgb(173, 170, 170); 
-    border: 2px solid black; 
+    background-color: rgb(162, 160, 160); 
+    border:none; 
     border-radius: 5px;
     color: white;
-    padding: 10px 32px;
+    padding: 10px 30px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 0.9em;
     font-style: italic;
     transition-duration: 0.2s;
+    
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #editlistingbutton:hover {
-    background-color: grey; 
-    color: rgb(21, 20, 20);
+    color: rgb(104, 98, 98);
 }
 
 #makeofferbutton {
