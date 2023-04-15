@@ -70,7 +70,7 @@
             async getImage(){
                 let userProfile = await getDoc(doc(db, "Profiles", this.sellerUID))
                 let userProfileData = userProfile.data();
-                if(userProfileData.Image_URL == null){
+                if(userProfileData.Image_URL == null||userProfileData.Image_URL == ""  ){
                     const storage = getStorage();
                     getDownloadURL(ref(storage, 'Profiles/default.png'))
                     .then((url) => {
