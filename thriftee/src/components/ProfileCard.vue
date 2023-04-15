@@ -57,8 +57,10 @@
         
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName;
-                this.uid = user.uid;
+                if (user) {
+                    this.name = user.displayName;
+                    this.uid = user.uid;
+                }
                 this.getMeetUp()
                 this.getName()
                 this.getRating()

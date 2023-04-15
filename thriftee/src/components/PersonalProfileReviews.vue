@@ -78,9 +78,12 @@
       },
       mounted() {
           onAuthStateChanged(auth, (user) => {
+            if (user) {
               this.name = user.displayName;
               this.uid = user.uid;
               this.updateReviews()
+            }
+              
           })
       },
       methods: {

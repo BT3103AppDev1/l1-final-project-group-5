@@ -31,6 +31,7 @@
             <div id = "buttonsupdate">
                 
                 <button @click="goToTelegram" id = "chatbutton" type="button" v-if="seller_uid !== buyer_uid"> Chat</button> 
+                <button @click="editlisting" id = "editlistingbutton" type="button" v-else > Edit Listing</button> 
                 <button id = "makeofferbutton" type="button" @click="openOfferPopup" v-if="seller_uid !== buyer_uid">Make Offer</button> 
                 <offer-popup :isOpen="isPopupOpen" :defaultAmount="listing_price" @send-offer="submitOffer" @close="closeOfferPopup" v-if="listing_price"/>
             </div>
@@ -94,8 +95,10 @@
         
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.buyer_name = user.displayName;
-                this.buyer_uid = user.uid;
+                if (user) {
+                    this.buyer_name = user.displayName;
+                    this.buyer_uid = user.uid;
+                }
             })
             this.getListingDetails()
         },
@@ -185,6 +188,10 @@
 
             goBack() {
                 window.history.back()
+            },
+
+            editlisting() {
+                this.$router.push({name: "EditListing", params: {listingid: this.listing_uid}})
             }
         }
     }
@@ -265,6 +272,26 @@
     background-color: #41b0c4; 
     color: rgb(21, 20, 20);
     border: 2px solid #41b0c4; 
+}
+
+#editlistingbutton {
+    background-color: rgb(173, 170, 170); 
+    border: 2px solid black; 
+    border-radius: 5px;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-style: italic;
+    transition-duration: 0.2s;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#editlistingbutton:hover {
+    background-color: grey; 
+    color: rgb(21, 20, 20);
 }
 
 #makeofferbutton {
