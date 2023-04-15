@@ -36,18 +36,17 @@
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
       <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
-      <div v-for="slide in slides" class='slide' :key="slide.id">
-      
-      <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
-      <div v-if="havestar" id="star-rating">
-      <p> {{ slide.ratingstar }} / 5 </p>
-      <p> </p>
-       <p id="startext">★</p>
-      </div>
-      <div v-else id="nostar">
-        <p> </p>
-      </div>
-      <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
+      <div v-for="(slide, index) in slides" class='slide' :key="index">
+        <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
+        <div v-if="havestar" id="star-rating">
+          <p> {{ slide.ratingstar }} / 5 </p>
+          <p> </p>
+          <p id="startext">★</p>
+        </div>
+        <div v-else id="nostar">
+          <p> </p>
+        </div>
+        <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
       </div>
       <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
@@ -61,7 +60,7 @@
   
 <script>
   import firebaseApp from '../firebase.js';
-  import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
+  import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc, onSnapshot } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
   const db = getFirestore(firebaseApp);
   const auth = getAuth();
@@ -99,30 +98,33 @@
           let userID = user.uid;
           const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
           
-          const querySnapshot = await getDocs(firstQuery);
-          
-          if(querySnapshot.empty){
-            this.havestar = false;
-            this.slides.push({   
-                title: "No reviews yet",
-                buyer: "",
-                ratingstar: ""
-              });
-          } else{
-          querySnapshot.forEach((doc) => {
-              let review = doc.data()
-              this.havestar= true
+          onSnapshot(firstQuery, (snap) => {
+            this.slides = []
+            if (snap.empty) {
+              this.havestar = false;
               this.slides.push({   
-                title: review.Description,
-                buyer: review.ReviewerName + ",",
-                ratingstar: review.Rating
+                  title: "No reviews yet",
+                  buyer: "",
+                  ratingstar: ""
               });
-              
+            } else {
+              this.havestar = true;
+              snap.forEach((doc) => {
+                let review = doc.data()
+                this.slides.push({
+                  title: review.Description,
+                  buyer: review.ReviewerName + ",",
+                  ratingstar: review.Rating
+                })
+              })
+            }
+
           })
+          
         }
       }, 
   }
-}
+
 </script>
 
   

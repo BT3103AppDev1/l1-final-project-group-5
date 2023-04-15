@@ -67,7 +67,7 @@
                                 <!-- NOTE: changes from Pending to Review -->
                                 <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                 <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
-                                    <button id="paystatusbutton"  @click="openQR">Pay</button>
+                                    <button id="paystatusbutton"  @click="openQR(product.sellerID)">Pay</button>
                                     <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> 
                                         <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  
                                     </router-link>
@@ -88,8 +88,8 @@
                                     <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
                                 </div>  
                                 <div class="qrcode" v-if="showQR">
-                                    <img src="qr.png">
-                                    <button @click="closeQR">Close Popup</button>
+                                    <img :src="seller_QR_url">
+                                    <button @click="closeQR">Close QR Code</button>
                                 </div>
                             </div>
                         </td>
@@ -181,7 +181,7 @@
 <script>
 import firebaseApp from '../firebase.js';
     import { getFirestore, onSnapshot } from "firebase/firestore";
-    import { collection, query, where, getDocs, updateDoc, doc, deleteDoc} from "firebase/firestore";
+    import { collection, query, where, getDocs, getDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -208,7 +208,8 @@ import firebaseApp from '../firebase.js';
                 buying_list: [], // test
                 selling_list: [],
                 user_uid: "",
-                showQR: false
+                showQR: false,
+                seller_QR_url: null
             };
         },
 
@@ -348,7 +349,11 @@ import firebaseApp from '../firebase.js';
                 }
             },
 
-            openQR() {
+            async openQR(seller_uid) {
+                const docRef = doc(db, "Profiles", seller_uid)
+                const docSnap = await getDoc(docRef)
+                const dataRef = docSnap.data();
+                this.seller_QR_url = dataRef.QRCode
                 this.showQR = true
             },
 
