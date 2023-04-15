@@ -14,16 +14,10 @@
             <div id="viewprofile">
                 <h3 style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>${{listing_price}}</em></h3>
                 <div id = "listedby">
-                    <!-- <p>listed by</p> -->
-                    <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
+                    <router-link v-if="seller_uid && seller_uid !== buyer_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
+                    <router-link v-else class="link" :to="{ name: 'ProfileListings'}"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
+
                 </div>
-                
-                <!-- <router-link to="/sellerprofile">
-                    custom
-                    v-slot="{ navigate }" >
-                    <button @click="navigate" role="link" id = "signupbutton" type="button"> <u> {{seller_name}}</u></button> 
-                </router-link>   -->
-           
               
               
             </div>
@@ -36,8 +30,8 @@
                 <!-- <p> Description: Lightly worn, bought around 3 months ago</p>  -->
             <div id = "buttonsupdate">
                 
-                <button @click="goToTelegram" id = "chatbutton" type="button"> Chat</button> 
-                <button id = "makeofferbutton" type="button" @click="openOfferPopup">Make Offer</button> 
+                <button @click="goToTelegram" id = "chatbutton" type="button" v-if="seller_uid !== buyer_uid"> Chat</button> 
+                <button id = "makeofferbutton" type="button" @click="openOfferPopup" v-if="seller_uid !== buyer_uid">Make Offer</button> 
                 <offer-popup :isOpen="isPopupOpen" :defaultAmount="listing_price" @send-offer="submitOffer" @close="closeOfferPopup" v-if="listing_price"/>
             </div>
         </div>
