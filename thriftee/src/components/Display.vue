@@ -111,7 +111,7 @@
         </form>
       </div>
       <div class="rightContainer">
-        <div class="displayContainer">
+        <div class="displayContainer" v-if="listingsData.length != 0">
           <div
             class="product-item"
             v-for="listing in listingsData"
@@ -134,6 +134,7 @@
             </div>
           </div>
         </div>
+        <div v-else id="noListingsFound"> No Listings Found </div>
       </div>
     </div>
   </div>
@@ -314,6 +315,10 @@ export default {
   /* height: 90vh; */
   background-color: white;
   position: absolute;
+}
+
+#noListingsFound {
+  font-size: 3em;
 }
 
 /* #conditionForm{
