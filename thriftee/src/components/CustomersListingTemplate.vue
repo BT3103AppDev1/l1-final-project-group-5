@@ -8,11 +8,11 @@
         </div>
 
            <div id="top">
-                <h4><em>{{listing_category}}</em></h4> 
+                <h4 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>{{listing_category}}</em></h4> 
             </div>
-            <h1> {{listing_name}}</h1>
+            <h1 style ="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> {{listing_name}}</h1>
             <div id="viewprofile">
-                <h3><em>${{listing_price}}</em></h3>
+                <h3 style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>${{listing_price}}</em></h3>
                 <div id = "listedby">
                     <!-- <p>listed by</p> -->
                     <router-link v-if="seller_uid" class="link" :to="{ name: 'CustomerProfileView', params:{ sellerid: seller_uid } }"> <button @click="navigate" role="link" id = "sellerpagebutton" type="button">listed by <u> {{seller_name}}</u></button>  </router-link>
@@ -264,6 +264,7 @@
     font-size: 16px;
     font-style: italic;
     transition-duration: 0.2s;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #chatbutton:hover {
@@ -285,6 +286,7 @@
     font-size: 16px;
     font-style: italic;
     transition-duration: 0.2s;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #makeofferbutton:hover {
@@ -309,6 +311,7 @@ img {
     font-size: 0.90em;
     color: #626867;
     margin-top: 1.8vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #sellerpagebutton:hover {
@@ -321,6 +324,7 @@ img {
     display: flex;
     margin-left: 4vw;
     margin-bottom: 1vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #colourfield {
@@ -339,6 +343,10 @@ img {
 
 #containerright{
     margin-top: 15vh;
+}
+
+#containerleft {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 </style>

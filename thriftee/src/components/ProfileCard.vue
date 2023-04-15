@@ -133,9 +133,9 @@
     margin-top: 5vh;
     display: flex;
     background-color: rgb(246, 241, 241);
+    border: 1px solid rgb(195, 187, 187);
     height: 35vh;
     border-radius: 25px;
-    border: 1px solid rgb(195, 187, 187);
     font-size: 1.25em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   
