@@ -198,11 +198,7 @@
  }
 
 
- #listingsbutton:hover {
-    font-size: 1.8em;
-    color: rgb(117, 113, 113);
-    text-decoration: underline;
- }
+ 
 
  #reviewsbutton {
     background: transparent;
