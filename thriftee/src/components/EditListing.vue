@@ -355,7 +355,7 @@ input::file-selector-button:hover {
  
 }
 #cancelbutton {
-  background-color: rgb(246, 243, 243); 
+  background-color: rgba(197, 195, 195, 0.775); 
   border: 1px solid rgb(175, 166, 166); /* Green */
   border-radius: 25px;
   color: black;
@@ -396,7 +396,7 @@ select {
 }
 input[type=text], input[type=number], input[type=color] {
   width: 70%;
-  padding: 10px 0px;
+  padding: 10px 5px;
   display: block;
   border: none;
   box-sizing: border-box;
@@ -439,6 +439,11 @@ img {
 #listingheader h2 {
     margin-top: 2vh;
     font-weight: 500;
+}
+
+#listingphotoset {
+    display: block;
+    justify-content: center;
 }
 
 

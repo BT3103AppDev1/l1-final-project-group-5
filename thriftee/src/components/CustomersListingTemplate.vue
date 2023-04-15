@@ -10,7 +10,7 @@
            <div id="top">
                 <h4 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>{{listing_category}}</em></h4> 
             </div>
-            <h1 style ="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> {{listing_name}}</h1>
+            <h1 style ="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;  line-height:40px ;"> {{listing_name}}</h1>
             <div id="viewprofile">
                 <h3 style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><em>${{listing_price}}</em></h3>
                 <div id = "listedby">
