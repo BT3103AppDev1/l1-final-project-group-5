@@ -158,22 +158,22 @@ export default {
     };
   },
   methods: {
-    openClose() {
-      var x = document.getElementById("conditionForm")
-      console.log(x.style.display)
-      if (x.style.display == "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-      const btn = document.getElementById("conditionButton");
-      console.log(btn.innerText)
-      if (btn.innerText == "+") {
-        btn.innerText = "-"
-      } else {
-        btn.innerText = "+"
-      }
-    },
+    // openClose() {
+    //   var x = document.getElementById("conditionForm")
+    //   console.log(x.style.display)
+    //   if (x.style.display == "none") {
+    //     x.style.display = "block";
+    //   } else {
+    //     x.style.display = "none";
+    //   }
+    //   const btn = document.getElementById("conditionButton");
+    //   console.log(btn.innerText)
+    //   if (btn.innerText == "+") {
+    //     btn.innerText = "-"
+    //   } else {
+    //     btn.innerText = "+"
+    //   }
+    // },
   },
   computed: {
     listingsData() {
@@ -192,6 +192,7 @@ export default {
       if (this.priceCap.length != "") {
         availableListings = availableListings.filter((listing) => listing.Price <= this.priceCap)
       }
+      console.log("avail", availableListings)
       return availableListings
     },
     maxPrice() {

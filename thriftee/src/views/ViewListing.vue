@@ -24,8 +24,8 @@ export default {
         this.currentListing = await this.$store.state.listingArray.filter((listing) => {
             return listing.ListingID === this.$route.params.listingid;
         })
-        this.currListingUID = this.currentListing.at(0).ListingID
-        console.log(this.currListingUID)
+        console.log(this.$route.params.listingid);
+        this.currListingUID = this.$route.params.listingid;
     }
 }
 </script>

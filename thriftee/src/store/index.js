@@ -49,7 +49,7 @@ export default createStore({
                 });
             });
             state.listingLoaded = true;
-            console.log(state.listingArray);
+            console.log("hi", state.listingArray);
         }
     }
   })
