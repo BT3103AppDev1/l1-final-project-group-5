@@ -94,8 +94,8 @@
 <script>
     import firebaseApp, { storage } from '../firebase.js';
     import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-    import { getFirestore } from "firebase/firestore";
-    import { doc, setDoc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { getFirestore, where, query } from "firebase/firestore";
+    import { doc, setDoc, getDocs, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -198,7 +198,7 @@
                 let image = document.getElementById("uploadbutton").value
                 
                 try {
-                    let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                    let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                     let userProfileData = userProfile.data()
                     this.telegram = userProfileData.Telegram
                     console.log("im here")
@@ -219,10 +219,17 @@
                         Image_URL: url
                     }, {merge: true})
                     console.log("LOL", url)
+                    
+                    
+                    const queryOffer = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid))
+                    const querySnapshot = await getDocs(queryOffer);
+                    querySnapshot.forEach((doc) => {
+                        updateDoc(doc.ref, {
+                            ListingName: this.listingtitle,
+                        })
+                    })
                     alert("Listing saved!")
                     this.$router.push({name: "ProfileListings"})
-                    
-
                     
                     
                 } catch(error) {
