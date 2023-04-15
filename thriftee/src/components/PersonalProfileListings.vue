@@ -50,6 +50,7 @@
                         <img :src="listing.Image_URL" alt="" style="width: 16.5vw; height: 31vh; object-fit: cover;">
                     </div>
                     <div class="product-text">
+                        <div class="contentofitem">
                         <div id="productCondition">
                             Condition: {{ listing.Condition }}
                         </div>
@@ -59,6 +60,7 @@
                         <div id="productPrice">
                             ${{ listing.Price }}
                         </div>
+                    </div>
                         <router-link class="link" :to="{ name: 'EditListing', params:{ listingid: listing.ListingID } }"> 
                             <button @click="navigate" role="link" id = "editbutton" type="button"><u>Edit</u></button>  
                         </router-link>
@@ -305,9 +307,9 @@ hr {
 }
 .product-item {
   border: 1px solid black;
-  width: 17.5vw;
   height: auto;
   padding: 10px;
+  width: 19vw;
   
 }
 .product-image-placeholder {
@@ -356,6 +358,7 @@ img {
   border-radius: 2px;
   border: 1px solid rgb(232, 232, 232);
 }
+
 
 
 </style>
