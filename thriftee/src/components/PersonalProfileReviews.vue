@@ -189,8 +189,8 @@
   border-width: 0.3em;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
   background-color: rgba(251, 250, 250, 0.852);
 }
 
