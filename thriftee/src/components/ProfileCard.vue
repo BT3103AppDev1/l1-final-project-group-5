@@ -81,11 +81,6 @@
                     this.image_URL = userProfileData.Image_URL;
                 }
             },
-            // async getMeetUp() {
-            //     let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-            //     let userProfileData = userProfile.data();
-            //     this.location = userProfileData.Meet_Up;
-            // },
             async getMeetUp() {
                 const docRef = doc(db, "Profiles", this.uid)
                 onSnapshot(docRef, (doc) => {
@@ -113,9 +108,11 @@
             },
 
             async getName() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                this.name = userProfileData.Name;
+                const docRef = doc(db, "Profiles", this.uid)
+                onSnapshot(docRef, (doc) => {
+                    const dataRef = doc.data();
+                    this.name = dataRef.Name;
+                })
             },
 
             signout() {
