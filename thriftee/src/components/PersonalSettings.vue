@@ -52,7 +52,7 @@
 <script>
   import firebaseApp , {storage} from '../firebase.js';
   import { getFirestore } from "firebase/firestore";
-  import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
+  import { doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
   import { getAuth, onAuthStateChanged,updateProfile } from 'firebase/auth';
   import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
   
@@ -147,19 +147,53 @@
             qrcode = await this.uploadQRToCloud(docRef.id)
           }
           try {
-          await setDoc(doc(db, "Profiles", this.uid), { 
-              Name: this.name,
-              Meet_Up: this.meetup,
-              QRCode: qrcode, 
-              Profile_Image: image,
-              Telegram: this.telegram,
-              Image_URL:url
+            await setDoc(doc(db, "Profiles", this.uid), { 
+                Name: this.name,
+                Meet_Up: this.meetup,
+                QRCode: qrcode, 
+                Profile_Image: image,
+                Telegram: this.telegram,
+                Image_URL:url
             })
             updateProfile(this.curruser, {
               displayName: this.name
             })
+
+            const queryOfferBuyer = query(collection(db, "Offers"), where("BuyerID", "==", this.uid))
+            const queryOfferBuyerSnapshot = await getDocs(queryOfferBuyer)
+            queryOfferBuyerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                BuyerName: this.name
+              })
+            })
+
+            const queryOfferSeller = query(collection(db, "Offers"), where("SellerID", "==", this.uid))
+            const queryOfferSellerSnapshot = await getDocs(queryOfferSeller)
+            queryOfferSellerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                SellerName: this.name
+              })
+            })
+
+            const queryReviewee = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))
+            const queryRevieweeSnapshot = await getDocs(queryReviewee)
+            queryRevieweeSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                RevieweeName: this.name
+              })
+            })
+
+            const queryReviewer = query(collection(db, "Reviews"), where("ReviewerID", "==", this.uid))
+            const queryReviewerSnapshot = await getDocs(queryReviewer)
+            queryReviewerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                ReviewerName: this.name
+              })
+            })
+
             alert("Profile saved!")
             this.$router.push({name: "ProfileListings"})
+
           } catch(error) {
             alert("Error saving profile: ", error)
             console.log(error)
