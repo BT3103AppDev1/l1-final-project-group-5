@@ -31,7 +31,7 @@
         <input type = "text" id = "meetup" placeholder = "Clementi" v-model="meetup" required> <br><br>
 
         <label for="qrcode">PayLah! / PayNow QR Code</label>
-        <input type = "file" id = "qrcode" accept="image/png, image/jpeg"> <br><br>
+        <input type = "file" id = "qrcode" accept="image/png, image/jpeg" v-on:change="updateQR" ref = "qr" > <br><br>
 
         <div id = "buttonsupdate">
             <router-link to="/profilelistings"
@@ -86,10 +86,11 @@
         })
       },
       methods: {
+        
         async getImage(){
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
-                if(userProfileData.Image_URL == null){
+                if(userProfileData.Image_URL == "" || userProfileData.Image_URL == null){
                     const storage = getStorage();
                     getDownloadURL(ref(storage, 'Profiles/default.png'))
                     .then((url) => {
@@ -116,10 +117,35 @@
         }, 
 
         async saveProfile() {
-          let qrcode = document.getElementById("qrcode").value
+          let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+          let userProfileData = userProfile.data();
+          // let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
           const docRef = doc(collection(db, "Profiles"));
-          const url = await this.uploadToCloud(docRef.id)
+          console.log()
+          console.log()
+          let url = ""
+          let qrcode =""
+          if(userProfileData == null && this.$refs.profiles.files[0] == null){
+            const storage = getStorage();
+                    getDownloadURL(ref(storage, 'Profiles/default.png'))
+                    .then((url) => {
+                        url = url
+                    })
+          } else if(this.$refs.profiles.files[0] == null || this.$refs.profiles.files[0] == "") {
+            url = userProfileData.Image_URL
+          } else{
+            url = await this.uploadToCloud(docRef.id)
+          }
+          // const url = await this.uploadToCloud(docRef.id)
+          // const qrcode = await this.uploadQRToCloud(docRef.id)
+          if(userProfileData == null){
+            qrcode = ""
+          } else if(this.$refs.qr.files[0] == null || this.$refs.qr.files[0] == "") {
+            qrcode = userProfileData.QRCode
+          } else{
+            qrcode = await this.uploadQRToCloud(docRef.id)
+          }
           try {
           await setDoc(doc(db, "Profiles", this.uid), { 
               Name: this.name,
@@ -150,13 +176,14 @@
                 this.telegram = userProfileData.Telegram;
         },
         async deleteProfileImage() {
-          let qrcode = document.getElementById("qrcode").value
+          let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+          let userProfileData = userProfile.data();
           let image = document.getElementById("uploadbutton").value
           
           await setDoc(doc(db, "Profiles", this.uid), { 
               Name: this.name,
               Meet_Up: this.meetup,
-              QRCode: qrcode, 
+              QRCode: userProfileData.QRCode, 
               Profile_Image: image,
               Telegram: this.telegram,
               Image_URL:""
@@ -174,11 +201,27 @@
         uploadToCloud: async function(user_uid) {
             const storageRef = ref(storage, 'Profiles/' + user_uid)
             await uploadBytes(storageRef, this.$refs.profiles.files[0])
-            console.log("uploaded")
-            const url = await getDownloadURL(storageRef)
-            console.log("inside")
+            let url = ""
+            if(this.$refs.profiles.files[0] == null){
+              url = ""
+            } else{
+              url = await getDownloadURL(storageRef)
+            }
+            // const url = await getDownloadURL(storageRef)
             return url
-        }   
+        } ,
+        uploadQRToCloud: async function(user_uid) {
+            const storageRef = ref(storage, 'QR/' + user_uid)
+            await uploadBytes(storageRef, this.$refs.qr.files[0])
+            let url = ""
+            if(this.$refs.qr.files[0] == null){
+              url = ""
+            } else{
+              url = await getDownloadURL(storageRef)
+            }
+
+            return url
+        }     
       }
   }
   
