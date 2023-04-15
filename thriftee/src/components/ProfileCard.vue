@@ -106,7 +106,7 @@
                         value_count += review.Rating
                         count++
                     })
-                    this.value = value_count/count;
+                    this.value = Math.round(value_count/count * 10) / 10;
                     
                 })
             },
