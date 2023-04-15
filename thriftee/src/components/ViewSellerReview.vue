@@ -46,18 +46,18 @@
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
       <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
-      <div v-for="slide in slides" class='slide' :key="slide.id">
+      <div v-for="(slide,index) in slides" class='slide' :key="index">
       
-      <h2 class = buyer style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> <b>{{ slide.buyer }}</b></h2>
-      <div v-if="havestar" id="star-rating">
-      <p> {{ slide.ratingstar }} / 5 </p>
-      <p> </p>
-       <p id="startext">★</p>
-      </div>
-      <div v-else id="nostar">
-        <p> </p>
-      </div>
-      <h3 class = description style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><i>"{{ slide.title }}" </i> </h3>
+        <h2 class = buyer style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> <b>{{ slide.buyer }}</b></h2>
+        <div v-if="havestar" id="star-rating">
+          <p> {{ slide.ratingstar }} / 5 </p>
+          <p> </p>
+          <p id="startext">★</p>
+        </div>
+        <div v-else id="nostar">
+          <p> </p>
+        </div>
+        <h3 class = description style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><i>"{{ slide.title }}" </i> </h3>
       </div>
       <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
@@ -67,83 +67,83 @@
   </div>
   </div>
   
-  </template>
+</template>
     
-  <script>
-    import firebaseApp from '../firebase.js';
-    import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
-    import { getAuth, onAuthStateChanged } from 'firebase/auth';
-    const db = getFirestore(firebaseApp);
-    const auth = getAuth();
-    
-    export default {
-        name: "ViewSellerReview",
-        props: {
-            sellerUID: {
-                type: String,
-                default: ""
-            }
-        
-        },
-        data() {
-            return {
-                value: 3,
-                name: "", 
-                uid: "", 
-                slides:[],
-                seller_uid: this.sellerUID,
-                havestar: false
-            }
-        },
-        mounted() {
-            onAuthStateChanged(auth, (user) => {
-                this.name = user.displayName;
-                this.uid = user.uid;
-                this.updateReviews()
-            })
-            
-        },
-        methods: {
-          nextSlide () {
-            const first = this.slides.shift()
-            this.slides = this.slides.concat(first)
-          },
-          previousSlide () {
-              const last = this.slides.pop()
-              this.slides = [last].concat(this.slides)
-          }, 
-          
-          async updateReviews() {
-            console.log(this.seller)
-            const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
-            
-            const querySnapshot = await getDocs(firstQuery);
-            
-            if(querySnapshot.empty){
-              this.havestar = false
-              this.slides.push({   
-                  title: "No reviews yet",
-                  buyer: ""
-                });
-            } else{
-            querySnapshot.forEach((doc) => {
-                this.havestar = true
-                let review = doc.data()
-                this.slides.push({   
-                  title: review.Description,
-                  buyer: review.ReviewerName,
-                  ratingstar: review.Rating
-                });
-                
-            })
+<script>
+  import firebaseApp from '../firebase.js';
+  import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
+  import { getAuth, onAuthStateChanged } from 'firebase/auth';
+  const db = getFirestore(firebaseApp);
+  const auth = getAuth();
+  
+  export default {
+      name: "ViewSellerReview",
+      props: {
+          sellerUID: {
+              type: String,
+              default: ""
           }
-      }, 
-    }
+      
+      },
+      data() {
+          return {
+              value: 3,
+              name: "", 
+              uid: "", 
+              slides:[],
+              seller_uid: this.sellerUID,
+              havestar: false
+          }
+      },
+      mounted() {
+          onAuthStateChanged(auth, (user) => {
+              this.name = user.displayName;
+              this.uid = user.uid;
+              this.updateReviews()
+          })
+          
+      },
+      methods: {
+        nextSlide () {
+          const first = this.slides.shift()
+          this.slides = this.slides.concat(first)
+        },
+        previousSlide () {
+            const last = this.slides.pop()
+            this.slides = [last].concat(this.slides)
+        }, 
+        
+        async updateReviews() {
+          console.log(this.seller_uid)
+          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
+          
+          const querySnapshot = await getDocs(firstQuery);
+          
+          if(querySnapshot.empty){
+            this.havestar = false
+            this.slides.push({   
+                title: "No reviews yet",
+                buyer: ""
+              });
+          } else{
+          querySnapshot.forEach((doc) => {
+              this.havestar = true
+              let review = doc.data()
+              this.slides.push({   
+                title: review.Description,
+                buyer: review.ReviewerName,
+                ratingstar: review.Rating
+              });
+              
+          })
+        }
+    }, 
   }
-  </script>
+}
+</script>
   
     
-  <style scoped>
+<style scoped>
 #star-rating {
   display: flex;
   justify-content: center;
