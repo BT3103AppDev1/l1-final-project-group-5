@@ -97,9 +97,7 @@
         }, 
         
         async updateReviews() {
-          let user = auth.currentUser;
-          let userID = user.uid;
-          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
+          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))
           
           onSnapshot(firstQuery, (snap) => {
             this.slides = []
