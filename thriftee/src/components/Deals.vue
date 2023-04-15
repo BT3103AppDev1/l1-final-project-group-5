@@ -215,7 +215,9 @@ import firebaseApp from '../firebase.js';
 
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.user_uid = user.uid;
+                if (user) {
+                    this.user_uid = user.uid;
+                }              
                 this.getBuyingList()
                 this.getSellingList()
                 
@@ -224,7 +226,7 @@ import firebaseApp from '../firebase.js';
 
         methods: {
             getBuyingList: async function() {
-                const buyingQuery = query(collection(db, "Offers"), where("BuyerID", "==", auth.currentUser.uid))
+                const buyingQuery = query(collection(db, "Offers"), where("BuyerID", "==", this.user_uid))
                 onSnapshot(buyingQuery, (snap) => {
                     const updatedBuyingList = [];
                     snap.forEach((doc) => {
@@ -246,7 +248,7 @@ import firebaseApp from '../firebase.js';
             },
 
             getSellingList: async function() {
-                const sellingQuery = query(collection(db, "Offers"), where("SellerID", "==", auth.currentUser.uid))
+                const sellingQuery = query(collection(db, "Offers"), where("SellerID", "==", this.user_uid))
                 onSnapshot(sellingQuery, (snap) => {
                     const updatedSellingList = [];
                     snap.forEach((doc) => {
