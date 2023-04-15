@@ -153,7 +153,7 @@
                     alert("Upload Image!")
                 } else {
                     try {
-                        let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                        let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                         let userProfileData = userProfile.data()
                         this.telegram = userProfileData.Telegram
                         console.log("im here")
@@ -368,10 +368,7 @@ input[type=file]{
    text-align: center; 
    font-size: 17px;
 }
-input:hover, select:hover {
-    /* box-shadow: 3px 3px purple; */
-   
-}
+
 .save {
     text-align: center;
 }
