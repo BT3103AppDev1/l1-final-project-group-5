@@ -37,7 +37,7 @@
        
         <div id="buyingdeals">
             <h1> Buying</h1>
-            <h2 v-if="buying_list.length === 0">No buying deals</h2>
+            <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" v-if="buying_list.length === 0">No buying deals</h2>
 
             <!-- test using table, delete from here on if dw -->
             <table v-else class="deal_table">
@@ -101,7 +101,7 @@
        
         <div id="sellingdeals">
             <h1> Selling</h1>
-            <h2 v-if="selling_list.length === 0">No selling deals</h2>
+            <h2 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" v-if="selling_list.length === 0">No selling deals</h2>
 
             <!-- test using table, delete from here on if dw -->
             <table v-else class="deal_table">
