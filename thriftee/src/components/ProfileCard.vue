@@ -4,6 +4,7 @@
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
+            <div id ="overallhere">
                 <div class="rate">
                     <p class="mt-2"><b>RATING:</b> </p>
                     <div v-if="havevalue" id ="overallstartext">
@@ -17,6 +18,7 @@
                 <div class="Location">
                     <p class="mt-3"><b>LOCATION:</b> {{ location }}</p>
                 </div>
+            </div>
         </div>
         
         <div id = "buttonsofprofile">
@@ -251,6 +253,10 @@ img {
 
 #profilename {
     margin-top: 2vh;
+}
+
+#overallhere {
+    text-align: left;
 }
 
 </style>
