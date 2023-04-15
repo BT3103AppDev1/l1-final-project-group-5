@@ -1,7 +1,7 @@
 <template>
     <div id = "container"> 
         <div id = "leftcontainer">
-            <img src="signup.jpeg" alt="signup picture">
+            <img src="../assets/signup.jpeg" alt="signup picture">
         </div>
 
         <div id = "rightcontainer">

@@ -7,7 +7,7 @@
   <div id = "leftcontainer">
      <div id = "profilephotoset">
       <!-- <img src="test" height="125px" width="200px"/>  -->
-      <img id = "profilephoto" :src="this.image_URL" alt="default.png">
+      <img id = "profilephoto" :src="this.image_URL" alt="../assets/default.png">
       <div id = "buttonsupdate">
           <label for="uploadbutton">Upload</label>
           <input type="file" id="uploadbutton" accept ="image/*" v-on:change="displayProfileImage" ref = "profiles" hidden/>
@@ -112,7 +112,7 @@
             }
             alert("Profile image displayed")
           } catch(error) {
-            this.image_URL="/default.png"
+            this.image_URL="../assets/default.png"
           }
         }, 
 

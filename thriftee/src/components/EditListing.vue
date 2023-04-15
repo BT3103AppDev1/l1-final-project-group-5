@@ -155,7 +155,7 @@
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
-                    document.getElementById("listingphoto").src="defaultListing.png"
+                    document.getElementById("listingphoto").src="../assets/defaultListing.png"
                 }
             },
             async getListingTitle() {
@@ -259,7 +259,7 @@
             },
             deleteListingImage: function() {
                 document.getElementById("uploadbutton").value = ""
-                document.getElementById("listingphoto").src = "defaultListing.png"
+                document.getElementById("listingphoto").src = "../assets/defaultListing.png"
                 alert("Listing Image Successfully Deleted")
                 this.image_url = "";
               

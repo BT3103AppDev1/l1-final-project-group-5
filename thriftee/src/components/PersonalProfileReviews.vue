@@ -35,7 +35,7 @@
   <div class='carousel-view'>
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
-      <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
+      <img v-if="havestar" src ="../assets/previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="(slide, index) in slides" class='slide' :key="index">
         <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
         <div v-if="havestar" id="star-rating">
@@ -48,7 +48,7 @@
         </div>
         <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
       </div>
-      <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
+      <img v-if="havestar" src ="../assets/next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
     
     </div>

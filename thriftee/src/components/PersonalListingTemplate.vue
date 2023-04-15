@@ -25,7 +25,7 @@
         </div>
 
         <div id = "containerright">
-         <img src="listingdefault.jpeg" alt="listing picture">
+         <img src="../assets/listingdefault.jpeg" alt="listing picture">
      </div>
     </div>
   

@@ -7,7 +7,7 @@
         <div id ="container">
             <div id = "leftcontainer">
                 <div id = "listingphotoset">
-                    <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
+                    <img id = "listingphoto" src="../assets/defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
                         <input type="file" id="uploadbutton" accept="image/*" v-on:change="updateListingImage" ref="listings" hidden/>
@@ -143,7 +143,7 @@
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
-                    document.getElementById("listingphoto").src="defaultListing.png"
+                    document.getElementById("listingphoto").src="../assets/defaultListing.png"
                 }
             },
 
@@ -192,7 +192,7 @@
                     alert("Upload Image!")
                 } else {
                     document.getElementById("uploadbutton").value = ""
-                    document.getElementById("listingphoto").src = "defaultListing.png"
+                    document.getElementById("listingphoto").src = "../assets/defaultListing.png"
                     alert("Listing Image Successfully Removed")
                 }
               
