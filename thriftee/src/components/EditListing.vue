@@ -10,8 +10,8 @@
                     <img id = "listingphoto" :src="image_url" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
-                        <input type="file" id="uploadbutton" v-on:change="updateListingImage"  ref="listings" hidden/>
-                        <button id = "deletebutton" type="button" v-on:click="deleteListingImage">Delete </button> 
+                        <input type="file" id="uploadbutton" @change="updateListingImage"  ref="listings" hidden/>
+                        <!-- <button id = "deletebutton" type="button" @click="deleteListingImage">Delete </button>  -->
                     </div>
                 </div>
             </div>
@@ -193,29 +193,7 @@
                 let listingData = listing.data();
                 this.image_url = listingData.Image_URL;
             },
-            // saveListing: async function() {
-            //     let image = document.getElementById("uploadbutton").value
-            //     try {
-            //     let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
-            //     let userProfileData = userProfile.data()
-            //     this.telegram = userProfileData.Telegram
-            //     const docRef = await setDoc(doc(db, "Listings", this.listing_uid), { 
-            //         SellerID: this.uid,
-            //         Title: this.listingtitle,
-            //         Price: this.price,
-            //         Condition: this.condition,
-            //         Category: this.category,
-            //         Colour: this.colour,
-            //         Size: this.size,
-            //         Listing_Image: image,
-            //         Telegram: this.telegram
-            //     })
-            //     alert("Listing saved!")
-            //     this.$router.push({name: "ProfileListings"})
-            //     } catch(error) {
-            //     alert("Error saving edited listing: ", error)
-            //     }
-            // }, 
+            
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 
@@ -254,14 +232,18 @@
             },
 
             uploadToCloud: async function(listing_uid) {
-                const storageRef = ref(storage, 'Listings/' + listing_uid )
-                await uploadBytes(storageRef, this.$refs.listings.files[0])
-                console.log("uploaded")
-                const url = await getDownloadURL(storageRef)
-                console.log("inside")
+                if (this.$refs.listings.files[0] != null) {
+                    const storageRef = ref(storage, 'Listings/' + listing_uid )
+                    await uploadBytes(storageRef, this.$refs.listings.files[0])
+                    console.log("this thign", this.$refs.listings.files[0])
+                    console.log("uploaded")
+                    const url = await getDownloadURL(storageRef)
+                    console.log("inside")
                 
-            
-                return url
+                    return url
+                } else {
+                    return this.image_url
+                }
             },
 
             async cancel() {
@@ -269,13 +251,10 @@
                 alert("Listing edit is not saved!")
             },
             deleteListingImage: function() {
-                if (document.getElementById("uploadbutton").value == "") {
-                    alert("Upload Image!")
-                } else {
-                    document.getElementById("uploadbutton").value = ""
-                    document.getElementById("listingphoto").src = "defaultListing.png"
-                    alert("Listing Image Successfully Deleted")
-                }
+                document.getElementById("uploadbutton").value = ""
+                document.getElementById("listingphoto").src = "defaultListing.png"
+                alert("Listing Image Successfully Deleted")
+                this.image_url = "";
               
             }
           
@@ -303,7 +282,6 @@ label[for="uploadbutton"] {
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
-  margin-left: 4vw;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -437,10 +415,7 @@ input[type=file]{
    text-align: center; 
    font-size: 17px;
 }
-input:hover, select:hover {
-    /* box-shadow: 3px 3px purple; */
-   
-}
+
 .save {
     text-align: center;
 }
