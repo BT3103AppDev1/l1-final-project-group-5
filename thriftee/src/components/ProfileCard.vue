@@ -81,11 +81,19 @@
                     this.image_URL = userProfileData.Image_URL;
                 }
             },
+            // async getMeetUp() {
+            //     let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+            //     let userProfileData = userProfile.data();
+            //     this.location = userProfileData.Meet_Up;
+            // },
             async getMeetUp() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                this.location = userProfileData.Meet_Up;
+                const docRef = doc(db, "Profiles", this.uid)
+                onSnapshot(docRef, (doc) => {
+                    const dataRef = doc.data()
+                    this.location = dataRef.Meet_Up;
+                })
             },
+
 
             async getRating() {
                 
