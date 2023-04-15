@@ -241,7 +241,6 @@ export default {
   /* background-color: aqua; */
   width: 75vw;
   display: table-cell;
-  border-left: 2px solid black;
 }
 .displayContainer {
   display: grid;
@@ -315,6 +314,7 @@ export default {
   /* height: 90vh; */
   background-color: white;
   position: absolute;
+  border-right: 2px solid black;
 }
 
 #noListingsFound {
@@ -343,5 +343,12 @@ img {
 
 button{
   background-color: transparent;
+}
+
+#noListingsFound {
+  font-size: 2em;
+  margin-top:30%;
+  font-weight: 500;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>
