@@ -88,19 +88,21 @@
       methods: {
         
         async getImage(){
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                if(userProfileData.Image_URL == "" || userProfileData.Image_URL == null){
-                    const storage = getStorage();
-                    getDownloadURL(ref(storage, 'Profiles/default.png'))
-                    .then((url) => {
-                        this.image_URL = url
-                    })
-                }
-                else {
-                    this.image_URL = userProfileData.Image_URL;
-                }
-            },
+            let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+            let userProfileData = userProfile.data();
+            console.log(userProfileData)
+            if(userProfileData == null || userProfileData.Image_URL == ""){
+                const storage = getStorage();
+                getDownloadURL(ref(storage, 'Profiles/default.png'))
+                .then((url) => {
+                    this.image_URL = url
+                })
+            }
+            else {
+                this.image_URL = userProfileData.Image_URL;
+            }
+            console.log(this.image_URL)
+        },
         async displayProfileImage() {
           var fReader = new FileReader();
           try {
