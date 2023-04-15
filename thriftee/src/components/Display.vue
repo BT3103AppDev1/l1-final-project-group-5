@@ -212,7 +212,7 @@ export default {
 @import url("https://www.w3schools.com/w3css/4/w3.css");
 
 .mainContainer {
-  background-color: transparent;
+  background-color: rgb(246, 241, 241);
   width: 100vw;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -247,7 +247,7 @@ export default {
   row-gap: 10px;
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  background-color: transparent;
+  background-color: rgb(246, 241, 241);
 }
 .product-item {
   width: auto;

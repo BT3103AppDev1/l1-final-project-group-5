@@ -45,7 +45,7 @@
                     <tr>
                         <th>Listing</th>
                         <th>Seller</th>
-                        <th>Offer Price</th>
+                        <th>You Offered</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -424,7 +424,7 @@ import firebaseApp from '../firebase.js';
 
 #selllistingtitle {
     width: 100%;
-    text-align: left;
+    text-align: center;
 }
 
 #buystatusbutton {
@@ -584,11 +584,7 @@ import firebaseApp from '../firebase.js';
  }
 
 
- #dealsbutton:hover {
-    font-size: 1.8em;
-    color: rgb(117, 113, 113);
-    text-decoration: underline;
- }
+ 
 
  #listingbutton {
     background: transparent;
@@ -596,6 +592,7 @@ import firebaseApp from '../firebase.js';
     color: rgb(8, 8, 8);
     /* border-bottom: 1px solid rgb(98, 95, 95); */
     font-size: 1.15em;
+    text-align: center;
  }
 
 
@@ -605,11 +602,14 @@ import firebaseApp from '../firebase.js';
     color: rgb(170, 168, 168);
     /* border-bottom: 1px solid rgb(160, 154, 154); */
  }
-
+#profilebutton {
+    text-align: center;
+}
  #profilebutton:hover {
     background: transparent;
     border: none;
     color: rgb(170, 168, 168);
+    
  }
 
     
@@ -651,25 +651,25 @@ a { text-decoration: none; }
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
-    
+    text-align: center;
 }
 
 .deal_table thead tr {
     background-color: rgb(246, 241, 241);
-   
     color: #5d5b5b;
-    text-align: left;
+    text-align: center;
 }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
   border: 1px solid rgb(195, 187, 187);
-  
+  text-align: center;
 }
 
 .deal_table tbody tr {
     border-bottom: 1px solid #dddddd;
     border-radius: 50px;
+    text-align: center;
 }
 
 .deal_table tbody tr:nth-of-type(even) {
@@ -680,6 +680,7 @@ a { text-decoration: none; }
 .deal_table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
+    text-align: center;
 }
 
 #buyer-accepted_buttons {

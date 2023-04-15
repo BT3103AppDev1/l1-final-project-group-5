@@ -249,11 +249,7 @@
   font-size: 1.8em;
   color: rgb(164, 158, 158);
 }
-#reviewsbutton:hover {
-  font-size: 1.8em;
-  color: rgb(117, 113, 113);
-  text-decoration: underline;
-}
+
 #dealsbutton {
   background: transparent;
   border: none;
