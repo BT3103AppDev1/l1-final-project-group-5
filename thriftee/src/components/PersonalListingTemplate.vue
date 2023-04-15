@@ -6,7 +6,7 @@
         <div id = "back">
             <button id = "backbutton" type="button" >←</button> 
         </div>
-
+       
            <div id="top">
                 <h4><em>Bottom</em></h4> 
             </div>
@@ -17,7 +17,7 @@
             <p> Condition: Like new</p>
             <p> Size: M</p>
             <p> Description: Lightly worn, bought around 3 months ago</p>
-
+        
             <div id = "buttonsupdate">
                 <button id = "editbutton" type="button">Edit Listing</button> 
                 <button id = "deletebutton" type="button" v-on:click="saveProfile">Delete Listing</button> 

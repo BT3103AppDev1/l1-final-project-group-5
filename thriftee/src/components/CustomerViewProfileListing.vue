@@ -216,7 +216,7 @@ hr {
 }
 .product-item {
   border: 1px solid black;
-  width: 17.5vw;
+  width: 19vw;
   height: auto;
   padding: 10px;
   
