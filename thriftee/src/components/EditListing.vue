@@ -298,8 +298,8 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 label[for="uploadbutton"] {
-    background-color: #60cbb8; /* Green */
-    border: none; /* Green */
+    background-color: rgb(248, 248, 248);; /* Green */
+    border: 1px solid rgb(148, 149, 144); /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -341,8 +341,8 @@ input::file-selector-button:hover {
     width: 40%;
 }
 #deletebutton {
-  background-color: #b02c2cbe; /* Green */
-  border: none; /* Green */
+  background-color: #be4a4ac3; /* Green */
+  border: 1px solid #b02c2cbe; /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -359,8 +359,8 @@ input::file-selector-button:hover {
   
 }
 #savebutton {
-  background-color: #60cbb8; /* Green */
-  border: none; /* Green */
+  background-color: #3ddfc1c5; /* Green */
+  border: 1px solid #5ec3b0;; /* Green */
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -377,8 +377,8 @@ input::file-selector-button:hover {
  
 }
 #cancelbutton {
-  background-color: rgb(175, 166, 166); 
-  border: none; /* Green */
+  background-color: rgb(246, 243, 243); 
+  border: 1px solid rgb(175, 166, 166); /* Green */
   border-radius: 25px;
   color: black;
   padding: 9px 28px;
@@ -447,6 +447,7 @@ input:hover, select:hover {
 img {
     width: auto;
     height: auto;
+    margin-top:5vh;
 }
 #listingphoto {
     width: 30vw;

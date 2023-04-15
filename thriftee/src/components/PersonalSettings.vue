@@ -37,7 +37,7 @@
             <router-link to="/profilelistings"
                 custom
                 v-slot="{ navigate }" >
-                <button @click="navigate" role="link" id = "cancelbutton" type="button"> <em>Cancel</em></button> 
+                <button @click="navigate" role="link" id = "cancelbutton" type="button"> Cancel</button> 
             </router-link>  
           <button id = "savebutton" type="button" v-on:click="saveProfile">Save</button> 
         </div>
@@ -231,7 +231,7 @@
 <style scoped>
 #profileheader h2 {
   /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-  color: rgb(105, 102, 102);
+  color: rgb(77, 74, 74);
   font-size: 2.8vw;
   margin-top: 3vh;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -242,22 +242,22 @@
   width: 100vw;
 }
 label[for="uploadbutton"] {
-  background-color: #60cbb8; /* Green */
-border: 2px solid #60cbb8; /* Green */
-border-radius: 25px;
-color: rgb(0, 0, 0);
-padding: 10px 32px;
-margin-left: 4vw;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-transition-duration: 0.4s;
+    background-color: rgb(248, 248, 248);; /* Green */
+    border: 1px solid rgb(148, 149, 144); /* Green */
+  border-radius: 25px;
+  color: rgb(0, 0, 0);
+  padding: 9px 28px;
+  margin-left: 4vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
 }
 label[for="uploadbutton"]:hover {
-background-color: 359138; /* Green */
-color: white;
-border: 2px solid #60cbb8; /* Green */
+  background-color: 359138; /* Green */
+  color: white;
+ 
 }
 input::file-selector-button {
   font-weight: bold;
@@ -268,6 +268,7 @@ input::file-selector-button {
   border-radius: 5px;
   margin-right: 1vw;
   margin-left: 30%;
+  font-size: 15px;
   margin-bottom: 1vh;
 }
 input::file-selector-button:hover {
@@ -282,56 +283,55 @@ margin-top: 8vh;
   width: 40%;
 }
 #deletebutton {
-background-color: #ed4141; /* Green */
-border: 2px solid #ed4141; /* Green */
-border-radius: 25px;
-color: rgb(0, 0, 0);
-padding: 10px 32px;
-margin-left: 3vw;
-margin-right: 4vw;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-transition-duration: 0.4s;
+  background-color: #be4a4ac3; /* Green */
+  border: 1px solid #b02c2cbe; /* Green */
+  border-radius: 25px;
+  color: rgb(0, 0, 0);
+  padding: 9px 28px;
+  margin-left: 3vw;
+  margin-right: 4vw;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
 }
 #deletebutton:hover {
-color: white;
-border: 2px solid #ed4141; /* Green */
+  color: white;
+  
 }
 #savebutton {
-background-color: #60cbb8; /* Green */
-border: 2px solid #60cbb8; /* Green */
-border-radius: 25px;
-color: rgb(0, 0, 0);
-padding: 10px 32px;
-margin-left: 35px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-transition-duration: 0.4s;
+  background-color: #3ddfc1c5; /* Green */
+  border: 1px solid #5ec3b0;; /* Green */
+  border-radius: 25px;
+  color: rgb(0, 0, 0);
+  padding: 9px 28px;
+  margin-left: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
 }
 #savebutton:hover {
-background-color: 359138; /* Green */
-color: white;
-border: 2px solid #60cbb8; /* Green */
+  background-color: 359138; /* Green */
+  color: white;
+ 
 }
 #cancelbutton {
-background-color: white; 
-border: 2px solid #c64f31; /* Green */
-border-radius: 25px;
-color: black;
-padding: 10px 32px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-transition-duration: 0.4s;
+  background-color: rgb(246, 243, 243); 
+  border: 1px solid rgb(175, 166, 166); /* Green */
+  border-radius: 25px;
+  color: black;
+  padding: 9px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
 }
 #cancelbutton:hover {
-background-color: #c64f31; /* Green */
-color: white;
+  color: white;
 }
 h2 {
   background-color: rbg(129,184,99);
@@ -372,13 +372,18 @@ input:hover {
   text-align: center;
 }
 img {
-  width: 450px;
+  width: 50%;
   height: auto;
   border: 50%;
+  margin-bottom: 2vh;
 }
 
 #profilecreate {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
+}
+
+#profilephotoset {
+  margin-top: 13vh;
 }
 </style>
