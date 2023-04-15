@@ -7,11 +7,11 @@
                 <div class="rate">
                     <p class="mt-2"><b>RATING:</b> </p>
                     <div v-if="havevalue" id ="overallstartext">
-                        <p id="valueofstar"> {{ value }} </p>
+                        <p id="valueofstar"> {{ value }} / 5</p>
                         <p id ="startext"> ★</p>
                     </div>
                     
-                    <p v-else id="emptystarvaluestar"><em>{{ value }}</em></p>
+                    <p v-else id="emptystarvaluestar"><em>No Reviews Yet</em></p>
                 </div>
             
                 <div class="Location">
@@ -35,7 +35,7 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc, query, collection, where, getDocs } from "firebase/firestore";
+    import { doc, getDoc, query, collection, where, getDocs, onSnapshot } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
     import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
 
@@ -86,25 +86,22 @@
                 let userProfileData = userProfile.data();
                 this.location = userProfileData.Meet_Up;
             },
+
             async getRating() {
-                let user = auth.currentUser;
-                let userID = user.uid;
-                let count = 0;
-                const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
-               
-                const querySnapshot = await getDocs(firstQuery);
-                if(querySnapshot.empty){
-                    this.value = "No Reviews Yet"
-                    this.havevalue = false
-                } else{
-                    querySnapshot.forEach((doc) => {
+                
+                const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))        
+                onSnapshot(firstQuery, (snap) => {
+                    let count = 0;
+                    let value_count = 0
+                    snap.forEach((doc) => {
                         this.havevalue = true
-                        let review = doc.data()
-                        this.value += parseFloat(review.Rating)
+                        const review = doc.data()
+                        value_count += review.Rating
                         count++
                     })
-                    this.value = Math.round(this.value/count * 10)/10 +" / 5";
-                }
+                    this.value = value_count/count;
+                    
+                })
             },
 
             async getName() {
