@@ -16,10 +16,10 @@
           <div class = "formli">
 
           <label for="email">Email </label>
-          <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" required> <br><br>
+          <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" autocomplete="username" required> <br><br>
 
           <label for="password">Password</label>
-          <input type = "password" id = "password" v-model="password" placeholder = "Enter Password" required> 
+          <input type = "password" id = "password" v-model="password" placeholder = "Enter Password" autocomplete="current-password" required> 
 
           <button id="forgetpw" @click="goToForgetPassword" type="button">I forgot my password</button><br><br>
           <div id = "buttonsupdate">

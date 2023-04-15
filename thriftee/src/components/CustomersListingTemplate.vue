@@ -94,8 +94,10 @@
         
         mounted() {
             onAuthStateChanged(auth, (user) => {
-                this.buyer_name = user.displayName;
-                this.buyer_uid = user.uid;
+                if (user) {
+                    this.buyer_name = user.displayName;
+                    this.buyer_uid = user.uid;
+                }
             })
             this.getListingDetails()
         },

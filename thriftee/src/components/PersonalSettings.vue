@@ -112,7 +112,7 @@
             }
             alert("Profile image displayed")
           } catch(error) {
-            document.getElementById("profilephoto").src="/default.png"
+            this.image_URL="/default.png"
           }
         }, 
 
