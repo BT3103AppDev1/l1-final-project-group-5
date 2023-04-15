@@ -523,7 +523,9 @@ import firebaseApp from '../firebase.js';
     padding-left: 10vh;
     padding-right: 10vh;
     font-weight: bold;
-    border: 2px solid rgb(114, 113, 113);
+    /* background-color: rgb(246, 241, 241); */
+    border: 1.5px solid rgb(150, 144, 144);
+    width: 30vw;
 }
 
 #sellingdeals h1 {
@@ -531,7 +533,7 @@ import firebaseApp from '../firebase.js';
     font-weight: bold;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: rgb(52, 50, 50);
-    border: 2px solid rgb(114, 113, 113);
+    border: 1.5px solid rgb(150, 144, 144);
     border-radius: 5px;
     margin-top: 3vh;
     font-size: 1.5em;
@@ -539,6 +541,7 @@ import firebaseApp from '../firebase.js';
     margin-bottom: 5vh;
     padding-left: 10vh;
     padding-right: 10vh;
+    width: 30vw;
 }
 
 #container2 {
@@ -657,14 +660,15 @@ a { text-decoration: none; }
 }
 
 .deal_table thead tr {
-    background-color: #424547d8;
-    color: #ffffff;
+    background-color: rgb(246, 241, 241);
+   
+    color: #5d5b5b;
     text-align: left;
 }
 
 .deal_table td, .deal_table th {
   padding: 12px 15px;
-  border: 1px rgb(219, 224, 224) solid;
+  border: 1px solid rgb(195, 187, 187);
   
 }
 
