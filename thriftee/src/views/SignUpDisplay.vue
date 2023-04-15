@@ -11,9 +11,6 @@
         name: "SignUpDisplay",
         components: {
             SignUp,
-        },
-        created() {
-            document.title = "Sign Up"
         }
     }
 </script>
