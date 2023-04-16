@@ -14,17 +14,15 @@
         </div>
 
         <form id="myform" @submit.prevent="resetPassword"> 
-
           <div class = "formli">
-
             <label for="email">Email </label>
             <input type = "email" id = "email" v-model="email" placeholder = "johndoe@gmail.com" required> <br><br>
-
             <div id = "buttonsupdate">
                 <button id = "forgetpwbutton" type="submit">Send Password Reset Link</button> 
             </div>
           </div>
-       </form><br>
+       </form>
+       <br>
     </div>
    </div>
 </template>
@@ -42,6 +40,7 @@ export default {
     },
 
     methods: {
+        // function to reset password
         resetPassword() {
             const auth = getAuth();
             sendPasswordResetEmail(auth, this.email)
