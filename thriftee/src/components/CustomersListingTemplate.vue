@@ -27,7 +27,6 @@
                 </p>
                 <p> Condition: {{listing_condition}}</p>
                 <p> Size: {{listing_size}}</p>
-                <!-- <p> Description: Lightly worn, bought around 3 months ago</p>  -->
             <div id = "buttonsupdate">
                 
                 <button @click="goToTelegram" id = "chatbutton" type="button" v-if="seller_uid !== buyer_uid"> Chat</button> 
@@ -72,10 +71,8 @@
 
         data() {
             return {
-                value: 4, //what is this for?
                 buyer_name: "",
                 buyer_uid: "",
-                // listing_uid: "tpwwZUVVF9fhlc0Iw2Xt", //placeholder for listing uid
                 listing_uid: this.listingUID,
                 listing_category: null,
                 listing_price: null, 
@@ -104,6 +101,7 @@
         },
         
         methods: {
+              // To update the listing details on each page for each specific listing clicked
             async getListingDetails() {
                 const docRef = doc(db, "Listings", this.listing_uid);
                 const docSnap = await getDoc(docRef);
@@ -121,27 +119,32 @@
                 this.seller_name = userProfileData.Name;
             },
 
+              // To allow the "Chat" button to be linked to the listing's seller's telegram
             async goToTelegram() {
-                let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // shld get telegram from unique listing
+                let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // get seller's telegram handle
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
                 window.open(this.telegram, '_blank')
             },
 
+              // To allow users to make an offer when the "Make Offer" button is clicked
             openOfferPopup() {
                 this.isPopupOpen = true
             },
 
+              // To close the Make Offer pop up
             closeOfferPopup() {
                 this.isPopupOpen = false
             },
 
+              // To svae the new offer entry into the Offers collection in firebase
             submitOffer(offerAmount) {
                 this.offerAmount = offerAmount;
                 console.log(offerAmount)
                 this.updateOfferDB()
             },
 
+              // To update offer made, if a previous offer has been made by the user
             async updateOfferDB() {
                 // if offer for particular listing by buyer exists, overwrite the previous offer
                 const queryOfferExists = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("SellerID", "==", this.seller_uid), where("BuyerID", "==", this.buyer_uid));
@@ -186,10 +189,12 @@
                 }
             },
 
+              // To go back to the Explore page (general display page showing all the listings)
             goBack() {
                 window.history.back()
             },
 
+              // If listing clicked by user is their own listing, this "Edit" button should be displayed instead of the "Chat" and "Make offer" button
             editlisting() {
                 this.$router.push({name: "EditListing", params: {listingid: this.listing_uid}})
             }

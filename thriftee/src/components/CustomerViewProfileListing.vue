@@ -79,37 +79,18 @@ export default {
   },
   data() {
     return {
-      // value: 4,
-      // name: "",
-      // uid: "",
       listings: [],
       seller_uid: this.sellerUID
     };
   },
-  mounted() {
-    // onAuthStateChanged(auth, (user) => {
-    //   (this.name = user.displayName), (this.uid = user.uid);
-    // });
-  },
-  methods: {
-    // async readData() {
-    //   const querySnapshot = await getDocs(collection(db, "Listings"));
-    //   querySnapshot.forEach((doc) => {
-    //     if (doc.data().SellerID == this.seller_uid && doc.data().Listing_Available) {
-    //     this.listings.push(doc.data());
-    //     }
-    //   });
-    // },
-  },
+  
+    // To only display listings that the specified seller has listed
   computed: {
       readData() {
           const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available && listing.SellerID == this.seller_uid);
           return availableListings
       },
   },
-  // created() {
-  //   this.readData();
-  // },
 };
 </script>
 

@@ -95,7 +95,7 @@
     import firebaseApp, { storage } from '../firebase.js';
     import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
     import { getFirestore, setDoc } from "firebase/firestore";
-    import { doc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { doc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -127,19 +127,17 @@
         },
 
         methods: {
+              // To update the listing image in firebase
             updateListingImage: async function() {
                 console.log("updating listing image")
                 var fReader = new FileReader();
                 try {
                     var image = document.getElementById("uploadbutton");
                     fReader.readAsDataURL(image.files[0]);
-                    // console.log(image.files[0])
                     fReader.onloadend = function(event) {
                         var img = document.getElementById("listingphoto");
                         img.src = event.target.result;
                     }
-                    // console.log(image.value)
-                    // console.log("I", this.$refs.listings.files[0])
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
@@ -147,6 +145,7 @@
                 }
             },
 
+              // To save the new listing entry to the Listings collection in firebase
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 if (image == "") {
@@ -187,6 +186,7 @@
                 }
             }, 
             
+              // To delete the listing image from firebase
             deleteListingImage: function() {
                 if (document.getElementById("uploadbutton").value == "") {
                     alert("Upload Image!")
@@ -198,6 +198,7 @@
               
             },
 
+              // To upload the listing image 
             uploadToCloud: async function(listing_uid) {
                 const storageRef = ref(storage, 'Listings/' + listing_uid )
                 await uploadBytes(storageRef, this.$refs.listings.files[0])
