@@ -37,9 +37,9 @@
 <script>
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
-    import { doc, getDoc, query, collection, where, getDocs, onSnapshot } from "firebase/firestore";
+    import { doc, getDoc, query, collection, where, onSnapshot } from "firebase/firestore";
     import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-    import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+    import { getStorage, ref, getDownloadURL} from "firebase/storage";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -56,7 +56,7 @@
                 image_URL: ""
             }
         },
-        
+        // When mounting, get user Meetup location, name, average review rating, and profile image url.
         mounted() {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -71,6 +71,7 @@
            
         },
         methods: {
+            // Retrieve the user's profile image URL from the Profile database in firestore, which will then be displayed in the profile card
             async getImage(){
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
@@ -85,6 +86,7 @@
                     this.image_URL = userProfileData.Image_URL;
                 }
             },
+            // Retrieve the user's preferred meetup location from the Profile database in firestore
             async getMeetUp() {
                 const docRef = doc(db, "Profiles", this.uid)
                 onSnapshot(docRef, (doc) => {
@@ -93,9 +95,8 @@
                 })
             },
 
-
+            // Retrieve all the user's reviews and ratings from the Review Database in firestore using the user's UID and display the average rating on Profile Card
             async getRating() {
-                
                 const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))        
                 onSnapshot(firstQuery, (snap) => {
                     let count = 0;
@@ -110,7 +111,7 @@
                     
                 })
             },
-
+            // Retrieve the user's name from the Profile database in firestore
             async getName() {
                 const docRef = doc(db, "Profiles", this.uid)
                 onSnapshot(docRef, (doc) => {
@@ -118,7 +119,7 @@
                     this.name = dataRef.Name;
                 })
             },
-
+            // Allows user to sign out from Thriftee and redirect them to the login page
             signout() {
                 signOut(auth).then(() => {
                     alert('Successfully signed out!')

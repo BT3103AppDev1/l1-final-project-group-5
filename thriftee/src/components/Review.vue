@@ -6,7 +6,7 @@
         <div id = "LeaveReviewheader">
             <h1>Leave a Review</h1>
         </div><br>
-
+        <!-- Star rating system which uses star images to replace radio input -->
         <div class="ratingContainer">
             <div class="rating-wrap">
                 <h2> Rating</h2>
@@ -60,8 +60,6 @@
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
     
-    // listingID, buyerID, sellerID, rating, description
-    
     export default {
         props: {
             listingUID: {
@@ -103,12 +101,13 @@
         },
     
         methods:{
+            // Function to retrieve the reviewee details using the reviewee's uid
             async getRevieweeDetails() {
                 let docRef = await getDoc(doc(db, "Profiles", this.reviewee_uid))
                 let dataRef = docRef.data()
                 this.reviewee_name = dataRef.Name
             },
-
+            //Input the review details into the Review database in firestore
             async saveReview(){
                 var ref = collection(db, "Reviews");
                 if (this.description.length == 0){
@@ -135,6 +134,7 @@
                     alert("Unsuccessful operation, error:" + error)
                 };
             },
+            // function to update the status of offers in the Offers database in firestore
             async updateReviewStatus() {
                 if (this.is_buyer) {
                     const queryRef = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid), where("BuyerID", "==", this.reviewer_uid), where("SellerID", "==", this.reviewee_uid))

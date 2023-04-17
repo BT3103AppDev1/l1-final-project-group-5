@@ -43,7 +43,7 @@
     <div id="entirereview">
   <div class='carousel-controls'>
   <div class='carousel-view'>
-    
+    <!-- Creates a transition of group of Review Cards so users can scroll and see all the seller's reviews -->
     <transition-group name = "list" class='carousel' tag="div" :max="1">
       <img v-if="havestar" src ="../assets/previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="(slide,index) in slides" class='slide' :key="index">
@@ -71,7 +71,7 @@
     
 <script>
   import firebaseApp from '../firebase.js';
-  import { getDoc,getCountFromServer, collection, addDoc, getFirestore, query, where, getDocs, doc } from "firebase/firestore";
+  import { collection, getFirestore, query, where, getDocs, } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from 'firebase/auth';
   const db = getFirestore(firebaseApp);
   const auth = getAuth();
@@ -106,15 +106,18 @@
           
       },
       methods: {
+        // Function which allows user to see next review card of seller after clicking the right arrow button
         nextSlide () {
           const first = this.slides.shift()
           this.slides = this.slides.concat(first)
         },
+        //Function which allows user to see the previous review card of seller after clicking the left arrow button
         previousSlide () {
             const last = this.slides.pop()
             this.slides = [last].concat(this.slides)
         }, 
-        
+        // Function retrieves all the reviews which are associated with the seller using the seller's uid. The reviews retrieved would then be displayed in cards the seller's profile review page. 
+        // If the seller currently has no listings, a single card will be created which displayes "No reviews yet"
         async updateReviews() {
           console.log(this.seller_uid)
           const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
