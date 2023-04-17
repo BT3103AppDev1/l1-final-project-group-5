@@ -87,6 +87,7 @@
           })
       },
       methods: {
+        // navigate through reviews 
         nextSlide () {
           const first = this.slides.shift()
           this.slides = this.slides.concat(first)
@@ -95,7 +96,7 @@
             const last = this.slides.pop()
             this.slides = [last].concat(this.slides)
         }, 
-        
+        // display all personal reviews
         async updateReviews() {
           const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))
           
