@@ -1,8 +1,4 @@
 <template>
-    <!-- <div>
-        Able to access Data
-        {{this.currentListing}}
-    </div> -->
     <customers-listing-template :listingUID="currListingUID" v-if="currListingUID !== ''"/>
 </template>
 
@@ -29,7 +25,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
