@@ -104,38 +104,9 @@
             })
             
         }, 
-        methods: {
-            // async readData() {
-            //     const querySnapshot = await getDocs(collection(db, "Listings"));
-            //     querySnapshot.forEach((doc) => {
-            //         const dataRef = doc.data();
-            //         dataRef.ListingID = doc.id
-
-            //         getDownloadURL(ref(storage, "Listings/" + doc.id)).then(function(result){
-            //             dataRef.ImageUrl = result
-            //         }).catch(() =>{
-            //             dataRef.ImageUrl = "https://play-lh.googleusercontent.com/1-hPxafOxdYpYZEOKzNIkSP43HXCNftVJVttoo4ucl7rsMASXW3Xr6GlXURCubE1tA=w3840-h2160-rw" //placeholder
-            //         })
-                    
-            //         if (dataRef.SellerID == this.uid && dataRef.Listing_Available == true) {
-            //             this.listings.push(dataRef);
-            //         }
-            //     });
-            //     console.log(this.listings)
-            // },
-            
+        methods: { 
+            // delete personal listing 
             async deleteButton(listingID) {
-                // await deleteDoc(doc(db, "Listings", listingID)) // delete from Listings collection
-                // console.log("delete listing from Listings collection")
-                // const nonPendingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID), where("Status", "!=", "Pending"))
-                // const querySnapshot = await getDocs(nonPendingQuery)
-                // console.log(querySnapshot)
-                // const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
-                // const querySnapshot = await getDoc(doc(db, "Listings", listingID))
-                // await updateDoc(querySnapshot, {
-                //     Status: "Deleted"
-                // })
-
                 const docRef = doc(db, "Listings", listingID);
                 try{
                     if (confirm('Are you sure you want to delete this listing?')) {
@@ -145,7 +116,6 @@
                         const listingQuery = query(collection(db, "Offers"), where("ListingID", "==", listingID))
                         const querySnapshot = await getDocs(listingQuery)
                         querySnapshot.forEach(function(doc) {
-                            console.log(doc.data())
                             updateDoc(doc.ref, {
                                 Status: "Removed"
                             })
@@ -170,10 +140,6 @@
                 return this.readData.length
             }
         },
-        
-        // created() {
-        //     this.readData();
-        // },
     }
 
 </script>
@@ -218,7 +184,6 @@
     margin-top: 1vh;
     background-color: transparent;
     border: none;
-    /* border-bottom: 2px solid rgb(98, 98, 98); */
     padding-left:1px;
     padding-right:1px;
     padding-bottom:0px;
@@ -232,7 +197,6 @@
     margin-top: 1vh;
     background-color: transparent;
     border: none;
-    /* border-bottom: 2px solid rgb(98, 98, 98); */
     padding-left:1px;
     padding-right:1px;
     padding-bottom:0px;
@@ -245,7 +209,6 @@
     margin-top: 1vh;
     background-color: transparent;
     border: none;
-    /* border-bottom: 2px solid rgb(172, 84, 84); */
     padding-left:1px;
     padding-right:1px;
     padding-bottom:0px;
@@ -256,7 +219,6 @@
  #deletebutton:hover {
     background-color: transparent;
     border:none;
-    /* border-bottom: 2px solid rgb(222, 176, 176); */
     padding-left:1px;
     padding-right:1px;
     padding-bottom:0px;
@@ -291,7 +253,6 @@ hr {
     background-color: black;
 }
 .rightContainer {
-  /* background-color: aqua; */
   width: 75vw;
   display: table-cell;
   
@@ -314,7 +275,6 @@ hr {
 }
 .product-image-placeholder {
   position: relative;
-  /* padding: 20%; */
   display: flex;
   justify-content: center;
   align-items: center;
