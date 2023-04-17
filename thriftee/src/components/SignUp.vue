@@ -47,6 +47,7 @@
             }
         },
         methods: {
+            // Creates an account for the user with the user's input email and password and stores the account firestore authentication component
             register() {
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, this.email, this.password)
@@ -79,7 +80,7 @@
             //             alert(error.message);
             //         })
             // },
-
+            // Direct user to login display page upon sign up completion
             goToLogIn() {
                 this.$router.push({name: 'LogInDisplay'})
             }

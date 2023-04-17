@@ -106,15 +106,18 @@
           
       },
       methods: {
+        // Function which allows user to see next review card of seller after clicking the right arrow button
         nextSlide () {
           const first = this.slides.shift()
           this.slides = this.slides.concat(first)
         },
+        //Function which allows user to see the previous review card of seller after clicking the left arrow button
         previousSlide () {
             const last = this.slides.pop()
             this.slides = [last].concat(this.slides)
         }, 
-        
+        // Function retrieves all the reviews which are associated with the seller using the seller's uid. The reviews retrieved would then be displayed in cards the seller's profile review page. 
+        // If the seller currently has no listings, a single card will be created which displayes "No reviews yet"
         async updateReviews() {
           console.log(this.seller_uid)
           const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
