@@ -187,7 +187,7 @@ export default {
 @import url("https://www.w3schools.com/w3css/4/w3.css");
 
 .mainContainer {
-  background-color: rgb(246, 241, 241);
+  background-color:transparent;
   width: 100vw;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -214,7 +214,6 @@ export default {
   /* background-color: aqua; */
   width: 75vw;
   display: table-cell;
-  border-left: 2px solid black;
 }
 .displayContainer {
   display: grid;
@@ -222,7 +221,7 @@ export default {
   row-gap: 10px;
   column-gap: 20px;
   grid-template-columns: repeat(3, 1fr);
-  background-color: rgb(246, 241, 241);
+  background-color: transparent;
 }
 .product-item {
   width: auto;
@@ -288,6 +287,7 @@ export default {
   /* height: 90vh; */
   background-color: white;
   position: absolute;
+  border-right: 2px solid black;
 }
 
 #noListingsFound {
@@ -312,5 +312,12 @@ img {
 
 button{
   background-color: transparent;
+}
+
+#noListingsFound {
+  font-size: 2em;
+  margin-top:30%;
+  font-weight: 500;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>

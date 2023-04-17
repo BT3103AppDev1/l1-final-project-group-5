@@ -93,8 +93,8 @@
 <script>
     import firebaseApp, { storage } from '../firebase.js';
     import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
-    import { getFirestore } from "firebase/firestore";
-    import { doc, setDoc, getDoc} from "firebase/firestore";
+    import { getFirestore, where, query } from "firebase/firestore";
+    import { doc, setDoc, getDocs, updateDoc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -154,7 +154,7 @@
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
-                    document.getElementById("listingphoto").src="defaultListing.png"
+                    document.getElementById("listingphoto").src="../assets/defaultListing.png"
                 }
             },
             //get particular listing title for editing
@@ -204,7 +204,7 @@
                 let image = document.getElementById("uploadbutton").value
                 
                 try {
-                    let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                    let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                     let userProfileData = userProfile.data()
                     this.telegram = userProfileData.Telegram
                     const docRef = doc(db, "Listings", this.listing_uid);
@@ -223,8 +223,17 @@
                         Listing_Available: true,
                         Image_URL: url
                     }, {merge: true})
+                    const queryOffer = query(collection(db, "Offers"), where("ListingID", "==", this.listing_uid))
+                    const querySnapshot = await getDocs(queryOffer);
+                    querySnapshot.forEach((doc) => {
+                        updateDoc(doc.ref, {
+                            ListingName: this.listingtitle,
+                        })
+                    })
                     alert("Listing saved!")
-                    this.$router.push({name: "ProfileListings"})      
+                    this.$router.push({name: "ProfileListings"})
+                    
+                    
                 } catch(error) {
                     alert("Error creating listing: ", error)
                 }
@@ -249,7 +258,7 @@
             // delete listing image
             deleteListingImage: function() {
                 document.getElementById("uploadbutton").value = ""
-                document.getElementById("listingphoto").src = "defaultListing.png"
+                document.getElementById("listingphoto").src = "../assets/defaultListing.png"
                 alert("Listing Image Successfully Deleted")
                 this.image_url = "";
               
@@ -352,7 +361,7 @@ input::file-selector-button:hover {
  
 }
 #cancelbutton {
-  background-color: rgb(246, 243, 243); 
+  background-color: rgba(197, 195, 195, 0.775); 
   border: 1px solid rgb(175, 166, 166); /* Green */
   border-radius: 25px;
   color: black;
@@ -393,7 +402,7 @@ select {
 }
 input[type=text], input[type=number], input[type=color] {
   width: 70%;
-  padding: 10px 0px;
+  padding: 10px 5px;
   display: block;
   border: none;
   box-sizing: border-box;
@@ -436,6 +445,11 @@ img {
 #listingheader h2 {
     margin-top: 2vh;
     font-weight: 500;
+}
+
+#listingphotoset {
+    display: block;
+    justify-content: center;
 }
 
 

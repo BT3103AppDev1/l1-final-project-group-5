@@ -28,6 +28,7 @@ export default {
         // }
     });
     this.$store.dispatch("getListings");
+    document.title = "Thriftee"
   }
 }
 </script>

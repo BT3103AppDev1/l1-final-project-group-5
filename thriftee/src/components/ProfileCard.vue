@@ -4,6 +4,7 @@
         <div id = "contentofprofile">
             <h1 id = "profilename"> {{ name }} </h1>
                 
+            <div id ="overallhere">
                 <div class="rate">
                     <p class="mt-2"><b>RATING:</b> </p>
                     <div v-if="havevalue" id ="overallstartext">
@@ -17,6 +18,7 @@
                 <div class="Location">
                     <p class="mt-3"><b>LOCATION:</b> {{ location }}</p>
                 </div>
+            </div>
         </div>
         
         <div id = "buttonsofprofile">
@@ -54,7 +56,7 @@
                 image_URL: ""
             }
         },
-        
+        // When mounting, get user Meetup location, name, average review rating, and profile image url.
         mounted() {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -69,6 +71,7 @@
            
         },
         methods: {
+            // Retrieve the user's profile image URL from the Profile database in firestore, which will then be displayed in the profile card
             async getImage(){
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
@@ -83,6 +86,7 @@
                     this.image_URL = userProfileData.Image_URL;
                 }
             },
+             // Retrieve the user's preferred meetup location from the Profile database in firestore
             async getMeetUp() {
                 const docRef = doc(db, "Profiles", this.uid)
                 onSnapshot(docRef, (doc) => {
@@ -91,7 +95,7 @@
                 })
             },
 
-
+            // Retrieve all the user's reviews and ratings from the Review Database in firestore using the user's UID and display the average rating on Profile Card
             async getRating() {
                 
                 const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))        
@@ -104,11 +108,11 @@
                         value_count += review.Rating
                         count++
                     })
-                    this.value = value_count/count;
+                    this.value = Math.round(value_count/count * 10) / 10;
                     
                 })
             },
-
+            // Retrieve the user's name from the Profile database in firestore
             async getName() {
                 const docRef = doc(db, "Profiles", this.uid)
                 onSnapshot(docRef, (doc) => {
@@ -116,7 +120,7 @@
                     this.name = dataRef.Name;
                 })
             },
-
+            // Allows user to sign out from Thriftee and redirect them to the login page
             signout() {
                 signOut(auth).then(() => {
                     alert('Successfully signed out!')
@@ -251,6 +255,10 @@ img {
 
 #profilename {
     margin-top: 2vh;
+}
+
+#overallhere {
+    text-align: left;
 }
 
 </style>

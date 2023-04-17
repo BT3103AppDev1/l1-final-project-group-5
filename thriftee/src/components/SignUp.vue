@@ -1,7 +1,7 @@
 <template>
     <div id = "container"> 
         <div id = "leftcontainer">
-            <img src="signup.jpeg" alt="signup picture">
+            <img src="../assets/signup.jpeg" alt="signup picture">
         </div>
 
         <div id = "rightcontainer">
@@ -17,7 +17,7 @@
                     
                     <input type = "email" id = "email" v-model="email" placeholder = "Email Address" required> <br><br>
 
-                    <input type = "password" id = "password" v-model="password" required = "" placeholder = "Password"> <br><br>
+                    <input type = "password" id = "password" v-model="password" required = "" autocomplete="password" placeholder = "Password"> <br><br>
 
                     <div id = "buttonsupdate">
                         <button id = "createaccountbutton" type="submit">Create Account</button> 
@@ -47,6 +47,7 @@
             }
         },
         methods: {
+            // Creates an account for the user with the user's input email and password and stores the account firestore authentication component
             register() {
                 const auth = getAuth();
                 createUserWithEmailAndPassword(auth, this.email, this.password)
@@ -79,7 +80,7 @@
             //             alert(error.message);
             //         })
             // },
-
+            // Direct user to login display page upon sign up completion
             goToLogIn() {
                 this.$router.push({name: 'LogInDisplay'})
             }

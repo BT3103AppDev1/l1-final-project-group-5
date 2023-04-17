@@ -7,7 +7,7 @@
         <div id ="container">
             <div id = "leftcontainer">
                 <div id = "listingphotoset">
-                    <img id = "listingphoto" src="defaultListing.png" alt="Listing Photo">
+                    <img id = "listingphoto" src="../assets/defaultListing.png" alt="Listing Photo">
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
                         <input type="file" id="uploadbutton" accept="image/*" v-on:change="updateListingImage" ref="listings" hidden/>
@@ -95,7 +95,7 @@
     import firebaseApp, { storage } from '../firebase.js';
     import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
     import { getFirestore, setDoc } from "firebase/firestore";
-    import { doc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { doc, getDoc, collection } from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -127,33 +127,32 @@
         },
 
         methods: {
+              // To update the listing image in firebase
             updateListingImage: async function() {
                 console.log("updating listing image")
                 var fReader = new FileReader();
                 try {
                     var image = document.getElementById("uploadbutton");
                     fReader.readAsDataURL(image.files[0]);
-                    // console.log(image.files[0])
                     fReader.onloadend = function(event) {
                         var img = document.getElementById("listingphoto");
                         img.src = event.target.result;
                     }
-                    // console.log(image.value)
-                    // console.log("I", this.$refs.listings.files[0])
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
-                    document.getElementById("listingphoto").src="defaultListing.png"
+                    document.getElementById("listingphoto").src="../assets/defaultListing.png"
                 }
             },
 
+              // To save the new listing entry to the Listings collection in firebase
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 if (image == "") {
                     alert("Upload Image!")
                 } else {
                     try {
-                        let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
+                        let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                         let userProfileData = userProfile.data()
                         this.telegram = userProfileData.Telegram
                         console.log("im here")
@@ -187,17 +186,19 @@
                 }
             }, 
             
+              // To delete the listing image from firebase
             deleteListingImage: function() {
                 if (document.getElementById("uploadbutton").value == "") {
                     alert("Upload Image!")
                 } else {
                     document.getElementById("uploadbutton").value = ""
-                    document.getElementById("listingphoto").src = "defaultListing.png"
+                    document.getElementById("listingphoto").src = "../assets/defaultListing.png"
                     alert("Listing Image Successfully Removed")
                 }
               
             },
 
+              // To upload the listing image 
             uploadToCloud: async function(listing_uid) {
                 const storageRef = ref(storage, 'Listings/' + listing_uid )
                 await uploadBytes(storageRef, this.$refs.listings.files[0])
@@ -368,10 +369,7 @@ input[type=file]{
    text-align: center; 
    font-size: 17px;
 }
-input:hover, select:hover {
-    /* box-shadow: 3px 3px purple; */
-   
-}
+
 .save {
     text-align: center;
 }

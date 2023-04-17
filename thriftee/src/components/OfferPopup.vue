@@ -39,12 +39,13 @@ export default {
         }
     },
 
-    methods: {
+    methods: {  
+        // emit from child (OfferPopup) to parent (CustomerListingTemplate)
         sendOffer() {
             this.$emit('send-offer', this.offerAmount)
             this.close()
         },
-
+    
         close() {
             this.$emit("close")
         }
@@ -126,16 +127,16 @@ export default {
 }
 
 input, select {
-box-sizing: border-box;
-height: 40px;
-background: transparent;
-border: none;
-border-bottom: 1px solid #a49e9e;
-text-align: left;
+    box-sizing: border-box;
+    height: 40px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #a49e9e;
+    text-align: left;
 }
 
 ::placeholder {
-font-size: 1em;
-color: rgb(73, 71, 71);
+    font-size: 1em;
+    color: rgb(73, 71, 71);
 }
 </style>

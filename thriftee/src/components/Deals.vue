@@ -1,5 +1,4 @@
 <template>
-
 <div id = "container">
     <div id="linebreak">
       
@@ -34,12 +33,10 @@
     
    
     <div id = "container3">
-       
         <div id="buyingdeals">
             <h1> Buying</h1>
             <h2 v-if="buying_list.length === 0">No buying deals</h2>
 
-            <!-- test using table, delete from here on if dw -->
             <table v-else class="deal_table">
                 <thead>
                     <tr>
@@ -63,9 +60,6 @@
                         <td>
                             <div id="buystatusbutton">
                                 <button id = "buyingstatusbutton" type="button" v-if="product.status === 'Pending'"> <em>Pending</em></button> 
-                                <!-- change above to {{ status }} later instead of pending-->
-                                <!-- NOTE: changes from Pending to Review -->
-                                <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                 <div id="buyer-accepted_buttons" v-else-if="product.status === 'Accepted'">
                                     <button id="paystatusbutton"  @click="openQR(product.sellerID)">Pay</button>
                                     <router-link class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.sellerID, isbuyer: true } }"> 
@@ -73,10 +67,8 @@
                                     </router-link>
                                 </div>
         
-                                
                                 <div id = "actioncolumn" v-else-if="product.status === 'Sold Out'">
                                     <p id="soldlisting">Listing Sold</p>
-                                    <!-- <button id="trashcan">⌫</button> -->
                                     <button id="trashcan" @click="deleteOfferFromOffers(product.uid, product.sellerID)">🗑️</button>
                                 </div>  
                                 <div id = "actioncolumn" v-else-if="product.status === 'Rejected'">
@@ -96,14 +88,12 @@
                     </tr>
                 </tbody>
             </table>
-            <!-- delete till here -->
         </div>
        
         <div id="sellingdeals">
             <h1> Selling</h1>
             <h2 v-if="selling_list.length === 0">No selling deals</h2>
 
-            <!-- test using table, delete from here on if dw -->
             <table v-else class="deal_table">
                 <thead>
                     <tr>
@@ -130,15 +120,11 @@
                                     <div id="sellstatusbutton" v-if="product.offer[0].status === 'Pending'">
                                         <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, product.offer[0].buyerID)"> ✓ </button> 
                                         <button id = "rejectbutton" type="button" @click="rejectDeal(product.uid, product.offer[0].buyerID)"> ✗ </button> 
-                                        <!-- change above to {{ status }} later instead of Accept-->
-                                        <!-- NOTE: changes from Accept to Review -->
-                                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Accepted'" id="accepted-deals">
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="product.offer[0].status === 'Paid'" id="paid-deals">
-                                        <!-- <button>Paid</button> -->
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: product.offer[0].buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
@@ -154,15 +140,11 @@
                                     <div id="sellstatusbutton" v-if="item.status === 'Pending'">
                                         <button id = "acceptbutton" type="button" @click="acceptDeal(product.uid, item.buyerID)"> ✓ </button> 
                                         <button id = "rejectbutton" type="button"> ✗ </button> 
-                                        <!-- change above to {{ status }} later instead of Accept-->
-                                        <!-- NOTE: changes from Accept to Review -->
-                                        <!-- IF offer accepted by seller, button id change fr buyingstatusbutton to reviewstatusbutton -->
                                     </div>
                                     <div v-else-if="item.status === 'Accepted'" id="accepted-deals">
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                     <div v-else-if="item.status === 'Paid'" id="paid-deals">
-                                        <!-- <button>Paid</button> -->
                                         <router-link style="text-decoration: none" class="link" :to="{ name: 'CreateReviewView', params:{ listingid: product.uid, revieweeid: item.buyerID, isbuyer: false } }"> <button @click="navigate" role="link" id = "reviewstatusbutton" type="button">Review</button>  </router-link>
                                     </div>
                                 </div>   
@@ -171,7 +153,6 @@
                     </template>
                 </tbody>
             </table>
-            <!-- delete till here -->
         </div>
     </div>
 </div>
@@ -191,21 +172,7 @@ import firebaseApp from '../firebase.js';
 
         data() {
             return {
-                products: [
-                    { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-                    { title: "Jeans", condition: "Like New", price: "$15" },
-                    { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-                    { title: "Leather Shoes", condition: "Like New", price: "$12" },
-                    { title: "Accessory", condition: "Like New", price: "$5" },
-                    { title: "Shorts", condition: "Brand New", price: "$10" },
-                    { title: "Flannel Shirt", condition: "Like New", price: "$18" },
-                    { title: "Jeans", condition: "Like New", price: "$15" },
-                    { title: "Baseball Cap", condition: "Brand New", price: "$8" },
-                    { title: "Leather Shoes", condition: "Like New", price: "$12" },
-                    { title: "Accessory", condition: "Like New", price: "$5" },
-                    { title: "Shorts", condition: "Brand New", price: "$10" }
-                ], 
-                buying_list: [], // test
+                buying_list: [], 
                 selling_list: [],
                 user_uid: "",
                 showQR: false,
@@ -225,6 +192,7 @@ import firebaseApp from '../firebase.js';
         },
 
         methods: {
+            // fetch data from Offers collection to populate the buying table
             getBuyingList: async function() {
                 const buyingQuery = query(collection(db, "Offers"), where("BuyerID", "==", this.user_uid))
                 onSnapshot(buyingQuery, (snap) => {
@@ -247,13 +215,14 @@ import firebaseApp from '../firebase.js';
                 })
             },
 
+            // fetch data from Offers collection to populate the selling table
             getSellingList: async function() {
                 const sellingQuery = query(collection(db, "Offers"), where("SellerID", "==", this.user_uid))
                 onSnapshot(sellingQuery, (snap) => {
                     const updatedSellingList = [];
                     snap.forEach((doc) => {
                         const dataRef = doc.data();
-                        //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected" AND isSellerReviewed = false
+                        //Selling table only loads if status is not "Sold Out", "Reviewed", "Rejected", "Removed" AND isSellerReviewed = false
                         if (dataRef.Status !== "Sold Out" && dataRef.Status !== "Reviewed" && dataRef.Status !== "Rejected" && dataRef.Status !== "Removed" && !dataRef.isSellerReviewed) {
                             const existingOfferIndex = updatedSellingList.findIndex((listing) => listing.uid === dataRef.ListingID);
 
@@ -280,6 +249,7 @@ import firebaseApp from '../firebase.js';
                 })
             },
 
+            //updating Offers status upon accepting deal
             async acceptDeal(listing_uid, buyer_uid) {
                 const queryAccept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
                 const querySnapshot = await getDocs(queryAccept);
@@ -313,6 +283,7 @@ import firebaseApp from '../firebase.js';
                 alert("Offer Accepted!")
             },
 
+            //updating Offers status upon rejecting deal
             async rejectDeal(listing_uid, buyer_uid) {
                 const queryReject = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
                 const querySnapshot = await getDocs(queryReject);
@@ -325,18 +296,7 @@ import firebaseApp from '../firebase.js';
                 alert("Offer Rejected!")
             },
 
-            // async confirmPayment(listing_uid, buyer_uid) {
-            //     const query_accept = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("BuyerID", "==", buyer_uid))
-            //     const querySnapshot = await getDocs(query_accept);
-            //     const docRef = doc(db, "Offers", querySnapshot.docs[0].id)
-
-            //     await updateDoc(docRef, {
-            //         Status: "Paid"
-            //     })
-            //     location.reload()
-            //     alert("Payment confirmed!")
-            // },
-
+            // removing doc from Offers collection
             async deleteOfferFromOffers(listing_uid, seller_uid) {
                 const query_delete = query(collection(db, "Offers"), where("ListingID", "==", listing_uid), where("SellerID", "==", seller_uid), where("BuyerID", "==", this.user_uid));
                 const querySnapshot = await getDocs(query_delete);
@@ -351,6 +311,7 @@ import firebaseApp from '../firebase.js';
                 }
             },
 
+            // fetch seller's qrcode link and display it
             async openQR(seller_uid) {
                 const docRef = doc(db, "Profiles", seller_uid)
                 const docSnap = await getDoc(docRef)
@@ -368,6 +329,10 @@ import firebaseApp from '../firebase.js';
 
     
 <style scoped>
+h2 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
+}
+
 #paystatusbutton {
     display: flex;
     justify-content: center;

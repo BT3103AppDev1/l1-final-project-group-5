@@ -45,7 +45,7 @@
   <div class='carousel-view'>
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
-      <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
+      <img v-if="havestar" src ="../assets/previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="(slide,index) in slides" class='slide' :key="index">
       
         <h2 class = buyer style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"> <b>{{ slide.buyer }}</b></h2>
@@ -59,7 +59,7 @@
         </div>
         <h3 class = description style = "font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;"><i>"{{ slide.title }}" </i> </h3>
       </div>
-      <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
+      <img v-if="havestar" src ="../assets/next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
     
     </div>
@@ -106,15 +106,18 @@
           
       },
       methods: {
+        // Function which allows user to see next review card of seller after clicking the right arrow button
         nextSlide () {
           const first = this.slides.shift()
           this.slides = this.slides.concat(first)
         },
+        //Function which allows user to see the previous review card of seller after clicking the left arrow button
         previousSlide () {
             const last = this.slides.pop()
             this.slides = [last].concat(this.slides)
         }, 
-        
+        // Function retrieves all the reviews which are associated with the seller using the seller's uid. The reviews retrieved would then be displayed in cards the seller's profile review page. 
+        // If the seller currently has no listings, a single card will be created which displayes "No reviews yet"
         async updateReviews() {
           console.log(this.seller_uid)
           const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))
@@ -203,8 +206,8 @@
   border-width: 0.3em;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
   background-color: rgba(251, 250, 250, 0.852);
 }
 

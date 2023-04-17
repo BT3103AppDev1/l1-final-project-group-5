@@ -35,7 +35,7 @@
   <div class='carousel-view'>
     
     <transition-group name = "list" class='carousel' tag="div" :max="1">
-      <img v-if="havestar" src ="previous.png" class="btn" id=btn @click="previousSlide">
+      <img v-if="havestar" src ="../assets/previous.png" class="btn" id=btn @click="previousSlide">
       <div v-for="(slide, index) in slides" class='slide' :key="index">
         <h2 class = buyer> <b>{{ slide.buyer }}</b></h2>
         <div v-if="havestar" id="star-rating">
@@ -48,7 +48,7 @@
         </div>
         <h3 class = description ><i>"{{ slide.title }}" </i> </h3>
       </div>
-      <img v-if="havestar" src ="next.png" class="btn" id=btn  @click="nextSlide">
+      <img v-if="havestar" src ="../assets/next.png" class="btn" id=btn  @click="nextSlide">
     </transition-group>
     
     </div>
@@ -87,6 +87,7 @@
           })
       },
       methods: {
+        // navigate through reviews 
         nextSlide () {
           const first = this.slides.shift()
           this.slides = this.slides.concat(first)
@@ -95,11 +96,9 @@
             const last = this.slides.pop()
             this.slides = [last].concat(this.slides)
         }, 
-        
+        // display all personal reviews
         async updateReviews() {
-          let user = auth.currentUser;
-          let userID = user.uid;
-          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", userID))
+          const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))
           
           onSnapshot(firstQuery, (snap) => {
             this.slides = []
@@ -191,8 +190,8 @@
   border-width: 0.3em;
   border-radius: 10px;
   transition: transform 0.3s ease-in-out;
-  margin-left: 2vw;
-  margin-right: 2vw;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
   background-color: rgba(251, 250, 250, 0.852);
 }
 

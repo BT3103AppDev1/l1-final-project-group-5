@@ -6,8 +6,7 @@
  <div id ="container">
   <div id = "leftcontainer">
      <div id = "profilephotoset">
-      <!-- <img src="test" height="125px" width="200px"/>  -->
-      <img id = "profilephoto" :src="this.image_URL" alt="default.png">
+      <img id = "profilephoto" :src="this.image_URL" alt="../assets/default.png">
       <div id = "buttonsupdate">
           <label for="uploadbutton">Upload</label>
           <input type="file" id="uploadbutton" accept ="image/*" v-on:change="displayProfileImage" ref = "profiles" hidden/>
@@ -52,7 +51,7 @@
 <script>
   import firebaseApp , {storage} from '../firebase.js';
   import { getFirestore } from "firebase/firestore";
-  import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
+  import { doc, setDoc, getDoc, addDoc, collection, query, where, getDocs, updateDoc } from "firebase/firestore";
   import { getAuth, onAuthStateChanged,updateProfile } from 'firebase/auth';
   import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
   
@@ -86,21 +85,22 @@
         })
       },
       methods: {
-        
+        // retrieve user's profile image 
         async getImage(){
-                let userProfile = await getDoc(doc(db, "Profiles", this.uid))
-                let userProfileData = userProfile.data();
-                if(userProfileData.Image_URL == "" || userProfileData.Image_URL == null){
-                    const storage = getStorage();
-                    getDownloadURL(ref(storage, 'Profiles/default.png'))
-                    .then((url) => {
-                        this.image_URL = url
-                    })
-                }
-                else {
-                    this.image_URL = userProfileData.Image_URL;
-                }
-            },
+            let userProfile = await getDoc(doc(db, "Profiles", this.uid))
+            let userProfileData = userProfile.data();
+            if(userProfileData == null || userProfileData.Image_URL == ""){
+                const storage = getStorage();
+                getDownloadURL(ref(storage, 'Profiles/default.png'))
+                .then((url) => {
+                    this.image_URL = url
+                })
+            }
+            else {
+                this.image_URL = userProfileData.Image_URL;
+            }
+        },
+        // display profile image after uploading 
         async displayProfileImage() {
           var fReader = new FileReader();
           try {
@@ -112,14 +112,13 @@
             }
             alert("Profile image displayed")
           } catch(error) {
-            this.image_URL="/default.png"
+            this.image_URL="../assets/default.png"
           }
         }, 
-
+        // save profile 
         async saveProfile() {
           let userProfile = await getDoc(doc(db, "Profiles", this.uid))
           let userProfileData = userProfile.data();
-          // let qrcode = document.getElementById("qrcode").value
           let image = document.getElementById("uploadbutton").value
           const docRef = doc(collection(db, "Profiles"));
           console.log()
@@ -137,8 +136,6 @@
           } else{
             url = await this.uploadToCloud(docRef.id)
           }
-          // const url = await this.uploadToCloud(docRef.id)
-          // const qrcode = await this.uploadQRToCloud(docRef.id)
           if(userProfileData == null){
             qrcode = ""
           } else if(this.$refs.qr.files[0] == null || this.$refs.qr.files[0] == "") {
@@ -147,34 +144,71 @@
             qrcode = await this.uploadQRToCloud(docRef.id)
           }
           try {
-          await setDoc(doc(db, "Profiles", this.uid), { 
-              Name: this.name,
-              Meet_Up: this.meetup,
-              QRCode: qrcode, 
-              Profile_Image: image,
-              Telegram: this.telegram,
-              Image_URL:url
+            await setDoc(doc(db, "Profiles", this.uid), { 
+                Name: this.name,
+                Meet_Up: this.meetup,
+                QRCode: qrcode, 
+                Profile_Image: image,
+                Telegram: this.telegram,
+                Image_URL:url
             })
             updateProfile(this.curruser, {
               displayName: this.name
             })
+
+            const queryOfferBuyer = query(collection(db, "Offers"), where("BuyerID", "==", this.uid))
+            const queryOfferBuyerSnapshot = await getDocs(queryOfferBuyer)
+            queryOfferBuyerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                BuyerName: this.name
+              })
+            })
+
+            const queryOfferSeller = query(collection(db, "Offers"), where("SellerID", "==", this.uid))
+            const queryOfferSellerSnapshot = await getDocs(queryOfferSeller)
+            queryOfferSellerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                SellerName: this.name
+              })
+            })
+
+            const queryReviewee = query(collection(db, "Reviews"), where("RevieweeID", "==", this.uid))
+            const queryRevieweeSnapshot = await getDocs(queryReviewee)
+            queryRevieweeSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                RevieweeName: this.name
+              })
+            })
+
+            const queryReviewer = query(collection(db, "Reviews"), where("ReviewerID", "==", this.uid))
+            const queryReviewerSnapshot = await getDocs(queryReviewer)
+            queryReviewerSnapshot.forEach((doc) => {
+              updateDoc(doc.ref, {
+                ReviewerName: this.name
+              })
+            })
+
             alert("Profile saved!")
             this.$router.push({name: "ProfileListings"})
+
           } catch(error) {
             alert("Error saving profile: ", error)
             console.log(error)
           }
         }, 
+        // retrieve user's meet up location
         async getMeetUp() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
                 this.meetup = userProfileData.Meet_Up;
         },
+        // retrieve user's telegram handle 
         async getTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.uid))
                 let userProfileData = userProfile.data();
                 this.telegram = userProfileData.Telegram;
         },
+        // delete profile iamge
         async deleteProfileImage() {
           let userProfile = await getDoc(doc(db, "Profiles", this.uid))
           let userProfileData = userProfile.data();
@@ -190,13 +224,6 @@
             })
             alert("Profile Image deleted")
             location.reload();
-            // if (document.getElementById("uploadbutton").value == "") {
-            //     alert("Upload Image!")
-            // } else {
-            //     document.getElementById("uploadbutton").value = ""
-            //     document.getElementById("profilephoto").src = "default.png"
-            //     alert("Profile Image Successfully Deleted")
-            // }
         },
         uploadToCloud: async function(user_uid) {
             const storageRef = ref(storage, 'Profiles/' + user_uid)
@@ -207,7 +234,6 @@
             } else{
               url = await getDownloadURL(storageRef)
             }
-            // const url = await getDownloadURL(storageRef)
             return url
         } ,
         uploadQRToCloud: async function(user_uid) {
@@ -219,7 +245,6 @@
             } else{
               url = await getDownloadURL(storageRef)
             }
-
             return url
         }     
       }
@@ -230,7 +255,6 @@
 
 <style scoped>
 #profileheader h2 {
-  /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
   color: rgb(77, 74, 74);
   font-size: 2.8vw;
   margin-top: 3vh;
@@ -242,8 +266,8 @@
   width: 100vw;
 }
 label[for="uploadbutton"] {
-    background-color: rgb(248, 248, 248);; /* Green */
-    border: 1px solid rgb(148, 149, 144); /* Green */
+  background-color: rgb(248, 248, 248);
+  border: 1px solid rgb(148, 149, 144); 
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -255,16 +279,16 @@ label[for="uploadbutton"] {
   transition-duration: 0.4s;
 }
 label[for="uploadbutton"]:hover {
-  background-color: 359138; /* Green */
+  background-color: 359138; 
   color: white;
  
 }
 input::file-selector-button {
   font-weight: bold;
   color: black;
-  background-color: rgb(203, 236, 234); /* Green */
+  background-color: rgb(203, 236, 234); 
   padding: 0.5em;
-  border: 1.5px solid #1c0808; /* Green */
+  border: 1.5px solid #1c0808; 
   border-radius: 5px;
   margin-right: 1vw;
   margin-left: 30%;
@@ -273,7 +297,7 @@ input::file-selector-button {
 }
 input::file-selector-button:hover {
   color: white;
-  background-color: black; /* Green */
+  background-color: black; 
 }
 #leftcontainer{
   width: 50%;
@@ -283,8 +307,8 @@ margin-top: 8vh;
   width: 40%;
 }
 #deletebutton {
-  background-color: #be4a4ac3; /* Green */
-  border: 1px solid #b02c2cbe; /* Green */
+  background-color: #be4a4ac3; 
+  border: 1px solid #b02c2cbe; 
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -301,8 +325,8 @@ margin-top: 8vh;
   
 }
 #savebutton {
-  background-color: #3ddfc1c5; /* Green */
-  border: 1px solid #5ec3b0;; /* Green */
+  background-color: #3ddfc1c5; 
+  border: 1px solid #5ec3b0;
   border-radius: 25px;
   color: rgb(0, 0, 0);
   padding: 9px 28px;
@@ -314,13 +338,13 @@ margin-top: 8vh;
   transition-duration: 0.4s;
 }
 #savebutton:hover {
-  background-color: 359138; /* Green */
+  background-color: 359138; 
   color: white;
  
 }
 #cancelbutton {
   background-color: rgb(246, 243, 243); 
-  border: 1px solid rgb(175, 166, 166); /* Green */
+  border: 1px solid rgb(175, 166, 166); 
   border-radius: 25px;
   color: black;
   padding: 9px 28px;
@@ -365,7 +389,6 @@ margin-top: 3vh;
  font-size: 17px;
 }
 input:hover {
-  /* box-shadow: 3px 3px purple; */
   border-radius: 5px;
 }
 .save {

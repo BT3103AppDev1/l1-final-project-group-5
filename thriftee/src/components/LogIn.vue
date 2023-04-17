@@ -1,7 +1,7 @@
 <template>
    <div id = "container"> 
     <div id = "leftcontainer">
-        <img src="loginpicture.jpeg" alt="login picture">
+        <img src="../assets/loginpicture.jpeg" alt="login picture">
     </div>
 
     <div id = "rightcontainer">
@@ -53,6 +53,8 @@ export default {
     },
 
     methods: {
+
+        // To allow users to log in to the web application
         login() {
             const auth = getAuth();
             signInWithEmailAndPassword(auth, this.email, this.password)
@@ -64,7 +66,7 @@ export default {
                     alert(error.message);
                 });
         },
-        // code below works for email verification but commented out as accounts created beforehead cannot log in as they nvr verify account
+        // Code below works for email verification but commented out as accounts created beforehead cannot log in as they nvr verify account
         // login() {
         //     const auth = getAuth();
         //     signInWithEmailAndPassword(auth, this.email, this.password)
@@ -93,10 +95,12 @@ export default {
         //     });
         // },
 
+          // To direct users to the Sign Up page if they have not yet created an account
         goToSignUp() {
             this.$router.push({name: 'SignUpDisplay'})
         },
 
+         // To direct users to the Forget Password page if they have forgotten their password
         goToForgetPassword() {
             this.$router.push({name: 'ForgetPasswordDisplay'})
         }
