@@ -24,11 +24,5 @@ export default {
   created() {
     this.seller_uid = this.$route.params.sellerid
   }
-  // async created() {
-  //     this.currentSeller = await this.$store.state.listingArray.filter((listing) => {
-  //         return listing.ListingID === this.$route.params.listingid;
-  //     })
-  //     this.currListingUID = this.currentListing.at(0).ListingID
-  // }
 };
 </script>

@@ -133,21 +133,6 @@ const router = createRouter({
 });
 
 
-
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     onAuthStateChanged(auth, (user) => {
-//       if (!user) {
-//         next({ name: 'LogInDisplay' });
-//       } else {
-//         next()
-//       }
-//     })
-//   } else {
-//     next()
-//   }
-    
-// });
 let isAuthenticated = false;
 
 const authPromise = new Promise((resolve) => {
@@ -157,6 +142,7 @@ const authPromise = new Promise((resolve) => {
   });
 });
 
+//to ensure that only users who are logged in and authenticated can access the features
 router.beforeEach(async (to, from, next) => {
   await authPromise;
 
