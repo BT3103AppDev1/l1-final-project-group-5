@@ -11,7 +11,6 @@
                     <div id = "buttonsupdate">
                         <label for="uploadbutton">Upload</label>
                         <input type="file" id="uploadbutton" @change="updateListingImage"  ref="listings" hidden/>
-                        <!-- <button id = "deletebutton" type="button" @click="deleteListingImage">Delete </button>  -->
                     </div>
                 </div>
             </div>
@@ -95,7 +94,7 @@
     import firebaseApp, { storage } from '../firebase.js';
     import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
     import { getFirestore } from "firebase/firestore";
-    import { doc, setDoc, addDoc, updateDoc, getDoc, collection } from "firebase/firestore";
+    import { doc, setDoc, getDoc} from "firebase/firestore";
     import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
     const db = getFirestore(firebaseApp);
@@ -125,6 +124,7 @@
         },
         
         created() {
+            //for account login authentication
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     this.uid = user.uid;
@@ -140,60 +140,66 @@
         },
 
         methods: {
+            //replace listing image with new image
             updateListingImage: async function() {
                 console.log("updating listing image")
                 var fReader = new FileReader();
                 try {
                     var image = document.getElementById("uploadbutton");
                     fReader.readAsDataURL(image.files[0]);
-                    console.log(image.files[0])
                     fReader.onloadend = function(event) {
                         var img = document.getElementById("listingphoto");
                         img.src = event.target.result;
                     }
-                    console.log(image.value)
                     alert("Listing image displayed")
                 } catch(error) {
                     alert("No listing image found ", error)
                     document.getElementById("listingphoto").src="defaultListing.png"
                 }
             },
+            //get particular listing title for editing
             async getListingTitle() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.listingtitle = listingData.Title;
             },
+            //get particular listing price for editing
             async getPrice() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.price = listingData.Price;
             },
+            //get particular listing condition for editing
             async getCondition() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.condition = listingData.Condition;
             },
+            //get particular listing category for editing
             async getCategory() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.category = listingData.Category;
             },
+            //get particular listing colour for editing
             async getColour() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.colour = listingData.Colour;
             },
+            //get particular listing size for editing
             async getSize() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.size = listingData.Size;
             },
+            //get particular listing image for editing
             async getImage() {
                 let listing = await getDoc(doc(db, "Listings", this.listing_uid))
                 let listingData = listing.data();
                 this.image_url = listingData.Image_URL;
             },
-            
+            //save updated lisitng information after edits are done
             saveListing: async function() {
                 let image = document.getElementById("uploadbutton").value
                 
@@ -201,7 +207,6 @@
                     let userProfile = await getDoc(doc(db, "Profiles", auth.currentUser.uid))
                     let userProfileData = userProfile.data()
                     this.telegram = userProfileData.Telegram
-                    console.log("im here")
                     const docRef = doc(db, "Listings", this.listing_uid);
                     const url = await this.uploadToCloud(this.listing_uid)
                     
@@ -218,38 +223,30 @@
                         Listing_Available: true,
                         Image_URL: url
                     }, {merge: true})
-                    console.log("LOL", url)
                     alert("Listing saved!")
-                    this.$router.push({name: "ProfileListings"})
-                    
-
-                    
-                    
+                    this.$router.push({name: "ProfileListings"})      
                 } catch(error) {
                     alert("Error creating listing: ", error)
                 }
                 
             },
-
+            //update new listings info to firestore
             uploadToCloud: async function(listing_uid) {
                 if (this.$refs.listings.files[0] != null) {
                     const storageRef = ref(storage, 'Listings/' + listing_uid )
                     await uploadBytes(storageRef, this.$refs.listings.files[0])
-                    console.log("this thign", this.$refs.listings.files[0])
-                    console.log("uploaded")
                     const url = await getDownloadURL(storageRef)
-                    console.log("inside")
-                
                     return url
                 } else {
                     return this.image_url
                 }
             },
-
+            //cancel process of editing listing info. No changes are saved
             async cancel() {
                 this.$router.push({name: "ProfileListings"})
                 alert("Listing edit is not saved!")
             },
+            // delete listing image
             deleteListingImage: function() {
                 document.getElementById("uploadbutton").value = ""
                 document.getElementById("listingphoto").src = "defaultListing.png"
