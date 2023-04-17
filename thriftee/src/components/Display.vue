@@ -321,10 +321,6 @@ export default {
   font-size: 3em;
 }
 
-/* #conditionForm{
-  display: none
-} */
-
 #listingpagebutton {
   border: none;
   font-weight: bold;
