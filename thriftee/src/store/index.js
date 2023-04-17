@@ -21,19 +21,6 @@ export default createStore({
     },
     mutations: {},
     actions:{
-        // async getListings({ state }) {
-        //     const querySnapshot = await getDocs(collection(db, "Listings"));
-        //     querySnapshot.forEach((doc) => {
-        //         if (!state.listingArray.some(listing => listing.ListingID === doc.id)) {
-        //             const dataRef = doc.data();
-        //             dataRef.ListingID = doc.id;
-        //             state.listingArray.push(dataRef);
-        //         }
-        //     });
-        //     state.listingLoaded = true;
-        //     //console.log("Store is working");
-        //     console.log(state.listingArray);
-        // }
         async getListings({ state }) {
             const collectionRef = collection(db, "Listings");
             onSnapshot(collectionRef, (snap) => {
@@ -49,7 +36,6 @@ export default createStore({
                 });
             });
             state.listingLoaded = true;
-            console.log("hi", state.listingArray);
         }
     }
   })

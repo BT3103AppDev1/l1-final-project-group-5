@@ -32,8 +32,8 @@
     import firebaseApp from '../firebase.js';
     import { getFirestore } from "firebase/firestore";
     import {query,collection,where,getDocs, doc, getDoc } from "firebase/firestore";
-    import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-    import { getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage";
+    import { getAuth } from "firebase/auth";
+    import { getStorage, ref, getDownloadURL} from "firebase/storage";
 
     const db = getFirestore(firebaseApp);
     const auth = getAuth();
@@ -67,6 +67,7 @@
            
         },
         methods: {
+            //retrieve user profile picture from firestore
             async getImage(){
                 let userProfile = await getDoc(doc(db, "Profiles", this.sellerUID))
                 let userProfileData = userProfile.data();
@@ -81,6 +82,7 @@
                     this.image_URL = userProfileData.Image_URL;
                 }
             },
+            //retrieve user profile details from firestore
             async getProfileDetails() {
                 const docRef = doc(db, "Profiles", this.seller_uid)
                 const docSnap = await getDoc(docRef)
@@ -90,17 +92,18 @@
                 this.telegram_handle = dataSnap.Telegram
 
             },
-
+            //open telegram from web application
             async goToTelegram() {
                 let userProfile = await getDoc(doc(db, "Profiles", this.seller_uid)) // shld get telegram from unique listing
                 let userProfileData = userProfile.data();
                 this.telegram = this.telegram + userProfileData.Telegram;
                 window.open(this.telegram, '_blank')
             },
-
+            //go back to previous window
             goBack() {
                 window.history.back()
             },
+            //get review ratings for this particular user
             async getRating() {
                 let count = 0;
                 const firstQuery = query(collection(db, "Reviews"), where("RevieweeID", "==", this.seller_uid))

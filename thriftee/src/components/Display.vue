@@ -9,7 +9,6 @@
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Price</strong></div>
-              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
             <div id="sliderContainer">
               <input v-bind:max=maxPrice v-model="priceCap"
@@ -25,8 +24,6 @@
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Condition</strong></div>
-              <!-- <button class="filterRowRight w3-button" id="conditionButton" v-on:click="openClose">+</button>  -->
-              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
             <div>
               <input type="checkbox" id="Brand New" value="Brand New" v-model="conditionReq"/>
@@ -52,7 +49,6 @@
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Size</strong></div>
-              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
             <div>
               <input type="checkbox" id="XXS" value="XXS" v-model="sizeReq"/>
@@ -93,7 +89,6 @@
           <div class="w3-bar-item">
             <div class="filterRow">
               <div class="filterRowLeft"><strong>Category</strong></div>
-              <!-- <button class="filterRowRight w3-button">+</button> -->
             </div>
             <div>
               <input type="checkbox" id="Tops" value="Top" v-model="categoryReq"/>
@@ -143,46 +138,24 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 
 export default {
   data() {
     return {
-      //listingsDisplayed: [],
-      priceCap: "",
-      sizeReq: [],
-      conditionReq: [],
-      genderReq: [], //currently add listing no gender input & firestore no gender field
-      categoryReq: []
+      priceCap: "", //store the current selected price 
+      sizeReq: [], //store the current selected size options
+      conditionReq: [], //store the current selected condition options
+      categoryReq: [] //store the current selected category options
     };
   },
-  methods: {
-    // openClose() {
-    //   var x = document.getElementById("conditionForm")
-    //   console.log(x.style.display)
-    //   if (x.style.display == "none") {
-    //     x.style.display = "block";
-    //   } else {
-    //     x.style.display = "none";
-    //   }
-    //   const btn = document.getElementById("conditionButton");
-    //   console.log(btn.innerText)
-    //   if (btn.innerText == "+") {
-    //     btn.innerText = "-"
-    //   } else {
-    //     btn.innerText = "+"
-    //   }
-    // },
-  },
   computed: {
+    //pull all the listings that are available from state given the current selections/conditions and assign it to a variable
     listingsData() {
       let availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available)
       if (this.sizeReq.length > 0) {
-        //console.log(this.sizeReq[0])
         availableListings = availableListings.filter((listing) => this.sizeReq.includes(listing.Size))
-        //availableListings = availableListings.filter((listing) => listing.Size == this.sizeReq[0] || listing.Size == this.sizeReq[1])
       }
       if (this.conditionReq.length > 0) {
         availableListings = availableListings.filter((listing) => this.conditionReq.includes(listing.Condition))
@@ -193,9 +166,9 @@ export default {
       if (this.priceCap.length != "") {
         availableListings = availableListings.filter((listing) => listing.Price <= this.priceCap)
       }
-      console.log("avail", availableListings)
       return availableListings
     },
+    //find max price amongst all current listing in firestore to set upper limit of price slider
     maxPrice() {
       var highestPrice = 0;
       const availableListings = this.$store.getters.listingsData.filter((listing) => listing.Listing_Available);
@@ -320,10 +293,6 @@ export default {
 #noListingsFound {
   font-size: 3em;
 }
-
-/* #conditionForm{
-  display: none
-} */
 
 #listingpagebutton {
   border: none;
